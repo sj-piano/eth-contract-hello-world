@@ -1,0 +1,35 @@
+version: '3'
+
+tasks:
+
+  hello:
+    desc: "Hello World from Task!"
+    cmds:
+      - echo 'Hello World from Task!'
+    silent: true
+
+  compile-contracts:
+    desc: "Compile the Solidity contracts"
+    cmds:
+      - npx hardhat compile
+    silent: true
+
+  reset:
+    desc: "Reset the NodeJS Hardhat environment"
+    cmds:
+      - npm run reset
+    silent: true
+
+  test:
+    desc: "Run the development tests on a local Hardhat node"
+    cmds:
+      - npx hardhat test
+    silent: true
+
+  deploy-to-testnet:
+    desc: "Deploy the HelloWorld contract to the Sepolia testnet"
+    cmds:
+      - npx hardhat run scripts/deploy.js --network sepolia
+    silent: true
+    prompt: This command will spend testnet Ethereum - Do you want to continue?
+
