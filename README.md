@@ -7,6 +7,8 @@
 Requirements:  
 - NodeJS  
 - NPM  
+- Etherscan API key
+- Infura API key
 
 
 ```bash
@@ -22,7 +24,7 @@ npm install
 
 
 
-Install Taskfile.dev
+Install Taskfile.dev  
 https://taskfile.dev/installation
 
 
