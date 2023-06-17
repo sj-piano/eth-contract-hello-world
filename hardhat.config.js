@@ -1,16 +1,13 @@
-/**
-* @type import('hardhat/config').HardhatUserConfig
-*/
-
 require('dotenv').config();
-require("@nomiclabs/hardhat-ethers");
-require("@nomiclabs/hardhat-etherscan");
+require("@nomicfoundation/hardhat-toolbox");
+
 
 const { INFURA_API_URL, ETHERSCAN_API_KEY, PRIVATE_KEY } = process.env;
 
+
 module.exports = {
   solidity: "0.7.3",
-  defaultNetwork: "sepolia",
+  defaultNetwork: "hardhat",
   networks: {
      hardhat: {},
      sepolia: {
