@@ -1,0 +1,20 @@
+# Example commands for the included scripts
+
+node scripts/deploy.js --network local
+
+node scripts/check-contract-exists.js --network testnet
+
+[by default, the network is 'local']
+node scripts/interact.js --input-file-json input-data/example-input-data.json --debug
+
+
+
+# Create a new Ethereum keypair
+
+node scripts/create-private-key.js > input-data/private-key.txt
+
+cat input-data/private-key.txt
+
+cat input-data/private-key.txt | node scripts/derive-address.js > input-data/address.txt
+
+cat input-data/address.txt
