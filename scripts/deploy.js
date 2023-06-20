@@ -1,9 +1,6 @@
-
-let _ = require('lodash');
-
+let _ = require("lodash");
 
 let log = console.log;
-
 
 async function main() {
   const HelloWorldFactory = await ethers.getContractFactory("HelloWorld");
@@ -20,7 +17,7 @@ async function main() {
 
 main()
   .then(() => process.exit(0))
-  .catch(error => {
+  .catch((error) => {
     console.error(error);
     process.exit(1);
   });
