@@ -17,11 +17,13 @@ git clone git@github.com:sj-piano/eth-contract-hello-world-javascript.git
 
 cd eth-contract-hello-world-javascript
 
-npm install
-
 ```
 
+For development (i.e. you want to be able to run the tests on a local node):  
+`npm install --include=dev`
 
+For production (i.e. you only need the contract itself, together with scripts for deploying and communicating with it on testnet or mainnet):  
+`npm install`
 
 
 Install Taskfile.dev  
@@ -39,3 +41,7 @@ Run `task --list` to see available commands. Shorter command: `task -l`
 
 Run a task. Example: `task hello`
 
+
+## Notes:
+
+The local development node is Hardhat.
