@@ -21,9 +21,27 @@ tasks:
     silent: true
 
   test:
-    desc: "Run the development tests on a local Hardhat node"
+    desc: "Run the development tests using a temporary Hardhat node"
     cmds:
       - npx hardhat test
+    silent: true
+
+  show-example-script-commands:
+    desc: "Show the example script commands"
+    cmds:
+      - cat example-script-commands.txt
+    silent: true
+
+  start-local-node:
+    desc: "Start a local Hardhat node"
+    cmds:
+      - npx hardhat node
+    silent: true
+
+  deploy-to-local:
+    desc: "Deploy the HelloWorld contract to a Hardhat node running locally"
+    cmds:
+      - npx hardhat run scripts/deploy.js --network local
     silent: true
 
   deploy-to-testnet:
@@ -31,5 +49,11 @@ tasks:
     cmds:
       - npx hardhat run scripts/deploy.js --network sepolia
     silent: true
-    prompt: This command will spend testnet Ethereum - Do you want to continue?
+    prompt: This command will spend testnet Ethereum (SepoliaETH) - Do you want to continue?
 
+  deploy-to-mainnet:
+    desc: "Deploy the HelloWorld contract to the Ethereum mainnet"
+    cmds:
+      - npx hardhat run scripts/deploy.js --network mainnet
+    silent: true
+    prompt: This command will spend Ethereum (ETH) - Do you want to continue?
