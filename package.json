@@ -15,7 +15,8 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "3.0.0",
-    "hardhat": "2.15.0"
+    "hardhat": "2.15.0",
+    "prettier-standard": "16.4.1"
   },
   "dependencies": {
     "avj": "0.0.0",
