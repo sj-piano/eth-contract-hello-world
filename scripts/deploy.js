@@ -1,9 +1,21 @@
+
+let _ = require('lodash');
+
+
+let log = console.log;
+
+
 async function main() {
-  const HelloWorld = await ethers.getContractFactory("HelloWorld");
+  const HelloWorldFactory = await ethers.getContractFactory("HelloWorld");
 
   // Start deployment, returning a promise that resolves to a contract object
-  const hello_world = await HelloWorld.deploy("Hello World!");
-  console.log("Contract deployed to address:", hello_world.address);
+  const contractHelloWorld = await HelloWorldFactory.deploy("Hello World!");
+
+  // Await deployment
+  await contractHelloWorld.waitForDeployment();
+  let txDeploy = await contractHelloWorld.deploymentTransaction();
+  let contractAddress = contractHelloWorld.target;
+  log(`Contract deployed to address: ${contractAddress}`);
 }
 
 main()
