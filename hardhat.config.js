@@ -2,7 +2,12 @@ require('dotenv').config();
 require("@nomicfoundation/hardhat-toolbox");
 
 
-const { INFURA_API_URL, ETHERSCAN_API_KEY, PRIVATE_KEY } = process.env;
+const {
+  INFURA_API_URL,
+  ETHERSCAN_API_KEY,
+  LOCAL_HARDHAT_PRIVATE_KEY,
+  TESTNET_SEPOLIA_PRIVATE_KEY,
+} = process.env;
 
 
 module.exports = {
@@ -10,9 +15,13 @@ module.exports = {
   defaultNetwork: "hardhat",
   networks: {
      hardhat: {},
+     local: {
+        url: "http://localhost:8545",
+        accounts: [LOCAL_HARDHAT_PRIVATE_KEY]
+     },
      sepolia: {
         url: INFURA_API_URL,
-        accounts: [PRIVATE_KEY]
+        accounts: [TESTNET_SEPOLIA_PRIVATE_KEY]
      }
   },
   etherscan: {
