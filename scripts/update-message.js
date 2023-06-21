@@ -7,7 +7,7 @@ const fs = require("fs");
 const _ = require("lodash");
 
 // Settings
-networkList = "local testnet mainnet".split(" ");
+const networkLabelList = "local testnet mainnet".split(" ");
 
 // Load environment variables
 require("dotenv").config();
@@ -27,7 +27,6 @@ let log = console.log;
 // Parse arguments
 program
   .option("-d, --debug", "log debug information")
-
   .option(
     "--network <network>",
     "specify the Ethereum network to connect to",
@@ -40,23 +39,25 @@ program
 program.parse();
 const options = program.opts();
 if (options.debug) log(options);
-let { debug, network, inputFileJson } = options;
+let { debug, network: networkLabel, inputFileJson } = options;
 
 // Process and validate arguments
 
-if (!networkList.includes(network)) {
+if (!networkLabelList.includes(networkLabel)) {
   console.error(
-    `Invalid network "${network}". Valid options are: [${networkList.join(
+    `Invalid network "${networkLabel}". Valid options are: [${networkLabelList.join(
       ", "
     )}]`
   );
   process.exit(1);
 }
 
-let network2;
-if (network == "local") network2 = "http://localhost:8545";
-if (network == "testnet") network2 = "sepolia";
-if (network == "mainnet") network2 = "mainnet";
+mapNetworkLabelToNetwork = {
+  local: "http://localhost:8545",
+  testnet: "sepolia",
+  mainnet: "mainnet",
+}
+let network = mapNetworkLabelToNetwork[networkLabel];
 
 if (!fs.existsSync(inputFileJson)) {
   console.error(`File "${inputFileJson}" not found.`);
@@ -86,29 +87,30 @@ let { newMessage } = inputData;
 // Setup
 
 const contract = require("../artifacts/contracts/HelloWorld.sol/HelloWorld.json");
-const { type } = require("os");
 
 let provider, signer, helloWorldContract;
 let msg;
-if (network == "local") {
-  msg = `Connecting to ${network} network at ${network2}...`;
-  provider = new ethers.JsonRpcProvider(network2);
+if (networkLabel == "local") {
+  msg = `Connecting to ${networkLabel} network at ${network}...`;
+  provider = new ethers.JsonRpcProvider(network);
   signer = new ethers.Wallet(LOCAL_HARDHAT_PRIVATE_KEY, provider);
   helloWorldContract = new ethers.Contract(
     LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS,
     contract.abi,
     signer
   );
-} else if (network == "testnet" || network == "mainnet") {
-  x = network == "testnet" ? network2 + " " : "";
-  msg = `Connecting to ${x}${network} network...`;
-  provider = new ethers.InfuraProvider(network2, INFURA_API_KEY);
+} else if (networkLabel == "testnet") {
+  x = networkLabel == "testnet" ? network + " " : "";
+  msg = `Connecting to ${x}${networkLabel} network...`;
+  provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
   signer = new ethers.Wallet(TESTNET_SEPOLIA_PRIVATE_KEY, provider);
   helloWorldContract = new ethers.Contract(
     TESTNET_SEPOLIA_DEPLOYED_CONTRACT_ADDRESS,
     contract.abi,
     signer
   );
+} else if (networkLabel == "mainnet") {
+  throw new Error("Not implemented yet");
 }
 log(msg);
 
@@ -172,9 +174,6 @@ async function updateMessage(newMessage) {
   const gasLimitBig = gasEstimatedBig.times(gasLimitMultiplier).round(0, 0);
   let gasLimitStr = gasLimitBig.toFixed(0);
   log(`Calculated gas limit: ${gasLimitStr}`);
-
-  let blockNumber2 = await provider.getBlockNumber();
-  log(`Current block number: ${blockNumber2}`);
 
   let block = await provider.getBlock("latest");
   //log(block);
