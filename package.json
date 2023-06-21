@@ -13,6 +13,9 @@
     "linkedin": "https://www.linkedin.com/in/stjohnpiano"
   },
   "license": "UNLICENSED",
+  "imports": {
+    "#root/*.js": "./*.js"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "3.0.0",
     "hardhat": "2.15.0",
