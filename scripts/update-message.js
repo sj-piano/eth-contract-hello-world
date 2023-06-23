@@ -4,7 +4,12 @@ const Big = require("big.js");
 const { program } = require("commander");
 const { ethers } = require("ethers");
 const fs = require("fs");
+const Joi = require("joi");
 const _ = require("lodash");
+
+// Local imports
+const { config } = require("#root/config.js");
+const ethereum = require("#root/src/ethereum.js");
 
 // Settings
 const networkLabelList = "local testnet mainnet".split(" ");
@@ -43,27 +48,21 @@ let { debug, network: networkLabel, inputFileJson } = options;
 
 // Process and validate arguments
 
-if (!networkLabelList.includes(networkLabel)) {
-  console.error(
-    `Invalid network "${networkLabel}". Valid options are: [${networkLabelList.join(
-      ", "
-    )}]`
-  );
+const networkLabelSchema = Joi.string().valid(...config.networkLabelList);
+let networkLabelResult = networkLabelSchema.validate(networkLabel);
+if (networkLabelResult.error) {
+  let msg = `Invalid network "${networkLabel}". Valid options are: [${config.networkLabelList.join(
+    ", "
+  )}]`;
+  console.error(msg);
   process.exit(1);
 }
-
-mapNetworkLabelToNetwork = {
-  local: "http://localhost:8545",
-  testnet: "sepolia",
-  mainnet: "mainnet",
-}
-let network = mapNetworkLabelToNetwork[networkLabel];
+const network = config.mapNetworkLabelToNetwork[networkLabel];
 
 if (!fs.existsSync(inputFileJson)) {
   console.error(`File "${inputFileJson}" not found.`);
   process.exit(1);
 }
-
 const inputData = JSON.parse(fs.readFileSync(inputFileJson, "utf8"));
 
 const ajv = new Ajv();
@@ -76,7 +75,6 @@ const inputJsonSchema = {
   additionalProperties: false,
 };
 const validateInputJson = ajv.compile(inputJsonSchema);
-
 const validInputData = validateInputJson(inputData);
 if (!validInputData) {
   console.error(validateInputJson.errors);
@@ -88,30 +86,28 @@ let { newMessage } = inputData;
 
 const contract = require("../artifacts/contracts/HelloWorld.sol/HelloWorld.json");
 
-let provider, signer, helloWorldContract;
+let provider, signer, contractHelloWorld;
+
 let msg;
 if (networkLabel == "local") {
   msg = `Connecting to ${networkLabel} network at ${network}...`;
   provider = new ethers.JsonRpcProvider(network);
   signer = new ethers.Wallet(LOCAL_HARDHAT_PRIVATE_KEY, provider);
-  helloWorldContract = new ethers.Contract(
-    LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS,
-    contract.abi,
-    signer
-  );
+  DEPLOYED_CONTRACT_ADDRESS = LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS;
 } else if (networkLabel == "testnet") {
   x = networkLabel == "testnet" ? network + " " : "";
   msg = `Connecting to ${x}${networkLabel} network...`;
   provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
   signer = new ethers.Wallet(TESTNET_SEPOLIA_PRIVATE_KEY, provider);
-  helloWorldContract = new ethers.Contract(
-    TESTNET_SEPOLIA_DEPLOYED_CONTRACT_ADDRESS,
-    contract.abi,
-    signer
-  );
+  DEPLOYED_CONTRACT_ADDRESS = TESTNET_SEPOLIA_DEPLOYED_CONTRACT_ADDRESS;
 } else if (networkLabel == "mainnet") {
   throw new Error("Not implemented yet");
 }
+contractHelloWorld = new ethers.Contract(
+  DEPLOYED_CONTRACT_ADDRESS,
+  contract.abi,
+  signer
+);
 log(msg);
 
 // Run main function
@@ -130,80 +126,44 @@ async function main({ newMessage }) {
   let blockNumber = await provider.getBlockNumber();
   log(`Current block number: ${blockNumber}`);
 
-  let address = helloWorldContract.target;
-  let check = await isContractAddress({ address });
+  let address = contractHelloWorld.target;
+  let check = await ethereum.contractFoundAt({ provider, address });
   if (!check) {
-    console.error(`No contract deployed at contract address ${address}.`);
+    console.error(`No contract found at address ${address}.`);
     process.exit(1);
   }
   log(`Contract found at address: ${address}`);
 
   // Interact with contract.
-  await updateMessage(newMessage);
+  await updateMessage({ newMessage });
 }
 
-async function isContractAddress({ address }) {
-  if (!ethers.isAddress(address)) {
-    console.error(`Address "${address}" is invalid.`);
-    process.exit(1);
-  }
-  let result = await provider.getCode(address);
-  if (result == "0x") return false;
-  return true;
-}
-
-async function updateMessage(newMessage) {
-  //const message = await helloWorldContract.message();
+async function updateMessage({ newMessage }) {
+  //const message = await contractHelloWorld.message();
   //console.log("Message stored in HelloWorld contract: " + message);
 
-  let signerAddress = signer.address;
-  //log(`Signer address: ${signerAddress}`);
+  const txRequest = await contractHelloWorld.update.populateTransaction(newMessage);
 
-  let txCount = await provider.getTransactionCount(signerAddress);
-  //log(`Transaction count: ${txCount}`);
-
-  let nextNonce = await signer.getNonce();
-  //log(`Next nonce: ${nextNonce}`);
-
-  const gasEstimated = await helloWorldContract.update.estimateGas(newMessage);
-  log(`Estimated gas: ${gasEstimated}`);
-
-  // Calculate gas limit.
-  const gasEstimatedBig = Big(gasEstimated);
-  const gasLimitMultiplier = 1.2;
-  const gasLimitBig = gasEstimatedBig.times(gasLimitMultiplier).round(0, 0);
-  let gasLimitStr = gasLimitBig.toFixed(0);
-  log(`Calculated gas limit: ${gasLimitStr}`);
-
-  let block = await provider.getBlock("latest");
-  //log(block);
-  let baseFeePerGas = block.baseFeePerGas;
-  log(`Base fee per gas: ${baseFeePerGas}`);
-
-  let feeData = await provider.getFeeData();
-  log(feeData);
-
-  let maxPriorityFeePerGasStr = ethers.parseUnits("2", "gwei");
-  log(`Max priority fee per gas: ${maxPriorityFeePerGasStr}`);
-
-  let maxFeePerGasStr = ethers.parseUnits("10", "gwei");
-  log(`Max fee per gas: ${maxFeePerGasStr}`);
+  estimatedFees = await ethereum.estimateFees({ config, provider, txRequest });
+  log(estimatedFees)
+  const ethToUsd = estimatedFees.gasPrices.ethToUsd;
+  //log(ethToUsd)
 
   console.log("Updating the message...");
   try {
-    var tx = await helloWorldContract.update(newMessage, {
-      gasLimit: gasLimitStr,
-      maxPriorityFeePerGas: maxPriorityFeePerGasStr,
-      maxFeePerGas: maxFeePerGasStr,
+    var tx = await contractHelloWorld.update(newMessage, {
+      gasLimit: estimatedFees.selectedGasLimit,
+      maxPriorityFeePerGas: estimatedFees.maxPriorityFeePerGasWei,
+      maxFeePerGas: config.priorityFeePerGasLimitWei,
     });
   } catch (error) {
+    console.error(error);
     let errorName = error.code; // e.g. UNKNOWN_ERROR
     let errorCode = error.error.code; // e.g. -32000
     let errorMessage = error.error.message;
     // Example errorMessage: Transaction maxFeePerGas (200000000) is too low for the next block, which has a baseFeePerGas of 264952691
     let errorStackTrace = error.stack;
     //console.error(errorStackTrace);
-    console.log(error);
   }
 
   log(tx);
@@ -258,20 +218,12 @@ async function updateMessage(newMessage) {
 
   const txFeeWei = txReceipt.fee;
   log(`txFeeWei: ${txFeeWei}`);
-  const txFeeEth = ethers.formatEther(txFeeWei);
+  const txFeeEth = ethers.formatEther(txFeeWei).toString();
   log(`txFeeEth: ${txFeeEth}`);
 
-  const message2 = await helloWorldContract.message();
+  const txFeeUsd = (Big(ethToUsd).mul(Big(txFeeEth))).toFixed(config.USD_DP);
+  log(`txFeeUsd: ${txFeeUsd}`);
+
+  const message2 = await contractHelloWorld.message();
   console.log("The new message is: " + message2);
 }
-
-const getMethods = (obj) => {
-  let properties = new Set();
-  let currentObj = obj;
-  do {
-    Object.getOwnPropertyNames(currentObj).map((item) => properties.add(item));
-  } while ((currentObj = Object.getPrototypeOf(currentObj)));
-  return [...properties.keys()].filter(
-    (item) => typeof obj[item] === "function"
-  );
-};
