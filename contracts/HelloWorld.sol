@@ -6,7 +6,7 @@ import "hardhat/console.sol";
 
 contract HelloWorld {
 
-    event UpdatedMessages(string oldStr, string newStr);
+    event MessageUpdated(string oldStr, string newStr);
     string public message;
 
     constructor(string memory initMessage) {
@@ -17,7 +17,7 @@ contract HelloWorld {
         string memory oldMsg = message;
         message = newMessage;
         console.log("Updating message from '%s' to '%s'", oldMsg, newMessage);
-        emit UpdatedMessages(oldMsg, newMessage);
+        emit MessageUpdated(oldMsg, newMessage);
     }
 
 }
