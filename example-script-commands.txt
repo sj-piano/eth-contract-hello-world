@@ -5,7 +5,13 @@ node scripts/deploy.js --network local
 node scripts/check-contract-exists.js --network testnet
 
 [by default, the network is 'local']
-node scripts/interact.js --input-file-json input-data/example-input-data.json --debug
+node scripts/update-message.js --input-file-json input-data/example-input-data.json --debug
+
+node scripts/estimate-fees.js
+
+node scripts/estimate-fees.js --network testnet
+
+node scripts/estimate-fees.js --network mainnet
 
 
 
