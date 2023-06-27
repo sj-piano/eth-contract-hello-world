@@ -10,9 +10,7 @@ const _ = require("lodash");
 // Local imports
 const { config } = require("#root/config.js");
 const ethereum = require("#root/src/ethereum.js");
-
-// Settings
-const networkLabelList = "local testnet mainnet".split(" ");
+const { createLogger } = require("#root/src/logging.js");
 
 // Load environment variables
 require("dotenv").config();
@@ -27,11 +25,12 @@ const {
 } = process.env;
 
 // Logging
-let log = console.log;
+const { logger, log, deb } = createLogger();
 
 // Parse arguments
 program
   .option("-d, --debug", "log debug information")
+  .option("--log-level <logLevel>", "Specify log level.", "error")
   .option(
     "--network <network>",
     "specify the Ethereum network to connect to",
@@ -40,18 +39,30 @@ program
   .requiredOption(
     "--input-file-json <inputFileJson>",
     "Path to JSON file containing input data."
-  );
+  )
 program.parse();
 const options = program.opts();
 if (options.debug) log(options);
-let { debug, network: networkLabel, inputFileJson } = options;
+let { debug, logLevel, network: networkLabel, inputFileJson } = options;
 
 // Process and validate arguments
+
+const logLevelSchema = Joi.string().valid(...config.logLevelList);
+let logLevelResult = logLevelSchema.validate(logLevel);
+if (logLevelResult.error) {
+  var msg = `Invalid log level "${logLevel}". Valid options are: [${config.logLevelList.join(", ")}]`;
+  console.error(msg);
+  process.exit(1);
+}
+if (debug) {
+  logLevel = "debug";
+}
+logger.setLevel({ logLevel });
 
 const networkLabelSchema = Joi.string().valid(...config.networkLabelList);
 let networkLabelResult = networkLabelSchema.validate(networkLabel);
 if (networkLabelResult.error) {
-  let msg = `Invalid network "${networkLabel}". Valid options are: [${config.networkLabelList.join(
+  var msg = `Invalid network "${networkLabel}". Valid options are: [${config.networkLabelList.join(
     ", "
   )}]`;
   console.error(msg);
@@ -63,7 +74,7 @@ if (!fs.existsSync(inputFileJson)) {
   console.error(`File "${inputFileJson}" not found.`);
   process.exit(1);
 }
-const inputData = JSON.parse(fs.readFileSync(inputFileJson, "utf8"));
+const inputData = JSON.parse(fs.readFileSync(inputFileJson));
 
 const ajv = new Ajv();
 const inputJsonSchema = {
@@ -86,9 +97,9 @@ let { newMessage } = inputData;
 
 const contract = require("../artifacts/contracts/HelloWorld.sol/HelloWorld.json");
 
-let provider, signer, contractHelloWorld;
+let provider, signer;
 
-let msg;
+var msg;
 if (networkLabel == "local") {
   msg = `Connecting to ${networkLabel} network at ${network}...`;
   provider = new ethers.JsonRpcProvider(network);
@@ -103,7 +114,7 @@ if (networkLabel == "local") {
 } else if (networkLabel == "mainnet") {
   throw new Error("Not implemented yet");
 }
-contractHelloWorld = new ethers.Contract(
+const contractHelloWorld = new ethers.Contract(
   DEPLOYED_CONTRACT_ADDRESS,
   contract.abi,
   signer
@@ -122,14 +133,14 @@ main({ newMessage })
 // Functions
 
 async function main({ newMessage }) {
-  // Confirm connection
+
   let blockNumber = await provider.getBlockNumber();
-  log(`Current block number: ${blockNumber}`);
+  deb(`Current block number: ${blockNumber}`);
 
   let address = contractHelloWorld.target;
-  let check = await ethereum.contractFoundAt({ provider, address });
+  let check = await ethereum.contractFoundAt({ logger, provider, address });
   if (!check) {
-    console.error(`No contract found at address ${address}.`);
+    logger.error(`No contract found at address ${address}.`);
     process.exit(1);
   }
   log(`Contract found at address: ${address}`);
@@ -139,34 +150,60 @@ async function main({ newMessage }) {
 }
 
 async function updateMessage({ newMessage }) {
-  //const message = await contractHelloWorld.message();
-  //console.log("Message stored in HelloWorld contract: " + message);
 
+  const message = await contractHelloWorld.message();
+  log("Message stored in HelloWorld contract: " + message);
+
+  // Estimate fees.
+  // - Stop if any fee limit is exceeded.
   const txRequest = await contractHelloWorld.update.populateTransaction(newMessage);
+  const estimatedFees = await ethereum.estimateFees({ config, logger, provider, txRequest });
+  deb(estimatedFees);
+  const { gasLimit, maxFeePerGasWei, maxPriorityFeePerGasWei, feeEth, feeUsd, feeLimitChecks } = estimatedFees;
+  log(`Estimated fee: ${feeEth} ETH (${feeUsd} USD)`);
+  if (feeLimitChecks.anyLimitExceeded) {
+    for (let key of feeLimitChecks.limitExceededKeys) {
+      let check = feeLimitChecks[key];
+      console.error(`- ${key}: ${check.msg}`);
+    }
+    process.exit(1);
+  }
+  const gasPrices = estimatedFees.gasPrices;
+  const { ethToUsd } = gasPrices;
 
-  estimatedFees = await ethereum.estimateFees({ config, provider, txRequest });
-  log(estimatedFees)
-  const ethToUsd = estimatedFees.gasPrices.ethToUsd;
-  //log(ethToUsd)
+  // Get ETH balance of signer.
+  // - Stop if balance is too low.
+  const signerAddress = await signer.getAddress();
+  const signerBalanceWei = await provider.getBalance(signerAddress);
+  const signerBalanceEth = ethers.formatEther(signerBalanceWei);
+  const signerBalanceUsd = (Big(ethToUsd).mul(Big(signerBalanceEth))).toFixed(config.USD_DP);
+  log(`Signer balance: ${signerBalanceEth} ETH (${signerBalanceUsd} USD)`);
+  if (Big(signerBalanceEth).lt(Big(feeEth))) {
+    console.error(`Signer balance is too low. Need at least ${feeEth} ETH.`);
+    process.exit(1);
+  }
 
-  console.log("Updating the message...");
+  // Deploy contract.
+  // - Use the estimated fee values.
+  // - Wait for deployment to complete.
+  log("Updating the message...");
   try {
     var tx = await contractHelloWorld.update(newMessage, {
-      gasLimit: estimatedFees.selectedGasLimit,
-      maxPriorityFeePerGas: estimatedFees.maxPriorityFeePerGasWei,
-      maxFeePerGas: config.priorityFeePerGasLimitWei,
+      gasLimit,
+      maxFeePerGas: maxFeePerGasWei,
+      maxPriorityFeePerGas: maxPriorityFeePerGasWei,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     let errorName = error.code; // e.g. UNKNOWN_ERROR
     let errorCode = error.error.code; // e.g. -32000
     let errorMessage = error.error.message;
     // Example errorMessage: Transaction maxFeePerGas (200000000) is too low for the next block, which has a baseFeePerGas of 264952691
     let errorStackTrace = error.stack;
-    //console.error(errorStackTrace);
+    //logger.error(errorStackTrace);
   }
 
-  log(tx);
+  deb(tx);
 
   const txReceipt = await tx.wait();
 
@@ -175,14 +212,16 @@ async function updateMessage({ newMessage }) {
     process.exit(1);
   }
 
-  log(txReceipt);
+  deb(txReceipt);
+
+  // Examine the results and find out how much was spent.
 
   let {
     accessList,
     chainId,
     data,
     from,
-    gasLimit,
+    gasLimit: txReceiptGasLimit,
     hash,
     maxFeePerGas,
     maxPriorityFeePerGas,
@@ -204,26 +243,26 @@ async function updateMessage({ newMessage }) {
     status,
   } = txReceipt;
 
-  //log(tx)
-  //log(txReceipt)
+  deb(tx);
+  deb(txReceipt);
 
-  log(`gasLimit: ${gasLimit}`);
-  log(`maxPriorityFeePerGas: ${maxPriorityFeePerGas}`);
-  log(`maxFeePerGas: ${maxFeePerGas}`);
-  log(`gasUsed: ${gasUsed}`);
-  log(`effectiveGasPrice: ${effectiveGasPrice}`);
+  deb(`gasLimit: ${txReceiptGasLimit}`);
+  deb(`maxPriorityFeePerGas: ${maxPriorityFeePerGas}`);
+  deb(`maxFeePerGas: ${maxFeePerGas}`);
+  deb(`gasUsed: ${gasUsed}`);
+  deb(`effectiveGasPrice: ${effectiveGasPrice}`);
 
   const txFeeWeiCalculated = gasUsed * effectiveGasPrice;
-  log(`txFeeWeiCalculated: ${txFeeWeiCalculated}`);
+  deb(`txFeeWeiCalculated: ${txFeeWeiCalculated}`);
 
   const txFeeWei = txReceipt.fee;
-  log(`txFeeWei: ${txFeeWei}`);
+  deb(`txFeeWei: ${txFeeWei}`);
   const txFeeEth = ethers.formatEther(txFeeWei).toString();
-  log(`txFeeEth: ${txFeeEth}`);
-
   const txFeeUsd = (Big(ethToUsd).mul(Big(txFeeEth))).toFixed(config.USD_DP);
-  log(`txFeeUsd: ${txFeeUsd}`);
+  log(`Final fee: ${txFeeEth} ETH (${txFeeUsd} USD)`);
 
+  // Report the final result.
   const message2 = await contractHelloWorld.message();
-  console.log("The new message is: " + message2);
+  console.log("The new message is: ");
+  console.log(message2);
 }
