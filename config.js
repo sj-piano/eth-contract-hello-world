@@ -10,7 +10,6 @@ const { ethers } = require("ethers");
 const Joi = require("joi");
 
 class Config {
-
   constructor() {
     // Note: feeLimitUsd overrides feePerGasLimitGwei.
     this.feeLimitUsd = "7.00";
@@ -23,9 +22,10 @@ class Config {
       local: "http://localhost:8545",
       testnet: "sepolia",
       mainnet: "mainnet",
-    }
+    };
     this.logLevelList = "debug info warn error".split(" ");
-    this.eth_usd_price_url = "https://api.pro.coinbase.com/products/ETH-USD/ticker";
+    this.eth_usd_price_url =
+      "https://api.pro.coinbase.com/products/ETH-USD/ticker";
     // DP = Decimal Places
     this.WEI_DP = 0;
     this.GWEI_DP = 9;
@@ -33,9 +33,11 @@ class Config {
     this.USD_DP = 2;
     // Derive more values.
     this.feePerGasLimitWei = ethers.parseUnits(this.feePerGasLimitGwei, "gwei");
-    this.priorityFeePerGasLimitWei = ethers.parseUnits(this.priorityFeePerGasLimitGwei, "gwei");
+    this.priorityFeePerGasLimitWei = ethers.parseUnits(
+      this.priorityFeePerGasLimitGwei,
+      "gwei"
+    );
   }
-
 }
 
 async function validateConfig({ config }) {
@@ -43,7 +45,7 @@ async function validateConfig({ config }) {
   let schema = Joi.object().required();
   let result = schema.validate(config);
   if (result.error) {
-    console.error(`config: ${config}`)
+    console.error(`config: ${config}`);
     throw new Error(`Invalid config: ${result.error}`);
   }
 }

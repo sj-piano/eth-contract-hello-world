@@ -11,9 +11,7 @@ const { createLogger } = require("#root/src/logging.js");
 
 // Load environment variables
 require("dotenv").config();
-const {
-  INFURA_API_KEY,
-} = process.env;
+const { INFURA_API_KEY } = process.env;
 
 // Logging
 const { logger, log, deb } = createLogger();
@@ -26,7 +24,7 @@ program
     "--network <network>",
     "specify the Ethereum network to connect to",
     "local"
-  )
+  );
 program.parse();
 const options = program.opts();
 if (options.debug) log(options);
@@ -37,7 +35,9 @@ let { debug, logLevel, network: networkLabel } = options;
 const logLevelSchema = Joi.string().valid(...config.logLevelList);
 let logLevelResult = logLevelSchema.validate(logLevel);
 if (logLevelResult.error) {
-  var msg = `Invalid log level "${logLevel}". Valid options are: [${config.logLevelList.join(", ")}]`;
+  var msg = `Invalid log level "${logLevel}". Valid options are: [${config.logLevelList.join(
+    ", "
+  )}]`;
   console.error(msg);
   process.exit(1);
 }

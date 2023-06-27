@@ -29,11 +29,11 @@ program
     "--network <network>",
     "specify the Ethereum network to connect to",
     "local"
-)
-.option(
-  "--address-file <addressFile>",
-  "Path to file containing contract address."
-)
+  )
+  .option(
+    "--address-file <addressFile>",
+    "Path to file containing contract address."
+  );
 program.parse();
 const options = program.opts();
 if (options.debug) log(options);
@@ -44,7 +44,9 @@ let { debug, logLevel, network: networkLabel, addressFile } = options;
 const logLevelSchema = Joi.string().valid(...config.logLevelList);
 let logLevelResult = logLevelSchema.validate(logLevel);
 if (logLevelResult.error) {
-  var msg = `Invalid log level "${logLevel}". Valid options are: [${config.logLevelList.join(", ")}]`;
+  var msg = `Invalid log level "${logLevel}". Valid options are: [${config.logLevelList.join(
+    ", "
+  )}]`;
   console.error(msg);
   process.exit(1);
 }
@@ -103,7 +105,6 @@ main()
 // Functions
 
 async function main() {
-
   let blockNumber = await provider.getBlockNumber();
   deb(`Current block number: ${blockNumber}`);
 
@@ -114,6 +115,5 @@ async function main() {
     logger.error(`No contract found at address ${address}.`);
     process.exit(1);
   }
-  console.log("Contract exists.")
-
+  console.log("Contract exists.");
 }

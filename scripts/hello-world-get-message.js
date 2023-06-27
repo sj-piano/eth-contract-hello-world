@@ -29,11 +29,11 @@ program
     "--network <network>",
     "specify the Ethereum network to connect to",
     "local"
-)
-.option(
-  "--address-file <addressFile>",
-  "Path to file containing contract address."
-)
+  )
+  .option(
+    "--address-file <addressFile>",
+    "Path to file containing contract address."
+  );
 program.parse();
 const options = program.opts();
 if (options.debug) log(options);
@@ -44,7 +44,9 @@ let { debug, logLevel, network: networkLabel, addressFile } = options;
 const logLevelSchema = Joi.string().valid(...config.logLevelList);
 let logLevelResult = logLevelSchema.validate(logLevel);
 if (logLevelResult.error) {
-  var msg = `Invalid log level "${logLevel}". Valid options are: [${config.logLevelList.join(", ")}]`;
+  var msg = `Invalid log level "${logLevel}". Valid options are: [${config.logLevelList.join(
+    ", "
+  )}]`;
   console.error(msg);
   process.exit(1);
 }
@@ -110,7 +112,6 @@ main()
 // Functions
 
 async function main() {
-
   let blockNumber = await provider.getBlockNumber();
   deb(`Current block number: ${blockNumber}`);
 
@@ -123,7 +124,6 @@ async function main() {
   log(`Contract found at address: ${address}`);
 
   const message = await contractHelloWorld.message();
-  log("Message stored in HelloWorld contract: ")
+  log("Message stored in HelloWorld contract: ");
   console.log(message);
-
 }

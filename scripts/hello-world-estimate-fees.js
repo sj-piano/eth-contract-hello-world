@@ -28,7 +28,7 @@ program
     "--network <network>",
     "specify the Ethereum network to connect to",
     "local"
-  )
+  );
 program.parse();
 const options = program.opts();
 if (options.debug) log(options);
@@ -39,7 +39,9 @@ let { debug, logLevel, network: networkLabel } = options;
 const logLevelSchema = Joi.string().valid(...config.logLevelList);
 let logLevelResult = logLevelSchema.validate(logLevel);
 if (logLevelResult.error) {
-  var msg = `Invalid log level "${logLevel}". Valid options are: [${config.logLevelList.join(", ")}]`;
+  var msg = `Invalid log level "${logLevel}". Valid options are: [${config.logLevelList.join(
+    ", "
+  )}]`;
   console.error(msg);
   process.exit(1);
 }
@@ -76,7 +78,11 @@ if (networkLabel == "local") {
   provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
   DEPLOYED_CONTRACT_ADDRESS = TESTNET_SEPOLIA_DEPLOYED_CONTRACT_ADDRESS;
 }
-const contractFactoryHelloWorld = new ethers.ContractFactory(contract.abi, contract.bytecode, provider);
+const contractFactoryHelloWorld = new ethers.ContractFactory(
+  contract.abi,
+  contract.bytecode,
+  provider
+);
 const contractHelloWorld = new ethers.Contract(
   DEPLOYED_CONTRACT_ADDRESS,
   contract.abi,
@@ -96,14 +102,19 @@ main()
 // Functions
 
 async function main() {
-
   let blockNumber = await provider.getBlockNumber();
   deb(`Current block number: ${blockNumber}`);
 
   // Contract deployment
   const initialMessage = "Hello World!";
-  const txRequest = await contractFactoryHelloWorld.getDeployTransaction(initialMessage);
-  const estimatedFees = await ethereum.estimateFees({ config, provider, txRequest });
+  const txRequest = await contractFactoryHelloWorld.getDeployTransaction(
+    initialMessage
+  );
+  const estimatedFees = await ethereum.estimateFees({
+    config,
+    provider,
+    txRequest,
+  });
   console.log(`Contract deployment - estimated fees:`);
   log(estimatedFees);
   console.log(`- feeEth: ${estimatedFees.feeEth}`);
@@ -126,8 +137,14 @@ async function main() {
 
   // Contract method call: update
   const newMessage = "Hello World! Updated.";
-  const txRequest2 = await contractHelloWorld.update.populateTransaction(newMessage);
-  const estimatedFees2 = await ethereum.estimateFees({ config, provider, txRequest: txRequest2 });
+  const txRequest2 = await contractHelloWorld.update.populateTransaction(
+    newMessage
+  );
+  const estimatedFees2 = await ethereum.estimateFees({
+    config,
+    provider,
+    txRequest: txRequest2,
+  });
   console.log(`Contract method call: 'update' - estimated fees:`);
   log(estimatedFees2);
   console.log(`- feeEth: ${estimatedFees2.feeEth}`);
@@ -138,5 +155,4 @@ async function main() {
       console.log(`- ${key}: ${check.msg}`);
     }
   }
-
 }

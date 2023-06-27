@@ -39,7 +39,7 @@ program
   .requiredOption(
     "--input-file-json <inputFileJson>",
     "Path to JSON file containing input data."
-  )
+  );
 program.parse();
 const options = program.opts();
 if (options.debug) log(options);
@@ -50,7 +50,9 @@ let { debug, logLevel, network: networkLabel, inputFileJson } = options;
 const logLevelSchema = Joi.string().valid(...config.logLevelList);
 let logLevelResult = logLevelSchema.validate(logLevel);
 if (logLevelResult.error) {
-  var msg = `Invalid log level "${logLevel}". Valid options are: [${config.logLevelList.join(", ")}]`;
+  var msg = `Invalid log level "${logLevel}". Valid options are: [${config.logLevelList.join(
+    ", "
+  )}]`;
   console.error(msg);
   process.exit(1);
 }
@@ -133,7 +135,6 @@ main({ newMessage })
 // Functions
 
 async function main({ newMessage }) {
-
   let blockNumber = await provider.getBlockNumber();
   deb(`Current block number: ${blockNumber}`);
 
@@ -150,16 +151,29 @@ async function main({ newMessage }) {
 }
 
 async function updateMessage({ newMessage }) {
-
   const message = await contractHelloWorld.message();
   log("Message stored in HelloWorld contract: " + message);
 
   // Estimate fees.
   // - Stop if any fee limit is exceeded.
-  const txRequest = await contractHelloWorld.update.populateTransaction(newMessage);
-  const estimatedFees = await ethereum.estimateFees({ config, logger, provider, txRequest });
+  const txRequest = await contractHelloWorld.update.populateTransaction(
+    newMessage
+  );
+  const estimatedFees = await ethereum.estimateFees({
+    config,
+    logger,
+    provider,
+    txRequest,
+  });
   deb(estimatedFees);
-  const { gasLimit, maxFeePerGasWei, maxPriorityFeePerGasWei, feeEth, feeUsd, feeLimitChecks } = estimatedFees;
+  const {
+    gasLimit,
+    maxFeePerGasWei,
+    maxPriorityFeePerGasWei,
+    feeEth,
+    feeUsd,
+    feeLimitChecks,
+  } = estimatedFees;
   log(`Estimated fee: ${feeEth} ETH (${feeUsd} USD)`);
   if (feeLimitChecks.anyLimitExceeded) {
     for (let key of feeLimitChecks.limitExceededKeys) {
@@ -176,7 +190,9 @@ async function updateMessage({ newMessage }) {
   const signerAddress = await signer.getAddress();
   const signerBalanceWei = await provider.getBalance(signerAddress);
   const signerBalanceEth = ethers.formatEther(signerBalanceWei);
-  const signerBalanceUsd = (Big(ethToUsd).mul(Big(signerBalanceEth))).toFixed(config.USD_DP);
+  const signerBalanceUsd = Big(ethToUsd)
+    .mul(Big(signerBalanceEth))
+    .toFixed(config.USD_DP);
   log(`Signer balance: ${signerBalanceEth} ETH (${signerBalanceUsd} USD)`);
   if (Big(signerBalanceEth).lt(Big(feeEth))) {
     console.error(`Signer balance is too low. Need at least ${feeEth} ETH.`);
@@ -258,7 +274,7 @@ async function updateMessage({ newMessage }) {
   const txFeeWei = txReceipt.fee;
   deb(`txFeeWei: ${txFeeWei}`);
   const txFeeEth = ethers.formatEther(txFeeWei).toString();
-  const txFeeUsd = (Big(ethToUsd).mul(Big(txFeeEth))).toFixed(config.USD_DP);
+  const txFeeUsd = Big(ethToUsd).mul(Big(txFeeEth)).toFixed(config.USD_DP);
   log(`Final fee: ${txFeeEth} ETH (${txFeeUsd} USD)`);
 
   // Report the final result.

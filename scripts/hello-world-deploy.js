@@ -34,7 +34,7 @@ program
     "--network <network>",
     "specify the Ethereum network to connect to",
     "local"
-  )
+  );
 program.parse();
 const options = program.opts();
 if (options.debug) log(options);
@@ -45,7 +45,9 @@ let { debug, logLevel, network: networkLabel } = options;
 const logLevelSchema = Joi.string().valid(...config.logLevelList);
 let logLevelResult = logLevelSchema.validate(logLevel);
 if (logLevelResult.error) {
-  var msg = `Invalid log level "${logLevel}". Valid options are: [${config.logLevelList.join(", ")}]`;
+  var msg = `Invalid log level "${logLevel}". Valid options are: [${config.logLevelList.join(
+    ", "
+  )}]`;
   console.error(msg);
   process.exit(1);
 }
@@ -83,7 +85,11 @@ if (networkLabel == "local") {
 } else if (networkLabel == "mainnet") {
   throw new Error("Not implemented yet");
 }
-let contractFactoryHelloWorld = new ethers.ContractFactory(contract.abi, contract.bytecode, signer);
+let contractFactoryHelloWorld = new ethers.ContractFactory(
+  contract.abi,
+  contract.bytecode,
+  signer
+);
 log(msg);
 
 // Run main function
@@ -98,13 +104,26 @@ main()
 // Functions
 
 async function main() {
-
   // Estimate fees.
   // - Stop if any fee limit is exceeded.
-  const txRequest = await contractFactoryHelloWorld.getDeployTransaction(initialMessage);
-  const estimatedFees = await ethereum.estimateFees({ config, logger, provider, txRequest });
+  const txRequest = await contractFactoryHelloWorld.getDeployTransaction(
+    initialMessage
+  );
+  const estimatedFees = await ethereum.estimateFees({
+    config,
+    logger,
+    provider,
+    txRequest,
+  });
   deb(estimatedFees);
-  const { gasLimit, maxFeePerGasWei, maxPriorityFeePerGasWei, feeEth, feeUsd, feeLimitChecks } = estimatedFees;
+  const {
+    gasLimit,
+    maxFeePerGasWei,
+    maxPriorityFeePerGasWei,
+    feeEth,
+    feeUsd,
+    feeLimitChecks,
+  } = estimatedFees;
   log(`Estimated fee: ${feeEth} ETH (${feeUsd} USD)`);
   if (feeLimitChecks.anyLimitExceeded) {
     for (let key of feeLimitChecks.limitExceededKeys) {
@@ -121,7 +140,9 @@ async function main() {
   const signerAddress = await signer.getAddress();
   const signerBalanceWei = await provider.getBalance(signerAddress);
   const signerBalanceEth = ethers.formatEther(signerBalanceWei);
-  const signerBalanceUsd = (Big(ethToUsd).mul(Big(signerBalanceEth))).toFixed(config.USD_DP);
+  const signerBalanceUsd = Big(ethToUsd)
+    .mul(Big(signerBalanceEth))
+    .toFixed(config.USD_DP);
   log(`Signer balance: ${signerBalanceEth} ETH (${signerBalanceUsd} USD)`);
   if (Big(signerBalanceEth).lt(Big(feeEth))) {
     console.error(`Signer balance is too low. Need at least ${feeEth} ETH.`);
@@ -131,11 +152,14 @@ async function main() {
   // Deploy contract.
   // - Use the estimated fee values.
   // - Wait for deployment to complete.
-  const contractHelloWorld = await contractFactoryHelloWorld.deploy(initialMessage, {
-    gasLimit,
-    maxFeePerGas: maxFeePerGasWei,
-    maxPriorityFeePerGas: maxPriorityFeePerGasWei,
-  });
+  const contractHelloWorld = await contractFactoryHelloWorld.deploy(
+    initialMessage,
+    {
+      gasLimit,
+      maxFeePerGas: maxFeePerGasWei,
+      maxPriorityFeePerGas: maxPriorityFeePerGasWei,
+    }
+  );
   await contractHelloWorld.waitForDeployment();
 
   // Examine the results and find out how much was spent.
@@ -150,7 +174,7 @@ async function main() {
   const txFeeWei = txReceipt.fee;
   deb(`txFeeWei: ${txFeeWei}`);
   const txFeeEth = ethers.formatEther(txFeeWei).toString();
-  const txFeeUsd = (Big(ethToUsd).mul(Big(txFeeEth))).toFixed(config.USD_DP);
+  const txFeeUsd = Big(ethToUsd).mul(Big(txFeeEth)).toFixed(config.USD_DP);
   log(`Final fee: ${txFeeEth} ETH (${txFeeUsd} USD)`);
 
   // Report the final result.

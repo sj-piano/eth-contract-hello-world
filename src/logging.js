@@ -1,6 +1,6 @@
 // Imports
 const Joi = require("joi");
-const winston = require('winston');
+const winston = require("winston");
 const { combine, timestamp, printf, colorize, align, json } = winston.format;
 
 // Local imports
@@ -8,7 +8,7 @@ const { config } = require("#root/config.js");
 
 // Functions
 
-function createLogger({ level = 'error' } = {}) {
+function createLogger({ level = "error" } = {}) {
   const logger = winston.createLogger({
     level,
     //format: winston.format.cli(),
@@ -16,7 +16,7 @@ function createLogger({ level = 'error' } = {}) {
     format: combine(
       colorize({ all: true }),
       timestamp({
-        format: 'YYYY-MM-DD HH:mm:ss.SSS',
+        format: "YYYY-MM-DD HH:mm:ss.SSS",
       }),
       align(),
       printf((info) => `[${info.timestamp}] ${info.level}: ${info.message}`)
@@ -27,7 +27,9 @@ function createLogger({ level = 'error' } = {}) {
     const logLevelSchema = Joi.string().valid(...config.logLevelList);
     let logLevelResult = logLevelSchema.validate(logLevel);
     if (logLevelResult.error) {
-      let msg = `Invalid log level "${logLevel}". Valid options are: [${config.logLevelList.join(", ")}]`;
+      let msg = `Invalid log level "${logLevel}". Valid options are: [${config.logLevelList.join(
+        ", "
+      )}]`;
       throw new Error(msg);
     }
     logger.transports.forEach((t) => (t.level = logLevel));

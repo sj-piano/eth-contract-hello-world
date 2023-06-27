@@ -10,9 +10,7 @@ const { createLogger } = require("#root/src/logging.js");
 
 // Load environment variables
 require("dotenv").config();
-const {
-  INFURA_API_KEY,
-} = process.env;
+const { INFURA_API_KEY } = process.env;
 
 // Logging
 const { logger, log, deb } = createLogger();
@@ -20,7 +18,7 @@ const { logger, log, deb } = createLogger();
 // Parse arguments
 program
   .option("-d, --debug", "log debug information")
-  .option("--log-level <logLevel>", "Specify log level.", "error")
+  .option("--log-level <logLevel>", "Specify log level.", "error");
 program.parse();
 const options = program.opts();
 if (options.debug) log(options);
@@ -31,7 +29,9 @@ let { debug, logLevel } = options;
 const logLevelSchema = Joi.string().valid(...config.logLevelList);
 let logLevelResult = logLevelSchema.validate(logLevel);
 if (logLevelResult.error) {
-  var msg = `Invalid log level "${logLevel}". Valid options are: [${config.logLevelList.join(", ")}]`;
+  var msg = `Invalid log level "${logLevel}". Valid options are: [${config.logLevelList.join(
+    ", "
+  )}]`;
   console.error(msg);
   process.exit(1);
 }
@@ -52,21 +52,20 @@ main()
 // Main function
 
 async function main() {
-
   let connections = {
     local: {
-      description: 'local hardhat node',
+      description: "local hardhat node",
       connected: false,
     },
     testnet: {
-      description: 'Sepolia testnet',
+      description: "Sepolia testnet",
       connected: false,
     },
     mainnet: {
-      description: 'Ethereum mainnet',
+      description: "Ethereum mainnet",
       connected: false,
     },
-  }
+  };
 
   // Check local network connection
   let networkLabel = "local";
@@ -93,9 +92,9 @@ async function main() {
     let blockNumber = await provider.getBlockNumber();
     log(`Current block number: ${blockNumber}`);
     connections.testnet = {
-      description: 'Sepolia testnet',
+      description: "Sepolia testnet",
       connected: true,
-    }
+    };
   } catch (error) {
     logger.error(`Could not connect to ${networkLabel} network at ${network}.`);
     deb(error);
@@ -111,9 +110,9 @@ async function main() {
     let blockNumber = await provider.getBlockNumber();
     log(`Current block number: ${blockNumber}`);
     connections.mainnet = {
-      description: 'Ethereum Mainnet',
+      description: "Ethereum Mainnet",
       connected: true,
-    }
+    };
   } catch (error) {
     logger.error(`Could not connect to ${networkLabel} network at ${network}.`);
     deb(error);
@@ -123,8 +122,9 @@ async function main() {
   console.log(`Network connections:`);
   _.forEach(connections, (connection, networkLabel) => {
     let { description, connected } = connection;
-    let msg = `- ${networkLabel}: ${description} - ${connected ? "connected" : "not connected"}`;
+    let msg = `- ${networkLabel}: ${description} - ${
+      connected ? "connected" : "not connected"
+    }`;
     console.log(msg);
   });
-
 }
