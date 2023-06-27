@@ -12,7 +12,8 @@ const Joi = require("joi");
 class Config {
 
   constructor() {
-    this.feeLimitUsd = "5";
+    // Note: feeLimitUsd overrides feePerGasLimitGwei.
+    this.feeLimitUsd = "7.00";
     this.feePerGasLimitGwei = "100";
     this.priorityFeePerGasLimitGwei = "2.0";
     this.gasLimitMultiplier = "1.0";
@@ -23,6 +24,7 @@ class Config {
       testnet: "sepolia",
       mainnet: "mainnet",
     }
+    this.logLevelList = "debug info warn error".split(" ");
     this.eth_usd_price_url = "https://api.pro.coinbase.com/products/ETH-USD/ticker";
     // DP = Decimal Places
     this.WEI_DP = 0;
