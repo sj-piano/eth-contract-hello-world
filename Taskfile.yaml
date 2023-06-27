@@ -38,6 +38,12 @@ tasks:
       - npx hardhat node
     silent: true
 
+  check-network-connections:
+    desc: "Check the connections to the various Ethereum networks"
+    cmds:
+      - node scripts/check-network-connections.js
+    silent: true
+
   deploy-to-local:
     desc: "Deploy the HelloWorld contract to a Hardhat node running locally"
     cmds:
