@@ -3,19 +3,21 @@
 [by default, the network is 'local']
 node scripts/get-network-fees.js
 
-node scripts/deploy.js --network local
+node scripts/hello-world-deploy.js --network local
+
+node scripts/hello-world-deploy.js --network testnet
 
 node scripts/check-contract-exists.js --network testnet
 
 node scripts/hello-world-get-message.js
 
-node scripts/update-message.js --input-file-json input-data/example-input-data-update-message.json --debug
+node scripts/hello-world-update-message.js --input-file-json input-data/example-input-data-update-message.json --debug
 
-node scripts/estimate-fees.js
+node scripts/hello-world-estimate-fees.js
 
-node scripts/estimate-fees.js --network testnet
+node scripts/hello-world-estimate-fees.js --network testnet
 
-node scripts/estimate-fees.js --network mainnet
+node scripts/hello-world-estimate-fees.js --network mainnet
 
 node scripts/check-contract-exists.js --network local
 
