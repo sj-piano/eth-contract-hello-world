@@ -2,6 +2,7 @@
   "name": "eth-contract-hello-world",
   "version": "1.0.0",
   "description": "Hello World smart contract",
+  "license": "AGPL-3.0-only",
   "main": "index.js",
   "scripts": {
     "test": "npx hardhat test",
@@ -12,7 +13,6 @@
     "name": "StJohn Piano",
     "linkedin": "https://www.linkedin.com/in/stjohnpiano"
   },
-  "license": "UNLICENSED",
   "imports": {
     "#root/*.js": "./*.js"
   },
