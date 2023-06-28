@@ -17,7 +17,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/sj-piano/eth-contract-hello-world-javascript">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="images/glider_600x480.png" alt="Logo" width="80" height="80">
   </a>
   <h3 align="center">Ethereum (ETH) smart contract "Hello World" in Javascript</h3>
 
