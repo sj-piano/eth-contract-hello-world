@@ -1,8 +1,6 @@
 // Imports
 const ethers = require("ethers");
 const fs = require("fs");
-const { program } = require("commander");
-const _ = require("lodash");
 
 // Logging
 const log = console.log;
