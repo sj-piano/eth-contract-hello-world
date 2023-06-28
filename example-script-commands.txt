@@ -31,8 +31,8 @@ node scripts/check-contract-exists.js --network testnet --address-file input-dat
 
 node scripts/create-private-key.js > input-data/private-key.txt
 
-cat input-data/private-key.txt
+cat input-data/example-private-key.txt
 
-cat input-data/private-key.txt | node scripts/derive-address.js > input-data/address.txt
+cat input-data/example-private-key.txt | node scripts/derive-address.js > input-data/example-address.txt
 
-cat input-data/address.txt
+cat input-data/example-address.txt
