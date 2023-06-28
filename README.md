@@ -29,7 +29,7 @@
 
 
 Summary:  
-* A complete HelloWorld Ethereum smart contract package, written in Javascript.
+* A complete "Hello World" Ethereum smart contract package, written in Solidity and Javascript.
 
 Features:
 * Handles post-merge fees correctly
