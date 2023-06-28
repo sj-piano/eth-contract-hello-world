@@ -10,6 +10,7 @@
 -->
 [![AGPL V3 License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
+[![Tela][tela-shield][tela-url]]
 
 
 
@@ -37,7 +38,7 @@ If you would like to:
 - request a feature
 - get a commercial software license
 
-Then [please contact me on Tela](www.tela.app/magic/stjohn_piano/a852c8). Thank you.
+Then [please contact me on Tela](https://www.tela.app/magic/stjohn_piano/a852c8). Thank you.
 
 
 
@@ -96,3 +97,5 @@ The local development node is Hardhat.
 [license-url]: https://github.com/sj-piano/eth-contract-hello-world-javascript/blob/main/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/stjohnpiano
+[tela-shield]: https://img.shields.io/badge/-Tela-blue.svg?style=for-the-badge&logo=tela&colorB=555
+[tela-url]: https://www.tela.app/magic/stjohn_piano/a852c8
