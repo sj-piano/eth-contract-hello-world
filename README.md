@@ -31,10 +31,6 @@
 Summary:  
 * A complete HelloWorld Ethereum smart contract package, written in Javascript.
 
-Contact Author:
-
-[![Tela][tela-shield]][tela-url]
-
 Features:
 * Handles post-merge fees correctly
 * Includes a test suite that runs on local Hardhat blockchain instance
@@ -53,7 +49,13 @@ If you would like to:
 
 Then [please contact me on Tela](https://www.tela.app/magic/stjohn_piano/a852c8). Thank you.
 
+[![Tela][tela-shield]][tela-url]
+
 Please note that Github issues & pull requests will not be read unless you contact me about them in Tela.
+
+If you would like to add me as a professional contact, you can [send me a connection request on LinkedIn](https://www.linkedin.com/in/stjohnpiano):
+
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 <!-- TABLE OF CONTENTS -->
