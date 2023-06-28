@@ -10,7 +10,7 @@
 -->
 [![AGPL V3 License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
-[![Tela][tela-shield][tela-url]]
+[![Tela][tela-shield]][tela-url]
 
 
 
