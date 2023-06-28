@@ -1,5 +1,6 @@
 <a name="readme-top"></a>
 
+
 <!-- PROJECT SHIELDS -->
 <!--
 *** We use markdown "reference style" links for readability.
@@ -8,9 +9,10 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![AGPL V3 License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 [![Tela][tela-shield]][tela-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+[![AGPL V3 License][license-shield]][license-url]
+
 
 
 
@@ -20,25 +22,69 @@
   <a href="https://github.com/sj-piano/eth-contract-hello-world-javascript">
     <img src="images/glider_600x480.png" alt="Logo" width="300" height="240">
   </a>
-  <h3 align="center">Ethereum (ETH) smart contract "Hello World" in Javascript</h3>
+  <h3 align="center">Ethereum (ETH) smart contract "Hello World"</h3>
 </div>
 
 
-Summary:  
-* A complete HelloWorld Ethereum smart contract package.
 
-Features:  
-* Handles post-merge fees correctly.  
-* Includes a test suite that runs on local Hardhat blockchain instance.
-* Can deploy to local instance, Sepolia testnet, and Ethereum mainnet.  
+
+Summary:  
+* A complete HelloWorld Ethereum smart contract package, written in Javascript.
+
+Contact Author:
+
+[![Tela][tela-shield]][tela-url]
+
+Features:
+* Handles post-merge fees correctly
+* Includes a test suite that runs on local Hardhat blockchain instance
+* Can deploy to local instance, Sepolia testnet, and Ethereum mainnet
+
+Licensing:
+* AGPL v3 software license
+* Licensed for personal use
+* Licensed for commercial use, if and only if all derivative source code is made public
 
 If you would like to:
-- ask a question
-- report a bug
-- request a feature
-- get a commercial software license
+* ask a question
+* report a bug
+* request a feature
+* get a private commercial software license (with no obligation to publish your source code)
 
 Then [please contact me on Tela](https://www.tela.app/magic/stjohn_piano/a852c8). Thank you.
+
+Please note that Github issues & pull requests will not be read unless you contact me about them in Tela.
+
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
+
+
+
+## About The Project
 
 
 
@@ -97,5 +143,5 @@ The local development node is Hardhat.
 [license-url]: https://github.com/sj-piano/eth-contract-hello-world-javascript/blob/main/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/stjohnpiano
-[tela-shield]: https://img.shields.io/badge/-Tela-blue.svg?style=for-the-badge&logo=tela&colorB=555
+[tela-shield]: https://img.shields.io/badge/Tela-StJohn_Piano-blue?style=for-the-badge
 [tela-url]: https://www.tela.app/magic/stjohn_piano/a852c8
