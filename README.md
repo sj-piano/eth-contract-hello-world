@@ -141,7 +141,7 @@ The local development node is Hardhat.
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [license-shield]: https://img.shields.io/github/license/sj-piano/eth-contract-hello-world-javascript.svg?style=for-the-badge
 [license-url]: https://github.com/sj-piano/eth-contract-hello-world-javascript/blob/main/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-shield]: https://img.shields.io/badge/LinkedIn-StJohn_Piano-blue.svg?style=for-the-badge&logo=linkedin
 [linkedin-url]: https://linkedin.com/in/stjohnpiano
 [tela-shield]: https://img.shields.io/badge/Tela-StJohn_Piano-blue?style=for-the-badge
 [tela-url]: https://www.tela.app/magic/stjohn_piano/a852c8
