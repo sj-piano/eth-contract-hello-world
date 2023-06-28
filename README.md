@@ -17,24 +17,27 @@
 <br />
 <div align="center">
   <a href="https://github.com/sj-piano/eth-contract-hello-world-javascript">
-    <img src="images/glider_600x480.png" alt="Logo" width="240" height="300">
+    <img src="images/glider_600x480.png" alt="Logo" width="300" height="240">
   </a>
   <h3 align="center">Ethereum (ETH) smart contract "Hello World" in Javascript</h3>
-
-  <p align="center">
-    A complete HelloWorld Ethereum smart contract package. Handles post-merge fees correctly. Includes a test suite that runs on local Hardhat blockchain instance. Can deploy to local instance, Sepolia testnet, and Ethereum mainnet.
-    <br />
-    <br />
-    If you would like to: <br/>
-    - ask a question <br/>
-    - report a bug <br/>
-    - request a feature <br/>
-    - get a commercial software license <br/>
-    <br/>
-    Then <a href="www.tela.app/magic/stjohn_piano/a852c8">please contact me on Tela</a>. Thank you. <br/>
-    <br/>
-  </p>
 </div>
+
+
+Summary:  
+* A complete HelloWorld Ethereum smart contract package.
+
+Features:  
+* Handles post-merge fees correctly.  
+* Includes a test suite that runs on local Hardhat blockchain instance.
+* Can deploy to local instance, Sepolia testnet, and Ethereum mainnet.  
+
+If you would like to:
+- ask a question
+- report a bug
+- request a feature
+- get a commercial software license
+
+Then [please contact me on Tela](www.tela.app/magic/stjohn_piano/a852c8). Thank you.
 
 
 
