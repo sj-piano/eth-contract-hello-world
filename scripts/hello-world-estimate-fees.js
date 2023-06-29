@@ -7,7 +7,7 @@ const _ = require("lodash");
 // Local imports
 const { config } = require("#root/config.js");
 const ethereum = require("#root/src/ethereum.js");
-const { createLogger } = require("#root/src/logging.js");
+const { createLogger } = require("#root/lib/logging.js");
 
 // Load environment variables
 require("dotenv").config();
@@ -128,7 +128,7 @@ async function main() {
 
   // Check if contract exists at address
   let address = contractHelloWorld.target;
-  let check = await ethereum.contractFoundAt({ provider, address });
+  let check = await ethereum.contractFoundAt({ logger, provider, address });
   if (!check) {
     console.error(`No contract found at address ${address}.`);
     process.exit(1);

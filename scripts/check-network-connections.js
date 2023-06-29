@@ -6,7 +6,7 @@ const _ = require("lodash");
 
 // Local imports
 const { config } = require("#root/config.js");
-const { createLogger } = require("#root/src/logging.js");
+const { createLogger } = require("#root/lib/logging.js");
 
 // Load environment variables
 require("dotenv").config();
