@@ -1,7 +1,8 @@
 // Imports
 const axios = require("axios");
 const Big = require("big.js");
-const { ethers } = require("ethers");
+const crypto = require("crypto");
+const ethers = require("ethers");
 
 // Local imports
 const { validateConfig } = require("#root/config.js");
@@ -9,6 +10,18 @@ const { validateLogger } = require("#root/src/logging.js");
 const utils = require("#root/lib/utils.js");
 
 // Functions
+
+function createPrivateKey() {
+  const randomBytes = crypto.randomBytes(32);
+  const privateKey = `0x` + randomBytes.toString("hex");
+  return privateKey;
+}
+
+function validatePrivateKey({ privateKey }) {
+  if (!ethers.isHexString(privateKey, 32)) {
+    throw new Error(`Private key "${privateKey}" is invalid.`);
+  }
+}
 
 async function contractFoundAt({ logger, provider, address }) {
   validateLogger({ logger });
@@ -253,6 +266,8 @@ async function estimateFees({ config, logger, provider, txRequest }) {
 
 // Exports
 module.exports = {
+  createPrivateKey,
+  validatePrivateKey,
   contractFoundAt,
   getGasPrices,
   getEthereumPriceInUsd,
