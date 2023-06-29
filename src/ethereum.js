@@ -23,6 +23,19 @@ function validatePrivateKey({ privateKey }) {
   }
 }
 
+function deriveAddress({ privateKey }) {
+  validatePrivateKey({ privateKey });
+  const wallet = new ethers.Wallet(privateKey);
+  const address = wallet.address;
+  return address;
+}
+
+function validateAddress({ address }) {
+  if (!ethers.isAddress(address)) {
+    throw new Error(`Address "${address}" is invalid.`);
+  }
+}
+
 async function contractFoundAt({ logger, provider, address }) {
   validateLogger({ logger });
   if (!ethers.isAddress(address)) {
@@ -268,6 +281,8 @@ async function estimateFees({ config, logger, provider, txRequest }) {
 module.exports = {
   createPrivateKey,
   validatePrivateKey,
+  deriveAddress,
+  validateAddress,
   contractFoundAt,
   getGasPrices,
   getEthereumPriceInUsd,
