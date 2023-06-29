@@ -112,6 +112,7 @@ async function main() {
   );
   const estimatedFees = await ethereum.estimateFees({
     config,
+    logger,
     provider,
     txRequest,
   });
@@ -142,6 +143,7 @@ async function main() {
   );
   const estimatedFees2 = await ethereum.estimateFees({
     config,
+    logger,
     provider,
     txRequest: txRequest2,
   });

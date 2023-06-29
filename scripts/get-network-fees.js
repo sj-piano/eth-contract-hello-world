@@ -86,6 +86,6 @@ main()
 async function main() {
   let blockNumber = await provider.getBlockNumber();
   deb(`Current block number: ${blockNumber}`);
-  const fees = await ethereum.getGasPricesWithFiat({ config, provider });
+  const fees = await ethereum.getGasPricesWithFiat({ config, logger, provider });
   console.log(fees);
 }
