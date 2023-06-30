@@ -1,22 +1,24 @@
 // Package configuration values, stored in a class.
 
+// Imports
+const { ethers } = require("ethers");
+const Joi = require("joi");
+
 /* Notes:
 - The main application or script will load the config, apply changes from cmdline arguments and environment variables if required, and pass it to the other modules or functions as an object.
 - When we create a transaction, we find the current averagePriorityFeePerGas, and multiply it by averagePriorityFeeMultiplier to get our transaction-specific value for maxPriorityFeePerGas. However, we don't permit it to be greater than maxPriorityFeePerGasGwei.
 */
 
-// Imports
-const { ethers } = require("ethers");
-const Joi = require("joi");
-
 class Config {
   constructor() {
-    // Note: feeLimitUsd overrides feePerGasLimitGwei.
-    this.feeLimitUsd = "7.00";
-    this.feePerGasLimitGwei = "100";
-    this.priorityFeePerGasLimitGwei = "2.0";
+    // Note: maxFeePerTransactionUsd overrides the other fee limits.
+    this.maxFeePerTransactionUsd = "5.00";
+    this.maxFeePerGasGwei = "100";
+    this.maxPriorityFeePerGasGwei = "2.0";
     this.gasLimitMultiplier = "1.0";
     this.averagePriorityFeeMultiplier = "1.5";
+    this.eth_usd_price_url =
+      "https://api.pro.coinbase.com/products/ETH-USD/ticker";
     this.networkLabelList = "local testnet mainnet".split(" ");
     this.mapNetworkLabelToNetwork = {
       local: "http://localhost:8545",
@@ -24,17 +26,15 @@ class Config {
       mainnet: "mainnet",
     };
     this.logLevelList = "debug info warn error".split(" ");
-    this.eth_usd_price_url =
-      "https://api.pro.coinbase.com/products/ETH-USD/ticker";
     // DP = Decimal Places
     this.WEI_DP = 0;
     this.GWEI_DP = 9;
     this.ETH_DP = 18;
     this.USD_DP = 2;
     // Derive more values.
-    this.feePerGasLimitWei = ethers.parseUnits(this.feePerGasLimitGwei, "gwei");
-    this.priorityFeePerGasLimitWei = ethers.parseUnits(
-      this.priorityFeePerGasLimitGwei,
+    this.maxFeePerGasWei = ethers.parseUnits(this.maxFeePerGasGwei, "gwei");
+    this.maxPriorityFeePerGasWei = ethers.parseUnits(
+      this.maxPriorityFeePerGasGwei,
       "gwei"
     );
   }
