@@ -1,9 +1,6 @@
 <a name="readme-top"></a>
 
 
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-
-
 <!-- PROJECT SHIELDS -->
 <!--
 *** We use markdown "reference style" links for readability.
@@ -82,8 +79,11 @@ A complete "Hello World" Ethereum smart contract package, written in Solidity an
 **If you would like to:**
 * ask a question
 * report a bug
+* ask for an addition to the README
 * request a feature
 * get a private commercial software license
+* make a complaint
+* hire me
 
 Then [please contact me on Tela](https://www.tela.app/magic/stjohn_piano/a852c8). Thank you.
 
@@ -217,15 +217,19 @@ The project is complete. No future features or fixes are planned.
 ## Contributing
 
 
-If you have enjoyed this project or found it helpful, please give it a star:
-
-<a class="github-button" href="https://github.com/sj-piano/eth-contract-hello-world-javascript" data-icon="octicon-star" aria-label="Star sj-piano/eth-contract-hello-world-javascript on GitHub">Star</a>
+If you have enjoyed this project or found it helpful, please give it a star!
 
 
-If you would like to suggest a change to this README or to the code, [please contact me on Tela](https://www.tela.app/magic/stjohn_piano/a852c8).
+**If you would like to:**
+* ask a question
+* report a bug
+* ask for an addition to the README
+* request a feature
+* get a private commercial software license
+* make a complaint
+* hire me
 
-[![Tela][tela-shield]][tela-url]
-
+Then [please contact me on Tela](https://www.tela.app/magic/stjohn_piano/a852c8). Thank you.
 
 
 
