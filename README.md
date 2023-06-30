@@ -89,8 +89,6 @@ Then [please contact me on Tela](https://www.tela.app/magic/stjohn_piano/a852c8)
 
 [![Tela][tela-shield]][tela-url]
 
-Please note: Github issues & pull requests will not be read unless you contact me about them in Tela.
-
 If you would like to add me as a professional contact, you can [send me a connection request on LinkedIn](https://www.linkedin.com/in/stjohnpiano):
 
 [![LinkedIn][linkedin-shield]][linkedin-url]
@@ -114,7 +112,7 @@ If you would like to add me as a professional contact, you can [send me a connec
 - Ethereum development environment: [Hardhat](https://hardhat.org)
 - Decimal arithmetic: [`big.js`](https://mikemcl.github.io/big.js)
 - Test assertion: [`chai`](https://www.chaijs.com)
-- Javascript formatter: [Prettier](https://github.com/sheerun/prettier-standard)
+- Javascript formatter: [prettier-standard](https://github.com/sheerun/prettier-standard)
 - CLI interface: [`commander`](https://github.com/tj/commander.js)
 - Logging: [`winston`](https://github.com/winstonjs/winston)
 - Data validation: [`joi`](https://github.com/hapijs/joi)
@@ -183,7 +181,7 @@ You'll need some SepoliaETH for using the Sepolia Testnet. In your Metamask wall
 
 Go to a Sepolia testnet faucet (e.g. this [PoW faucet](https://sepolia-faucet.pk910.de)) and get some SepoliaETH. Set the destination address to be your Metamask test address.
 
-You'll need a Sepolia test network private key & address.
+
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -220,6 +218,34 @@ The project is complete. No future features or fixes are planned.
 If you have enjoyed this project or found it helpful, please give it a star!
 
 
+Feel free to fork the project and use it for development. Please add an acknowledgement to this project in your README file.
+
+
+Please note: Github issues & pull requests will not be read unless you contact me about them in Tela.
+
+[![Tela][tela-shield]][tela-url]
+
+
+
+
+<!-- LICENSE -->
+## License
+
+Distributed under the GNU Affero General Public License (AGPL). See `LICENSE.txt` for more information.
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+
+## Contact
+
+
+Project Link:
+[https://github.com/sj-piano/eth-contract-hello-world-javascript](https://github.com/sj-piano/eth-contract-hello-world-javascript)
+
+
 **If you would like to:**
 * ask a question
 * report a bug
@@ -230,6 +256,12 @@ If you have enjoyed this project or found it helpful, please give it a star!
 * hire me
 
 Then [please contact me on Tela](https://www.tela.app/magic/stjohn_piano/a852c8). Thank you.
+
+[![Tela][tela-shield]][tela-url]
+
+If you would like to add me as a professional contact, you can [send me a connection request on LinkedIn](https://www.linkedin.com/in/stjohnpiano):
+
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 
