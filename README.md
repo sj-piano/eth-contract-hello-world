@@ -45,7 +45,15 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li>
+      <a href="#usage">Usage</a>
+      <ul>
+        <li><a href="#initial-tests">Initial tests</a></li>
+        <li><a href="#walkthrough-local">Walkthrough - Local network</a></li>
+        <li><a href="#walkthrough-testnet">Walkthrough - Sepolia Testnet</a></li>
+        <li><a href="#walkthrough-mainnet">Walkthrough - Ethereum Mainnet</a></li>
+      </ul>
+    </li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -177,11 +185,7 @@ Notes:
 
 * When you run a local hardhat node, it will have some built-in private keys and addresses that hold some test Ethereum. In `.env.example`, the `LOCAL_HARDHAT_PRIVATE_KEY` and `LOCAL_HARDHAT_ADDRESS` values hold the first of these keypairs.
 
-You'll need some SepoliaETH for using the Sepolia Testnet. In your Metamask wallet, create a dedicated "Test" account. Switch to "Sepolia test network". Copy the address.
-
-Go to a Sepolia testnet faucet (e.g. this [PoW faucet](https://sepolia-faucet.pk910.de)) and get some SepoliaETH. Set the destination address to be your Metamask test address.
-
-
+You'll need some SepoliaETH for using the Sepolia Testnet. In your Metamask wallet, create a dedicated "Test" account. Switch to "Sepolia test network". Copy the address. Go to a Sepolia testnet faucet (e.g. this [PoW faucet](https://sepolia-faucet.pk910.de)) and get some SepoliaETH. Set the destination address to be your Metamask test address.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -191,9 +195,72 @@ Go to a Sepolia testnet faucet (e.g. this [PoW faucet](https://sepolia-faucet.pk
 
 ## Usage
 
-Run `task --list` to see available commands. Shorter command: `task -l`
 
-Run a task. Example: `task hello`
+### Notes
+
+`config.js` stores the configuration used within the entire package.
+
+Most scripts accept a `network` argument, which specifies whether the script should connect to the local development blockchain (`local`), the Sepolia testnet (`testnet`), or the Ethereum mainnet (`mainnet`).
+
+
+### Initial tests
+
+Run `task --list` (or `task -l`) to see available commands.
+
+Run some initial tasks to check that everything is set up correctly.
+
+```sh
+task hello
+
+task check-network-connections
+```
+
+Compile the contract and run the tests.
+
+```sh
+task compile-contracts
+
+task test
+```
+
+Check the fees on the various networks.
+
+```sh
+node scripts/get-network-fees.js
+
+node scripts/get-network-fees.js --network=testnet
+
+node scripts/get-network-fees.js --network=mainnet
+```
+
+
+### Walkthrough - Local network
+
+
+Hardhat runs the tests on a temporary local blockchain.
+
+We set up a more persistent local blockchain, and deploy the HelloWorld contract to it.
+
+Open another terminal and run: `task start-local-node`
+
+Leave the node running in this additional terminal. Log output will be displayed. Press Ctrl-C to stop the local node. Switch back to the original terminal and continue.
+
+Deploy the HelloWorld contract: `task deploy-to-local`
+
+This will output an address. Copy this address into the `.env` file as `LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS`.
+
+Run `task show-example-script-commands` to see a list of examples that demonstrate how to use the various scripts.
+
+Run `node scripts/check-contract-exists` to confirm deployment.
+
+Run `task get-message -- --network=local` to print the message stored in the contract.
+
+Copy the example input file:
+`cp input-data/example-input-data-update-message.json input-data/input-data-update-message.json`
+
+Open it and specify a new message.
+
+Run `task estimate-fees
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -203,7 +270,7 @@ Run a task. Example: `task hello`
 
 ## Roadmap
 
-The project is complete. No future features or fixes are planned.
+This project is complete. No future features or fixes are planned.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
