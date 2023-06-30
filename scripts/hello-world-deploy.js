@@ -75,22 +75,22 @@ let provider, signer;
 
 var msg;
 if (networkLabel == "local") {
-  msg = `Connecting to ${networkLabel} network at ${network}...`;
+  msg = `Connecting to local network at ${network}...`;
   provider = new ethers.JsonRpcProvider(network);
   signer = new ethers.Wallet(LOCAL_HARDHAT_PRIVATE_KEY, provider);
 } else if (networkLabel == "testnet") {
-  msg = `Connecting to ${networkLabel} ${network} network...`;
+  msg = `Connecting to Sepolia testnet...`;
   provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
   signer = new ethers.Wallet(TESTNET_SEPOLIA_PRIVATE_KEY, provider);
 } else if (networkLabel == "mainnet") {
   throw new Error("Not implemented yet");
 }
+log(msg);
 let contractFactoryHelloWorld = new ethers.ContractFactory(
   contract.abi,
   contract.bytecode,
   signer
 );
-log(msg);
 
 // Run main function
 
