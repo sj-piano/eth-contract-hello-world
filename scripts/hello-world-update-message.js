@@ -103,25 +103,28 @@ let provider, signer;
 
 var msg;
 if (networkLabel == "local") {
-  msg = `Connecting to ${networkLabel} network at ${network}...`;
+  msg = `Connecting to local network at ${network}...`;
   provider = new ethers.JsonRpcProvider(network);
   signer = new ethers.Wallet(LOCAL_HARDHAT_PRIVATE_KEY, provider);
   DEPLOYED_CONTRACT_ADDRESS = LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS;
 } else if (networkLabel == "testnet") {
-  x = networkLabel == "testnet" ? network + " " : "";
-  msg = `Connecting to ${x}${networkLabel} network...`;
+  msg = `Connecting to Sepolia testnet...`;
   provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
   signer = new ethers.Wallet(TESTNET_SEPOLIA_PRIVATE_KEY, provider);
   DEPLOYED_CONTRACT_ADDRESS = TESTNET_SEPOLIA_DEPLOYED_CONTRACT_ADDRESS;
 } else if (networkLabel == "mainnet") {
   throw new Error("Not implemented yet");
 }
+log(msg);
+if (!ethers.isAddress(DEPLOYED_CONTRACT_ADDRESS)) {
+  logger.error(`Invalid contract address: ${DEPLOYED_CONTRACT_ADDRESS}`);
+  process.exit(1);
+}
 const contractHelloWorld = new ethers.Contract(
   DEPLOYED_CONTRACT_ADDRESS,
   contract.abi,
   signer
 );
-log(msg);
 
 // Run main function
 
