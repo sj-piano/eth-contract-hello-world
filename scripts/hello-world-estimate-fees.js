@@ -15,6 +15,7 @@ const {
   INFURA_API_KEY,
   LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS,
   TESTNET_SEPOLIA_DEPLOYED_CONTRACT_ADDRESS,
+  MAINNET_DEPLOYED_CONTRACT_ADDRESS,
 } = process.env;
 
 // Logging
@@ -69,26 +70,34 @@ let provider, signer;
 
 var msg;
 if (networkLabel == "local") {
-  msg = `Connecting to ${networkLabel} network at ${network}...`;
+  msg = `Connecting to local network at ${network}...`;
   provider = new ethers.JsonRpcProvider(network);
   DEPLOYED_CONTRACT_ADDRESS = LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS;
-} else if (networkLabel == "testnet" || networkLabel == "mainnet") {
-  x = networkLabel == "testnet" ? network + " " : "";
-  msg = `Connecting to ${x}${networkLabel} network...`;
+} else if (networkLabel == "testnet") {
+  msg = `Connecting to Sepolia testnet...`;
   provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
   DEPLOYED_CONTRACT_ADDRESS = TESTNET_SEPOLIA_DEPLOYED_CONTRACT_ADDRESS;
+} else if (networkLabel == "mainnet") {
+  msg = `Connecting to Ethereum mainnet...`;
+  provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
+  DEPLOYED_CONTRACT_ADDRESS = MAINNET_DEPLOYED_CONTRACT_ADDRESS;
 }
+log(msg);
 const contractFactoryHelloWorld = new ethers.ContractFactory(
   contract.abi,
   contract.bytecode,
   provider
 );
+if (!ethers.isAddress(DEPLOYED_CONTRACT_ADDRESS)) {
+  log(`Invalid contract address: ${DEPLOYED_CONTRACT_ADDRESS}`);
+  log(`Switching to a dummy address: ${config.dummyAddress}`);
+  DEPLOYED_CONTRACT_ADDRESS = config.dummyAddress;
+}
 const contractHelloWorld = new ethers.Contract(
   DEPLOYED_CONTRACT_ADDRESS,
   contract.abi,
   signer
 );
-log(msg);
 
 // Run main function
 
@@ -116,14 +125,15 @@ async function main() {
     provider,
     txRequest,
   });
-  console.log(`Contract deployment - estimated fees:`);
+  console.log(`\nContract deployment - estimated fees:`);
   log(estimatedFees);
-  console.log(`- feeEth: ${estimatedFees.feeEth}`);
-  console.log(`- feeUsd: ${estimatedFees.feeUsd}`);
-  if (estimatedFees.feeLimitChecks.anyLimitExceeded) {
+  if (!estimatedFees.feeLimitChecks.anyLimitExceeded) {
+    console.log(`- feeEth: ${estimatedFees.feeEth}`);
+    console.log(`- feeUsd: ${estimatedFees.feeUsd}`);
+  } else {
     for (let key of estimatedFees.feeLimitChecks.limitExceededKeys) {
       let check = estimatedFees.feeLimitChecks[key];
-      console.log(`- ${key}: ${check.msg}`);
+      console.log(`- ${key} limit exceeded: ${check.msg}`);
     }
   }
 
@@ -131,10 +141,9 @@ async function main() {
   let address = contractHelloWorld.target;
   let check = await ethereum.contractFoundAt({ logger, provider, address });
   if (!check) {
-    console.error(`No contract found at address ${address}.`);
-    process.exit(1);
+    console.log(`\nNo contract found at address ${address}.`);
   }
-  log(`Contract found at address: ${address}`);
+  log(`\nContract found at address: ${address}`);
 
   // Contract method call: update
   const newMessage = "Hello World! Updated.";
@@ -147,14 +156,17 @@ async function main() {
     provider,
     txRequest: txRequest2,
   });
-  console.log(`Contract method call: 'update' - estimated fees:`);
+  console.log(`\nContract method call: 'update' - estimated fees:`);
   log(estimatedFees2);
-  console.log(`- feeEth: ${estimatedFees2.feeEth}`);
-  console.log(`- feeUsd: ${estimatedFees2.feeUsd}`);
-  if (estimatedFees2.feeLimitChecks.anyLimitExceeded) {
+  if (!estimatedFees.feeLimitChecks.anyLimitExceeded) {
+    console.log(`- feeEth: ${estimatedFees2.feeEth}`);
+    console.log(`- feeUsd: ${estimatedFees2.feeUsd}`);
+  } else {
     for (let key of estimatedFees2.feeLimitChecks.limitExceededKeys) {
       let check = estimatedFees2.feeLimitChecks[key];
-      console.log(`- ${key}: ${check.msg}`);
+      console.log(`- ${key} limit exceeded: ${check.msg}`);
     }
   }
+
+  console.log();
 }
