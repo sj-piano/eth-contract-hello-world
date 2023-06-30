@@ -150,7 +150,7 @@ async function estimateFees({ config, logger, provider, txRequest }) {
   } = gasPrices;
   // Check if the base-fee-per-gas is greater than our Wei limit.
   if (Big(baseFeePerGasWei).gt(Big(config.maxFeePerGasWei))) {
-    let msg = `Current base fee per gas (${baseFeePerGasGwei} gwei, ${baseFeePerGasWei} wei) exceeds limit specified in config (${config.feePerGasLimitGwei} gwei, ${config.maxFeePerGasWei} wei).`;
+    let msg = `Current base fee per gas (${baseFeePerGasGwei} gwei, ${baseFeePerGasWei} wei) exceeds limit specified in config (${config.maxFeePerGasGwei} gwei, ${config.maxFeePerGasWei} wei).`;
     feeLimitChecks.baseFeePerGasWei = { exceeded: true, msg };
   }
   // Check if the base fee is greater than our USD limit.
@@ -164,6 +164,7 @@ async function estimateFees({ config, logger, provider, txRequest }) {
   deb(`baseFeeUsd: ${baseFeeUsd} USD`);
   if (Big(baseFeeUsd).gt(Big(config.maxFeePerTransactionUsd))) {
     let msg = `Base fee (${baseFeeUsd} USD) exceeds limit specified in config (${config.maxFeePerTransactionUsd} USD).`;
+    msg += ` Current base fee is ${baseFeeGwei} gwei (${baseFeeWei} wei, ${baseFeeEth} ETH). Current ETH-USD exchange rate is ${ethToUsd} USD.`;
     feeLimitChecks.baseFeeUsd = { exceeded: true, msg };
   }
   // Calculate a maxFeePerGasWei for this transaction, based on the current ETH-USD price.
@@ -215,35 +216,34 @@ async function estimateFees({ config, logger, provider, txRequest }) {
   const maxFeeEth = ethers.formatEther(maxFeeWei).toString();
   const maxFeeUsd = (Big(maxFeeEth) * Big(ethToUsd)).toFixed(config.USD_DP);
   deb(`maxFeeUsd: ${maxFeeUsd} USD`);
+  // Handle the situation where the base fee is below the limit, but the max fee is above it.
+  if (!feeLimitChecks.baseFeeUsd.exceeded && Big(maxFeeUsd).gt(Big(config.maxFeePerTransactionUsd))) {
+    let msg = `Max fee (${maxFeeUsd} USD) exceeds limit specified in config (${config.maxFeePerTransactionUsd} USD).`;
+    let unusablePriorityFeeUsd = Big(maxFeeUsd)
+      .minus(Big(config.maxFeePerTransactionUsd))
+      .toFixed(config.USD_DP);
+    let unusablePriorityFeeEth = Big(unusablePriorityFeeUsd)
+      .div(Big(ethToUsd))
+      .toFixed(config.ETH_DP);
+    let unusablePriorityFeeWei = ethers
+      .parseEther(unusablePriorityFeeEth)
+      .toString();
+    let unusablePriorityFeeGwei = ethers.formatUnits(
+      unusablePriorityFeeWei,
+      "gwei"
+    );
+    let msg2 = ` The transaction won't be able to use its entire priority fee. Unusable amount = (${unusablePriorityFeeGwei} Gwei, ${unusablePriorityFeeUsd} USD), out of total available = (${maxPriorityFeeGwei} gwei, ${maxPriorityFeeUsd} USD).`;
+    msg += msg2;
+    deb(msg);
+    feeLimitChecks.maxFeeUsd = { exceeded: true, msg };
+  }
   // Note: We assume here that the fee will use the entire available priority fee, but it might not.
   let feeWei = maxFeeWei;
   let feeGwei = maxFeeGwei;
   let feeEth = maxFeeEth;
   let feeUsd = maxFeeUsd;
-  // Handle the situation where the base fee is below the limit, but the max fee is above it.
-  // Future: Perhaps set the maxPriorityFee values to 0 if the base fee has already exceeded a fee limit.
-  if (Big(maxFeeUsd).gt(Big(config.maxFeePerTransactionUsd))) {
-    let msg = `Max fee (${maxFeeUsd} USD) exceeds limit specified in config (${config.maxFeePerTransactionUsd} USD).`;
-    if (!feeLimitChecks.baseFeeUsd.exceeded) {
-      let unusablePriorityFeeUsd = Big(maxFeeUsd)
-        .minus(Big(config.maxFeePerTransactionUsd))
-        .toFixed(config.USD_DP);
-      let unusablePriorityFeeEth = Big(unusablePriorityFeeUsd)
-        .div(Big(ethToUsd))
-        .toFixed(config.ETH_DP);
-      let unusablePriorityFeeWei = ethers
-        .parseEther(unusablePriorityFeeEth)
-        .toString();
-      let unusablePriorityFeeGwei = ethers.formatUnits(
-        unusablePriorityFeeWei,
-        "gwei"
-      );
-      let msg2 = ` The transaction won't be able to use its entire priority fee. Unusable amount = (${unusablePriorityFeeGwei} Gwei, ${unusablePriorityFeeUsd} USD), out of total available = (${maxPriorityFeeGwei} gwei, ${maxPriorityFeeUsd} USD).`;
-      msg += msg2;
-    }
-    deb(msg);
-    feeLimitChecks.maxFeeUsd = { exceeded: true, msg };
-    // We re-calculate the final fee estimates backwards from maxFeePerTransactionUsd.
+  // If we've passed a USD feeLimit, we re-calculate the final fee estimates backwards from maxFeePerTransactionUsd.
+  if (feeLimitChecks.baseFeeUsd.exceeded || feeLimitChecks.maxFeeUsd.exceeded) {
     feeUsd = config.maxFeePerTransactionUsd;
     feeEth = Big(feeUsd).div(Big(ethToUsd)).toFixed(config.ETH_DP);
     feeWei = ethers.parseEther(feeEth).toString();
