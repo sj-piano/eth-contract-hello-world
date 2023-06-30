@@ -28,36 +28,6 @@
 
 
 
-Summary:  
-* A complete "Hello World" Ethereum smart contract package, written in Solidity and Javascript.
-
-Features:
-* Handles post-merge fees correctly
-* Includes a test suite that runs on local Hardhat blockchain instance
-* Can deploy to local instance, Sepolia testnet, and Ethereum mainnet
-
-Licensing:
-* AGPL v3 software license
-* Licensed for personal use
-* Licensed for commercial use, if and only if all derivative source code is made public
-
-If you would like to:
-* ask a question
-* report a bug
-* request a feature
-* get a private commercial software license (with no obligation to publish your source code)
-
-Then [please contact me on Tela](https://www.tela.app/magic/stjohn_piano/a852c8). Thank you.
-
-[![Tela][tela-shield]][tela-url]
-
-Please note that Github issues & pull requests will not be read unless you contact me about them in Tela.
-
-If you would like to add me as a professional contact, you can [send me a connection request on LinkedIn](https://www.linkedin.com/in/stjohnpiano):
-
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
-
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -86,7 +56,69 @@ If you would like to add me as a professional contact, you can [send me a connec
 
 
 
+
+<!-- ABOUT THE PROJECT -->
 ## About The Project
+
+**Description:**
+
+A complete "Hello World" Ethereum smart contract package, written in Solidity and Javascript. It is a ready-to-use template for an Ethereum smart contract development project.
+
+**Features:**
+* Handles post-merge fees correctly
+* Can estimate fees before any actual transactions are sent
+* Includes a test suite that runs on local Hardhat blockchain instance
+* Can deploy to local blockchain instance, Sepolia testnet, and Ethereum mainnet
+
+**Licensing:**
+* AGPL v3 software license
+* Licensed for personal use
+* Licensed for commercial use, if and only if all derivative source code is made public
+* A private commercial software license is available for purchase - this removes the obligation for your company to publish any derived source code
+
+**If you would like to:**
+* ask a question
+* report a bug
+* request a feature
+* get a private commercial software license
+
+Then [please contact me on Tela](https://www.tela.app/magic/stjohn_piano/a852c8). Thank you.
+
+[![Tela][tela-shield]][tela-url]
+
+Please note: Github issues & pull requests will not be read unless you contact me about them in Tela.
+
+If you would like to add me as a professional contact, you can [send me a connection request on LinkedIn](https://www.linkedin.com/in/stjohnpiano):
+
+[![LinkedIn][linkedin-shield]][linkedin-url]
+
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+### Built With
+
+- NodeJS (developed with `v18.16.0`)
+- Task management: Taskfile.dev
+- Ethereum library: `ethers`
+- Local smart contract testing: Hardhat
+- Decimal arithmetic: `big.js`
+- Test assertion library: `chai`
+- Javascript formatter: Prettier
+- Key management: `.env` file
+- Script CLI interface: `commander`
+- Logging: `winston`
+- Data validation: `joi`
+- JSON validation: `ajv`
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- GETTING STARTED -->
+## Getting Started
+
 
 
 
