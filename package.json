@@ -16,11 +16,6 @@
   "imports": {
     "#root/*.js": "./*.js"
   },
-  "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "3.0.0",
-    "hardhat": "2.15.0",
-    "prettier-standard": "16.4.1"
-  },
   "dependencies": {
     "avj": "0.0.0",
     "axios": "1.4.0",
@@ -28,8 +23,11 @@
     "commander": "11.0.0",
     "dotenv": "16.2.0",
     "ethers": "6.6.0",
+    "@nomicfoundation/hardhat-toolbox": "3.0.0",
+    "hardhat": "2.15.0",
     "joi": "17.9.2",
     "lodash": "4.17.21",
+    "prettier-standard": "16.4.1",
     "winston": "3.9.0"
   }
 }
