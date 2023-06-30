@@ -37,6 +37,7 @@ class Config {
       this.maxPriorityFeePerGasGwei,
       "gwei"
     );
+    this.dummyAddress = "0x000000000000000000000000000000000000dEaD";
   }
 }
 
