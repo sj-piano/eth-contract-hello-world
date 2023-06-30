@@ -5,6 +5,6 @@ const ethereum = require("#root/src/ethereum.js");
 let log = console.log;
 
 // Run
-const privateKey = ethereum.createPrivateKey();
-ethereum.validatePrivateKey({ privateKey });
+const privateKey = ethereum.createPrivateKeySync();
+ethereum.validatePrivateKeySync({ privateKey });
 log(privateKey);

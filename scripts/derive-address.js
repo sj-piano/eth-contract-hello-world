@@ -14,6 +14,6 @@ const pipedString = fs.readFileSync(process.stdin.fd).toString().trim();
 const privateKey = pipedString;
 
 // Run
-const address = ethereum.deriveAddress({ privateKey });
-ethereum.validateAddress({ address });
+const address = ethereum.deriveAddressSync({ privateKey });
+ethereum.validateAddressSync({ address });
 log(address);

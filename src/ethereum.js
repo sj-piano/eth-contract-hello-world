@@ -11,26 +11,26 @@ const utils = require("#root/lib/utils.js");
 
 // Functions
 
-function createPrivateKey() {
+function createPrivateKeySync() {
   const randomBytes = crypto.randomBytes(32);
   const privateKey = `0x` + randomBytes.toString("hex");
   return privateKey;
 }
 
-function validatePrivateKey({ privateKey }) {
+function validatePrivateKeySync({ privateKey }) {
   if (!ethers.isHexString(privateKey, 32)) {
     throw new Error(`Private key "${privateKey}" is invalid.`);
   }
 }
 
-function deriveAddress({ privateKey }) {
-  validatePrivateKey({ privateKey });
+function deriveAddressSync({ privateKey }) {
+  validatePrivateKeySync({ privateKey });
   const wallet = new ethers.Wallet(privateKey);
   const address = wallet.address;
   return address;
 }
 
-function validateAddress({ address }) {
+function validateAddressSync({ address }) {
   if (!ethers.isAddress(address)) {
     throw new Error(`Address "${address}" is invalid.`);
   }
@@ -280,10 +280,10 @@ async function estimateFees({ config, logger, provider, txRequest }) {
 
 // Exports
 module.exports = {
-  createPrivateKey,
-  validatePrivateKey,
-  deriveAddress,
-  validateAddress,
+  createPrivateKeySync,
+  validatePrivateKeySync,
+  deriveAddressSync,
+  validateAddressSync,
   contractFoundAt,
   getGasPrices,
   getEthereumPriceInUsd,
