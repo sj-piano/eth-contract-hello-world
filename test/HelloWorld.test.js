@@ -1,8 +1,11 @@
+// Imports
 const { ethers } = require("hardhat");
 const { expect } = require("chai");
 const {
   loadFixture,
 } = require("@nomicfoundation/hardhat-toolbox/network-helpers");
+
+// Tests
 
 describe("HelloWorld contract", function () {
   // We use `loadFixture` to share common setups (or fixtures) between tests.
