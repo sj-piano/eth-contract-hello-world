@@ -80,25 +80,32 @@ let provider;
 
 var msg;
 if (networkLabel == "local") {
-  msg = `Connecting to ${networkLabel} network at ${network}...`;
+  msg = `Connecting to local network at ${network}...`;
   provider = new ethers.JsonRpcProvider(network);
   DEPLOYED_CONTRACT_ADDRESS = LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS;
-} else if (networkLabel == "testnet" || networkLabel == "mainnet") {
-  x = networkLabel == "testnet" ? network + " " : "";
-  msg = `Connecting to ${x}${networkLabel} network...`;
+} else if (networkLabel == "testnet") {
+  msg = `Connecting to Sepolia testnet...`;
   provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
   DEPLOYED_CONTRACT_ADDRESS = TESTNET_SEPOLIA_DEPLOYED_CONTRACT_ADDRESS;
+} else if (networkLabel == "mainnet") {
+  msg = `Connecting to Ethereum mainnet...`;
+  provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
+  DEPLOYED_CONTRACT_ADDRESS = MAINNET_DEPLOYED_CONTRACT_ADDRESS;
 }
+log(msg);
 // Supplied contract file takes precedence over shell environment variable.
 if (contractAddress) {
   DEPLOYED_CONTRACT_ADDRESS = contractAddress;
+}
+if (!ethers.isAddress(DEPLOYED_CONTRACT_ADDRESS)) {
+  logger.error(`Invalid contract address: ${DEPLOYED_CONTRACT_ADDRESS}`);
+  process.exit(1);
 }
 const contractHelloWorld = new ethers.Contract(
   DEPLOYED_CONTRACT_ADDRESS,
   contract.abi,
   provider
 );
-log(msg);
 
 // Run main function
 
