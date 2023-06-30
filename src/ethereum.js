@@ -149,8 +149,8 @@ async function estimateFees({ config, logger, provider, txRequest }) {
     ethToUsd,
   } = gasPrices;
   // Check if the base-fee-per-gas is greater than our Wei limit.
-  if (Big(baseFeePerGasWei).gt(Big(config.feePerGasLimitWei))) {
-    let msg = `Current base fee per gas (${baseFeePerGasGwei} gwei, ${baseFeePerGasWei} wei) exceeds limit specified in config (${config.feePerGasLimitGwei} gwei, ${config.feePerGasLimitWei} wei).`;
+  if (Big(baseFeePerGasWei).gt(Big(config.maxFeePerGasWei))) {
+    let msg = `Current base fee per gas (${baseFeePerGasGwei} gwei, ${baseFeePerGasWei} wei) exceeds limit specified in config (${config.feePerGasLimitGwei} gwei, ${config.maxFeePerGasWei} wei).`;
     feeLimitChecks.baseFeePerGasWei = { exceeded: true, msg };
   }
   // Check if the base fee is greater than our USD limit.
@@ -162,13 +162,13 @@ async function estimateFees({ config, logger, provider, txRequest }) {
   const baseFeeEth = ethers.formatEther(baseFeeWei).toString();
   const baseFeeUsd = (Big(baseFeeEth) * Big(ethToUsd)).toFixed(config.USD_DP);
   deb(`baseFeeUsd: ${baseFeeUsd} USD`);
-  if (Big(baseFeeUsd).gt(Big(config.feeLimitUsd))) {
-    let msg = `Base fee (${baseFeeUsd} USD) exceeds limit specified in config (${config.feeLimitUsd} USD).`;
+  if (Big(baseFeeUsd).gt(Big(config.maxFeePerTransactionUsd))) {
+    let msg = `Base fee (${baseFeeUsd} USD) exceeds limit specified in config (${config.maxFeePerTransactionUsd} USD).`;
     feeLimitChecks.baseFeeUsd = { exceeded: true, msg };
   }
   // Calculate a maxFeePerGasWei for this transaction, based on the current ETH-USD price.
-  // - Using this limit will prevent the addition of a priority fee from exceeding our USD limit.
-  const feeLimitEth = Big(config.feeLimitUsd)
+  // - Using this limit will prevent the later addition of a priority fee from exceeding our USD limit.
+  const feeLimitEth = Big(config.maxFeePerTransactionUsd)
     .div(Big(ethToUsd))
     .toFixed(config.ETH_DP);
   deb(`feeLimitEth: ${feeLimitEth} ETH`);
@@ -180,24 +180,24 @@ async function estimateFees({ config, logger, provider, txRequest }) {
   deb(`maxFeePerGasWei: ${maxFeePerGasWei} wei`);
   // Calculate a max-priority-fee-per-gas for this transaction.
   // - We choose a max priority fee that is a multiple of the average priority fee.
-  // - If it exceeds our max-priority-fee-per-gas limit, reduce it to the config limit.
+  // - If it exceeds our max-priority-fee-per-gas limit (set in config), reduce it to the limit.
   let maxPriorityFeePerGasWei = (
     Big(averagePriorityFeePerGasWei) * Big(config.averagePriorityFeeMultiplier)
   ).toFixed(config.WEI_DP);
-  if (Big(maxPriorityFeePerGasWei).gt(Big(config.priorityFeePerGasLimitWei))) {
-    let msg = `Max priority fee per gas (${maxPriorityFeePerGasWei} wei) exceeds limit specified in config (${config.priorityFeePerGasLimitWei} wei).`;
+  if (Big(maxPriorityFeePerGasWei).gt(Big(config.maxPriorityFeePerGasWei))) {
+    let msg = `Max priority fee per gas (${maxPriorityFeePerGasWei} wei) exceeds limit specified in config (${config.maxPriorityFeePerGasWei} wei).`;
     msg += ` Using config limit instead.`;
     let comparatorWord = Big(averagePriorityFeePerGasWei).gt(
-      Big(config.priorityFeePerGasLimitWei)
+      Big(config.maxPriorityFeePerGasWei)
     )
       ? "greater"
       : "less";
     msg += ` Note: averagePriorityFeePerGasWei = ${averagePriorityFeePerGasWei} wei, which is ${comparatorWord} than config limit.`;
     deb(msg);
-    maxPriorityFeePerGasWei = config.priorityFeePerGasLimitWei;
+    maxPriorityFeePerGasWei = config.maxPriorityFeePerGasWei;
   }
   deb(`maxPriorityFeePerGasWei: ${maxPriorityFeePerGasWei} wei`);
-  // Calculate the max possible fee, and check it against our limit.
+  // Calculate the max possible fee.
   const maxPriorityFeeWei = Big(estimatedGas)
     .mul(Big(maxPriorityFeePerGasWei))
     .toFixed(config.WEI_DP);
@@ -221,11 +221,12 @@ async function estimateFees({ config, logger, provider, txRequest }) {
   let feeEth = maxFeeEth;
   let feeUsd = maxFeeUsd;
   // Handle the situation where the base fee is below the limit, but the max fee is above it.
-  if (Big(maxFeeUsd).gt(Big(config.feeLimitUsd))) {
-    let msg = `Max fee (${maxFeeUsd} USD) exceeds limit specified in config (${config.feeLimitUsd} USD).`;
+  // Future: Perhaps set the maxPriorityFee values to 0 if the base fee has already exceeded a fee limit.
+  if (Big(maxFeeUsd).gt(Big(config.maxFeePerTransactionUsd))) {
+    let msg = `Max fee (${maxFeeUsd} USD) exceeds limit specified in config (${config.maxFeePerTransactionUsd} USD).`;
     if (!feeLimitChecks.baseFeeUsd.exceeded) {
       let unusablePriorityFeeUsd = Big(maxFeeUsd)
-        .minus(Big(config.feeLimitUsd))
+        .minus(Big(config.maxFeePerTransactionUsd))
         .toFixed(config.USD_DP);
       let unusablePriorityFeeEth = Big(unusablePriorityFeeUsd)
         .div(Big(ethToUsd))
@@ -242,8 +243,8 @@ async function estimateFees({ config, logger, provider, txRequest }) {
     }
     deb(msg);
     feeLimitChecks.maxFeeUsd = { exceeded: true, msg };
-    // We re-calculate the final fee estimates backwards from feeLimitUsd.
-    feeUsd = config.feeLimitUsd;
+    // We re-calculate the final fee estimates backwards from maxFeePerTransactionUsd.
+    feeUsd = config.maxFeePerTransactionUsd;
     feeEth = Big(feeUsd).div(Big(ethToUsd)).toFixed(config.ETH_DP);
     feeWei = ethers.parseEther(feeEth).toString();
     feeGwei = ethers.formatUnits(feeWei, "gwei");
