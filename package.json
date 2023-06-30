@@ -11,7 +11,8 @@
   },
   "author": {
     "name": "StJohn Piano",
-    "linkedin": "https://www.linkedin.com/in/stjohnpiano"
+    "linkedin": "https://www.linkedin.com/in/stjohnpiano",
+    "tela": "https://www.tela.app/magic/stjohn_piano/a852c8"
   },
   "imports": {
     "#root/*.js": "./*.js"
