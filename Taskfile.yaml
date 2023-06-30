@@ -15,7 +15,7 @@ tasks:
     silent: true
 
   reset:
-    desc: "Reset the NodeJS Hardhat environment"
+    desc: "Completely reset the NodeJS Hardhat environment"
     cmds:
       - npm run reset
     silent: true
@@ -75,3 +75,15 @@ tasks:
       - npx hardhat run scripts/hello-world-deploy.js --network mainnet
     silent: true
     prompt: This command will spend Ethereum (ETH) - Do you want to continue?
+
+  hello-world-get-message:
+    internal: true
+    cmds:
+      - node scripts/hello-world-get-message.js {{.CLI_ARGS}}
+    silent: true
+
+  get-message:
+    desc: "Get the message from the HelloWorld contract"
+    cmds:
+      - task: hello-world-get-message
+    silent: true
