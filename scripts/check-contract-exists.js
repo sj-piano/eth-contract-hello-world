@@ -1,3 +1,8 @@
+/* Notes:
+- By default, this will check for the HelloWorld contract at the address specified in the .env file.
+- To check for a different contract, use the --address option.
+*/
+
 // Imports
 const { program } = require("commander");
 const { ethers } = require("ethers");
@@ -110,7 +115,7 @@ async function main() {
 
   let address = DEPLOYED_CONTRACT_ADDRESS;
 
-  let check = await ethereum.contractFoundAt({ provider, address });
+  let check = await ethereum.contractFoundAt({ logger, provider, address });
   if (!check) {
     logger.error(`No contract found at address ${address}.`);
     process.exit(1);
