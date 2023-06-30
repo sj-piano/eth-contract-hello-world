@@ -99,18 +99,25 @@ If you would like to add me as a professional contact, you can [send me a connec
 
 ### Built With
 
-- NodeJS (developed with `v18.16.0`)
-- Task management: Taskfile.dev
-- Ethereum library: `ethers`
-- Local smart contract testing: Hardhat
-- Decimal arithmetic: `big.js`
-- Test assertion library: `chai`
-- Javascript formatter: Prettier
-- Key management: `.env` file
-- Script CLI interface: `commander`
-- Logging: `winston`
-- Data validation: `joi`
-- JSON validation: `ajv`
+
+**Platforms & languages:**
+- [Ethereum](https://ethereum.org/en) & [Solidity](https://soliditylang.org)
+- [NodeJS](https://nodejs.org/en) & [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+
+**Technologies & libraries:**
+- Task management: [task](https://taskfile.dev/)
+- NodeJS manager: [`nvm`](https://github.com/nvm-sh/nvm)
+- Ethereum library: [`ethers`](https://docs.ethers.org/v6)
+- Ethereum development environment: [Hardhat](https://hardhat.org)
+- Decimal arithmetic: [`big.js`](https://mikemcl.github.io/big.js)
+- Test assertion: [`chai`](https://www.chaijs.com)
+- Javascript formatter: [Prettier](https://github.com/sheerun/prettier-standard)
+- CLI interface: [`commander`](https://github.com/tj/commander.js)
+- Logging: [`winston`](https://github.com/winstonjs/winston)
+- Data validation: [`joi`](https://github.com/hapijs/joi)
+- JSON validation: [`ajv`](https://ajv.js.org)
+
+Private keys are managed in a `.env` file.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -119,57 +126,124 @@ If you would like to add me as a professional contact, you can [send me a connec
 <!-- GETTING STARTED -->
 ## Getting Started
 
+Follow these steps to get a local development instance up and running.
 
 
+### Prerequisites
+
+Please create accounts and API keys at:
+* [Etherscan](https://etherscan.io)
+* [Infura](https://www.infura.io)
+
+Please install:
+
+* task: [guide](https://taskfile.dev/installation)
+* nvm (Node Version Manager): [guide](https://github.com/nvm-sh/nvm#install--update-script)
+* npm & NodeJS: [nvm-based guide](https://github.com/nvm-sh/nvm#usage)
+* Metamask wallet (browser extension): [metamask.io](https://metamask.io)
+
+Tested under these operating systems:
+* Ubuntu 20.04.6 LTS (Focal Fossa) (Running on WSL 2 on Windows 10)
+
+Tested with these versions:
+* task: 3.27.0
+* nvm: 0.35.3
+* npm: 9.5.1
+* NodeJS: 18.16.0
+
+Notes:
+* Use `nvm` to install `npm` and NodeJS.
+* The Etherscan API key is used if you want to upload your contract to Etherscan when using [Hardhat verify](https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify).
 
 
-## Installation
+### Installation
 
+Clone the repo:
 
-Requirements:  
-- NodeJS  
-- NPM  
-- Etherscan API key
-- Infura API key
-
-
-```bash
-
-git clone git@github.com:sj-piano/eth-contract-hello-world-javascript.git
-
-cd eth-contract-hello-world-javascript
-
+```sh
+git clone https://github.com/sj-piano/eth-contract-hello-world-javascript
 ```
 
-For development (i.e. you want to be able to run the tests on a local node):  
-`npm install --include=dev`
+Install NPM packages:
 
-For production (i.e. you only need the contract itself, together with scripts for deploying and communicating with it on testnet or mainnet):  
-`npm install`
-
-
-Install Taskfile.dev  
-https://taskfile.dev/installation
-
-
-## Setup
+```sh
+cd eth-contract-hello-world-javascript && npm install
+```
 
 Copy the file `.env.example` to `.env` and fill it in with the relevant values.
 
+Notes:
 
-## Operation
+* When you run a local hardhat node, it will have some built-in private keys and addresses that hold some test Ethereum. In `.env.example`, the `LOCAL_HARDHAT_PRIVATE_KEY` and `LOCAL_HARDHAT_ADDRESS` values hold the first of these keypairs.
+
+You'll need some SepoliaETH for using the Sepolia Testnet. In your Metamask wallet, create a dedicated "Test" account. Switch to "Sepolia test network". Copy the address.
+
+Go to a Sepolia testnet faucet (e.g. this [PoW faucet](https://sepolia-faucet.pk910.de)) and get some SepoliaETH. Set the destination address to be your Metamask test address.
+
+You'll need a Sepolia test network private key & address.
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+
+## Usage
 
 Run `task --list` to see available commands. Shorter command: `task -l`
 
 Run a task. Example: `task hello`
 
 
-## Notes:
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-The local development node is Hardhat.
+
+
+
+## Roadmap
+
+The project is complete. No future features or fixes are planned.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+
+If you have enjoyed this project or found it helpful, please give it a star:
+
+<a class="github-button" href="https://github.com/sj-piano/eth-contract-hello-world-javascript" data-icon="octicon-star" aria-label="Star sj-piano/eth-contract-hello-world-javascript on GitHub">Star</a>
+
+
+If you would like to suggest a change to this README or to the code, [please contact me on Tela](https://www.tela.app/magic/stjohn_piano/a852c8).
+
+[![Tela][tela-shield]][tela-url]
+
+
+
+
+
+## Acknowledgments
+
+* Choose an Open Source License: [choosealicense.com](https://choosealicense.com)
+
+* Badges: [shields.io](https://shields.io)
+
+* How Hardhat runs a local Ethereum blockchain for testing and development: [Hardhat Network](https://hardhat.org/hardhat-network/docs/overview)
+
+* README template by Othneil Drew: [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
+
+* Sepolia testnet PoW faucet: https://sepolia-faucet.pk910.de
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
