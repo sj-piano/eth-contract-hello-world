@@ -56,20 +56,20 @@ tasks:
       - node scripts/check-network-connections.js
     silent: true
 
-  deploy-to-local:
+  deploy-local:
     desc: "Deploy the HelloWorld contract to a Hardhat node running locally"
     cmds:
       - npx hardhat run scripts/hello-world-deploy.js --network local
     silent: true
 
-  deploy-to-testnet:
+  deploy-testnet:
     desc: "Deploy the HelloWorld contract to the Sepolia testnet"
     cmds:
       - npx hardhat run scripts/hello-world-deploy.js --network sepolia
     silent: true
     prompt: This command will spend testnet Ethereum (SepoliaETH) - Do you want to continue?
 
-  deploy-to-mainnet:
+  deploy-mainnet:
     desc: "Deploy the HelloWorld contract to the Ethereum mainnet"
     cmds:
       - npx hardhat run scripts/hello-world-deploy.js --network mainnet
