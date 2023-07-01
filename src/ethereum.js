@@ -21,6 +21,7 @@ function validatePrivateKeySync({ privateKey }) {
   if (!ethers.isHexString(privateKey, 32)) {
     throw new Error(`Private key "${privateKey}" is invalid.`);
   }
+  return privateKey;
 }
 
 function deriveAddressSync({ privateKey }) {
@@ -34,6 +35,7 @@ function validateAddressSync({ address }) {
   if (!ethers.isAddress(address)) {
     throw new Error(`Address "${address}" is invalid.`);
   }
+  return address;
 }
 
 async function contractFoundAt({ logger, provider, address }) {
