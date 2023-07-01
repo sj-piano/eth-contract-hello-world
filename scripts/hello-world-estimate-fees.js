@@ -134,7 +134,7 @@ async function main() {
     provider,
     txRequest,
   });
-  console.log(`\nContract deployment - estimated fees:`);
+  console.log(`\nContract deployment - estimated fee:`);
   log(estimatedFees);
   if (!estimatedFees.feeLimitChecks.anyLimitExceeded) {
     console.log(`- feeEth: ${estimatedFees.feeEth}`);
@@ -165,7 +165,7 @@ async function main() {
     provider,
     txRequest: txRequest2,
   });
-  console.log(`\nContract method call: 'update' - estimated fees:`);
+  console.log(`\nContract method call: 'update' - estimated fee:`);
   log(estimatedFees2);
   if (!estimatedFees.feeLimitChecks.anyLimitExceeded) {
     console.log(`- feeEth: ${estimatedFees2.feeEth}`);
