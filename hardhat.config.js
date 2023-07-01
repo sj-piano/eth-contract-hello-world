@@ -2,8 +2,8 @@ require("dotenv").config();
 require("@nomicfoundation/hardhat-toolbox");
 
 const {
-  INFURA_API_URL,
   ETHERSCAN_API_KEY,
+  TESTNET_SEPOLIA_INFURA_API_URL,
   LOCAL_HARDHAT_PRIVATE_KEY,
   TESTNET_SEPOLIA_PRIVATE_KEY,
 } = process.env;
