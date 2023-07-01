@@ -18,7 +18,7 @@ module.exports = {
       accounts: [LOCAL_HARDHAT_PRIVATE_KEY],
     },
     sepolia: {
-      url: INFURA_API_URL,
+      url: TESTNET_SEPOLIA_INFURA_API_URL,
       accounts: [TESTNET_SEPOLIA_PRIVATE_KEY],
     },
   },
