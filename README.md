@@ -245,7 +245,7 @@ Open another terminal and run: `task start-local-node`
 
 Leave the node running in this additional terminal. Log output will be displayed. Press Ctrl-C to stop the local node. Switch back to the original terminal and continue.
 
-Deploy the HelloWorld contract: `task deploy-to-local`
+Deploy the HelloWorld contract: `task deploy-local`
 
 This will output an address. Copy this address into the `.env` file as `LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS`.
 
