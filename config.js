@@ -49,10 +49,9 @@ class Config {
 
   set maxPriorityFeePerGasGwei(newValue) {
     this._maxPriorityFeePerGasGwei = newValue;
-    this.maxPriorityFeePerGasWei = ethers.parseUnits(
-      newValue,
-      "gwei"
-    ).toString();
+    this.maxPriorityFeePerGasWei = ethers
+      .parseUnits(newValue, "gwei")
+      .toString();
   }
 
   // Methods
@@ -63,16 +62,24 @@ class Config {
     MAX_PRIORITY_FEE_PER_GAS_GWEI,
   }) {
     if (!_.isNil(MAX_FEE_PER_GAS_GWEI)) {
-      this.maxFeePerTransactionUsd = validateNumericString({ name: 'MAX_FEE_PER_TRANSACTION_USD', value: MAX_FEE_PER_TRANSACTION_USD });
+      this.maxFeePerTransactionUsd = validateNumericString({
+        name: "MAX_FEE_PER_TRANSACTION_USD",
+        value: MAX_FEE_PER_TRANSACTION_USD,
+      });
     }
     if (!_.isNil(MAX_FEE_PER_GAS_GWEI)) {
-      this.maxFeePerGasGwei = validateNumericString({ name: 'MAX_FEE_PER_GAS_GWEI', value: MAX_FEE_PER_GAS_GWEI });
+      this.maxFeePerGasGwei = validateNumericString({
+        name: "MAX_FEE_PER_GAS_GWEI",
+        value: MAX_FEE_PER_GAS_GWEI,
+      });
     }
     if (!_.isNil(MAX_PRIORITY_FEE_PER_GAS_GWEI)) {
-      this.maxPriorityFeePerGasGwei = validateNumericString({ name: 'MAX_PRIORITY_FEE_PER_GAS_GWEI', value: MAX_PRIORITY_FEE_PER_GAS_GWEI });
+      this.maxPriorityFeePerGasGwei = validateNumericString({
+        name: "MAX_PRIORITY_FEE_PER_GAS_GWEI",
+        value: MAX_PRIORITY_FEE_PER_GAS_GWEI,
+      });
     }
   }
-
 }
 
 async function validateConfig({ config }) {

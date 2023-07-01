@@ -219,7 +219,10 @@ async function estimateFees({ config, logger, provider, txRequest }) {
   const maxFeeUsd = (Big(maxFeeEth) * Big(ethToUsd)).toFixed(config.USD_DP);
   deb(`maxFeeUsd: ${maxFeeUsd} USD`);
   // Handle the situation where the base fee is below the limit, but the max fee is above it.
-  if (!feeLimitChecks.baseFeeUsd.exceeded && Big(maxFeeUsd).gt(Big(config.maxFeePerTransactionUsd))) {
+  if (
+    !feeLimitChecks.baseFeeUsd.exceeded &&
+    Big(maxFeeUsd).gt(Big(config.maxFeePerTransactionUsd))
+  ) {
     let msg = `Max fee (${maxFeeUsd} USD) exceeds limit specified in config (${config.maxFeePerTransactionUsd} USD).`;
     let unusablePriorityFeeUsd = Big(maxFeeUsd)
       .minus(Big(config.maxFeePerTransactionUsd))
