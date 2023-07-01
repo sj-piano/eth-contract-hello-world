@@ -38,3 +38,5 @@ cat input-data/example-private-key.txt | node scripts/derive-address.js > input-
 
 cat input-data/example-address.txt
 
+node scripts/get-balance.js --address-file input-data/example-address.txt
+
