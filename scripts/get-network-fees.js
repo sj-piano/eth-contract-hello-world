@@ -27,7 +27,7 @@ program
   );
 program.parse();
 const options = program.opts();
-if (options.debug) log(options);
+if (options.debug) console.log(options);
 let { debug, logLevel, network: networkLabel } = options;
 
 // Process and validate arguments

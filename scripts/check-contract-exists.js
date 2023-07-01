@@ -18,6 +18,9 @@ const { createLogger } = require("#root/lib/logging.js");
 // Load environment variables
 require("dotenv").config();
 const {
+  MAX_FEE_PER_TRANSACTION_USD,
+  MAX_FEE_PER_GAS_GWEI,
+  MAX_PRIORITY_FEE_PER_GAS_GWEI,
   INFURA_API_KEY,
   LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS,
   TESTNET_SEPOLIA_DEPLOYED_CONTRACT_ADDRESS,
@@ -41,10 +44,16 @@ program
   );
 program.parse();
 const options = program.opts();
-if (options.debug) log(options);
+if (options.debug) console.log(options);
 let { debug, logLevel, network: networkLabel, addressFile } = options;
 
 // Process and validate arguments
+
+config.update({
+  MAX_FEE_PER_TRANSACTION_USD,
+  MAX_FEE_PER_GAS_GWEI,
+  MAX_PRIORITY_FEE_PER_GAS_GWEI,
+});
 
 const logLevelSchema = Joi.string().valid(...config.logLevelList);
 let logLevelResult = logLevelSchema.validate(logLevel);

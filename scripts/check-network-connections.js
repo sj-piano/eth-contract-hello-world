@@ -21,7 +21,7 @@ program
   .option("--log-level <logLevel>", "Specify log level.", "error");
 program.parse();
 const options = program.opts();
-if (options.debug) log(options);
+if (options.debug) console.log(options);
 let { debug, logLevel } = options;
 
 // Process and validate arguments
