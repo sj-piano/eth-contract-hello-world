@@ -114,13 +114,13 @@ If you would like to add me as a professional contact, you can [send me a connec
 - [NodeJS](https://nodejs.org/en) & [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
 **Technologies & libraries:**
-- Task management: [task](https://taskfile.dev/)
+- Task management: [`task`](https://taskfile.dev/)
 - NodeJS manager: [`nvm`](https://github.com/nvm-sh/nvm)
 - Ethereum library: [`ethers`](https://docs.ethers.org/v6)
-- Ethereum development environment: [Hardhat](https://hardhat.org)
+- Ethereum development environment: [`hardhat`](https://hardhat.org)
 - Decimal arithmetic: [`big.js`](https://mikemcl.github.io/big.js)
 - Test assertion: [`chai`](https://www.chaijs.com)
-- Javascript formatter: [prettier-standard](https://github.com/sheerun/prettier-standard)
+- Javascript formatter: [`prettier-standard`](https://github.com/sheerun/prettier-standard)
 - CLI interface: [`commander`](https://github.com/tj/commander.js)
 - Logging: [`winston`](https://github.com/winstonjs/winston)
 - Data validation: [`joi`](https://github.com/hapijs/joi)
@@ -181,6 +181,10 @@ cd eth-contract-hello-world-javascript && npm install
 
 Copy the file `.env.example` to `.env` and fill it in with the relevant values.
 
+**IMPORTANT: Pay particular attention to the settings in the top section: `FINANCIAL CONTROLS`**
+
+- Make sure that you are happy with these settings. If nothing else, be careful to at least double-check the `MAX_FEE_PER_TRANSACTION_USD` setting. This will govern how much you could potentially spend when connecting to the Ethereum mainnet.
+
 Notes:
 
 * When you run a local hardhat node, it will have some built-in private keys and addresses that hold some test Ethereum. In `.env.example`, the `LOCAL_HARDHAT_PRIVATE_KEY` and `LOCAL_HARDHAT_ADDRESS` values hold the first of these keypairs.
@@ -198,9 +202,13 @@ You'll need some SepoliaETH for using the Sepolia Testnet. In your Metamask wall
 
 ### Notes
 
-`config.js` stores the configuration used within the entire package.
+`config.js` stores the configuration used within the entire package. You probably won't need to look at it. Settings in the `.env` file override it.
 
 Most scripts accept a `network` argument, which specifies whether the script should connect to the local development blockchain (`local`), the Sepolia testnet (`testnet`), or the Ethereum mainnet (`mainnet`).
+
+Most scripts have `--help` functionality. E.g. you can run `node scripts/hello-world-update-message.js --help`
+
+Most scripts can log at different levels of output. You can use `--log-level info` or `--debug` arguments.
 
 
 ### Initial tests
@@ -243,7 +251,11 @@ We set up a more persistent local blockchain, and deploy the HelloWorld contract
 
 Open another terminal and run: `task start-local-node`
 
-Leave the node running in this additional terminal. Log output will be displayed. Press Ctrl-C to stop the local node. Switch back to the original terminal and continue.
+Leave the node running in this additional terminal. Log output will be displayed (the initial set of pre-loaded keypairs will be shown). Press Ctrl-C to stop the local node. Switch back to the original terminal and continue.
+
+Run `node scripts/hello-world-estimate-fees.js` to see fee estimations for the different contract operations.
+
+Run `node scripts/get-balance.js --address-file input-data/local-hardhat-address.txt` to find the current balance of the address that will deploy the contract.
 
 Deploy the HelloWorld contract: `task deploy-local`
 
@@ -251,16 +263,28 @@ This will output an address. Copy this address into the `.env` file as `LOCAL_HA
 
 Run `task show-example-script-commands` to see a list of examples that demonstrate how to use the various scripts.
 
+Note: If you would like to see log output during deployment, use the underlying script command: `node scripts/hello-world-deploy.js --log-level info`
+
 Run `node scripts/check-contract-exists` to confirm deployment.
 
-Run `task get-message -- --network=local` to print the message stored in the contract.
+Run `node scripts/hello-world-get-message.js` to print the message stored in the contract.
 
 Copy the example input file:
 `cp input-data/example-input-data-update-message.json input-data/input-data-update-message.json`
 
 Open it and specify a new message.
 
-Run `task estimate-fees
+Run `node scripts/hello-world-update-message.js --input-file-json input-data/example-input-data-update-message.json` to update the message stored in the contract.
+
+
+### Walkthrough - Sepolia testnet
+
+
+
+
+### Walkthrough - Ethereum mainnet
+
+
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -344,8 +368,6 @@ If you would like to add me as a professional contact, you can [send me a connec
 * README template by Othneil Drew: [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 
 * Sepolia testnet PoW faucet: https://sepolia-faucet.pk910.de
-
-* Github buttons: https://buttons.github.io
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
