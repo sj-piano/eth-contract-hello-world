@@ -24,6 +24,8 @@ const {
   LOCAL_HARDHAT_ADDRESS,
   TESTNET_SEPOLIA_PRIVATE_KEY,
   TESTNET_SEPOLIA_ADDRESS,
+  ETHEREUM_MAINNET_PRIVATE_KEY,
+  ETHEREUM_MAINNET_ADDRESS,
 } = process.env;
 
 // Logging
@@ -44,6 +46,22 @@ if (options.debug) console.log(options);
 let { debug, logLevel, network: networkLabel } = options;
 
 // Process and validate arguments
+
+ethereum.validatePrivateKeysSync({
+  privateKeys: {
+    LOCAL_HARDHAT_PRIVATE_KEY,
+    TESTNET_SEPOLIA_PRIVATE_KEY,
+    ETHEREUM_MAINNET_PRIVATE_KEY,
+  },
+});
+
+ethereum.validateAddressesSync({
+  addresses: {
+    LOCAL_HARDHAT_ADDRESS,
+    TESTNET_SEPOLIA_ADDRESS,
+    ETHEREUM_MAINNET_ADDRESS,
+  },
+});
 
 config.update({
   MAX_FEE_PER_TRANSACTION_USD,

@@ -50,6 +50,14 @@ let { debug, logLevel, network: networkLabel, addressFile } = options;
 
 // Process and validate arguments
 
+ethereum.validateAddressesSync({
+  addresses: {
+    LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS,
+    TESTNET_SEPOLIA_DEPLOYED_CONTRACT_ADDRESS,
+    ETHEREUM_MAINNET_DEPLOYED_CONTRACT_ADDRESS,
+  },
+});
+
 config.update({
   MAX_FEE_PER_TRANSACTION_USD,
   MAX_FEE_PER_GAS_GWEI,
