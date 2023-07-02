@@ -277,7 +277,7 @@ Open another terminal and run:
 
 Leave the node running in this additional terminal. Log output will be displayed (the initial set of pre-loaded keypairs will be shown). Press Ctrl-C to stop the local node. Switch back to the original terminal and continue.
 
-See fee estimations for the different contract operations:  
+See fee estimations for the different contract operations, including deployment:  
 `node scripts/hello-world-estimate-fees.js`
 
 Find the current balance of the address that will deploy the contract:  
@@ -343,6 +343,9 @@ In Metamask, transfer a reasonable amount of SepoliaETH to this new address.
 See the balance of the address:  
 `node scripts/get-balance.js --network=testnet --log-level info --address-file input-data/sepolia-testnet-address.txt`
 
+See fee estimations for the different contract operations, including deployment:  
+`node scripts/hello-world-estimate-fees.js --network=testnet --log-level info`
+
 Deploy the contract to the Sepolia testnet:  
 `node scripts/hello-world-deploy.js --network=testnet --log-level info`
 
@@ -403,6 +406,9 @@ Store it in the `input-data` directory in a new file called `ethereum-mainnet-pr
 
 See the balance of the address:  
 `node scripts/get-balance.js --network=mainnet --log-level debug --address-file input-data/ethereum-mainnet-address.txt`
+
+See fee estimations for the different contract operations, including deployment:  
+`node scripts/hello-world-estimate-fees.js --network=mainnet --log-level debug`
 
 Deploy the contract to the Ethereum mainnet:  
 `node scripts/hello-world-deploy.js --network=mainnet --log-level debug`
