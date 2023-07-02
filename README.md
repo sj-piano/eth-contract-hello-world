@@ -322,16 +322,13 @@ Open another terminal and run:
 
 Leave the node running in this additional terminal. Log output will be displayed (the initial set of pre-loaded keypairs will be shown). Press Ctrl-C to stop the local node. Switch back to the original terminal and continue.
 
-See fee estimations for the different contract operations, including deployment:  
-`node scripts/hello-world-estimate-fees.js`
-
 Find the current balance of the address that will deploy the contract:  
 `node scripts/get-balance.js --address-file input-data/local-hardhat-address.txt`
 
-Deploy the HelloWorld contract:  
-`task deploy-local`
+See fee estimations for the different contract operations, including deployment:  
+`node scripts/hello-world-estimate-fees.js`
 
-Note: If you would like to see log output during deployment, use the underlying script command:  
+Deploy the HelloWorld contract:  
 `node scripts/hello-world-deploy.js --log-level info`
 
 This will output an address. Copy this address into the `.env` file as `LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS`.
