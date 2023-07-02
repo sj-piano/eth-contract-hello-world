@@ -1,5 +1,8 @@
 
-# Example commands for the included scripts
+# Example commands for the scripts.
+
+
+node scripts/check-network-connections.js --debug
 
 [by default, the network is 'local']
 node scripts/get-network-fees.js
@@ -28,7 +31,9 @@ node scripts/check-contract-exists.js --network testnet --address-file input-dat
 
 
 
-# Create a new Ethereum keypair
+
+# Create a new Ethereum keypair and get its balance.
+
 
 node scripts/create-private-key.js > input-data/example-private-key.txt
 
