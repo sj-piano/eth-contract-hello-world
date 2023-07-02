@@ -48,6 +48,8 @@
     <li>
       <a href="#usage">Usage</a>
       <ul>
+        <li><a href="#notes">Notes</a></li>
+        <li><a href="#fee-limit-protections">Fee Limit Protections</a></li>
         <li><a href="#initial-tests">Initial tests</a></li>
         <li><a href="#walkthrough-local">Walkthrough - Local network</a></li>
         <li><a href="#walkthrough-testnet">Walkthrough - Sepolia Testnet</a></li>
@@ -221,6 +223,46 @@ See a list of examples that demonstrate how to use the various scripts:
 `task show-example-script-commands`
 
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+
+### Fee Limit Protections
+
+The settings in the `.env` file under the top section `FINANCIAL CONTROLS` impose strict limits on the maximum cost of a transaction.
+
+The two "action" scripts, `hello-world-deploy.js` and `hello-world-update-message.js`, will both refuse to broadcast a transaction if these limits are exceeded. Additionally, the `hello-world-estimate-fees.js` script will report that these limits will be exceeded.
+
+You can of course change the limits in the `.env` file if you wish, allowing a script to spend more money in order to broadcast the transaction.
+
+Some example output:
+
+```bash
+stjohn@judgement:~/work/eth-contract-hello-world-javascript$ node scripts/hello-world-estimate-fees.js
+
+Contract deployment - estimated fee:
+- baseFeeUsd limit exceeded: Base fee (0.60 USD) exceeds limit specified in config (0.01 USD). Current base fee is 315900.363483886 gwei (315900363483886 wei, 0.000315900363483886 ETH). Current ETH-USD exchange rate is 1914.12 USD.
+
+Contract method call: 'update' - estimated fee:
+- baseFeeUsd limit exceeded: Base fee (0.05 USD) exceeds limit specified in config (0.01 USD). Current base fee is 25406.370781243 gwei (25406370781243 wei, 0.000025406370781243 ETH). Current ETH-USD exchange rate is 1914.12 USD.
+
+stjohn@judgement:~/work/eth-contract-hello-world-javascript$ node scripts/get-balance.js --address-file input-data/local-hardhat-address.txt
+9999.997914890304585096
+
+stjohn@judgement:~/work/eth-contract-hello-world-javascript$ node scripts/hello-world-deploy.js --log-level info
+[2023-07-02 22:28:29.666] info:         Connecting to local network at http://localhost:8545...
+[2023-07-02 22:28:29.984] info:         Estimated fee: 0.000005224714991797 ETH (0.01 USD)
+- baseFeeUsd: Base fee (0.60 USD) exceeds limit specified in config (0.01 USD). Current base fee is 315900.363483886 gwei (315900363483886 wei, 0.000315900363483886 ETH). Current ETH-USD exchange rate is 1913.98 USD.
+
+stjohn@judgement:~/work/eth-contract-hello-world-javascript$ node scripts/hello-world-update-message.js --input-file-json input-data/update-message-local-network.json
+- baseFeeUsd: Base fee (0.04 USD) exceeds limit specified in config (0.01 USD). Current base fee is 23505.742548599 gwei (23505742548599 wei, 0.000023505742548599 ETH). Current ETH-USD exchange rate is 1914.22 USD.
+```
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
 
 
 ### Initial tests
@@ -261,6 +303,9 @@ node scripts/get-network-fees.js --network=testnet
 
 node scripts/get-network-fees.js --network=mainnet
 ```
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -311,6 +356,9 @@ Print the new message stored in the contract:
 Example output:
 
 ![](images/walkthrough_local_network.png)
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -371,6 +419,9 @@ Print the new message stored in the contract:
 Example output:
 
 ![](images/walkthrough_sepolia_testnet.png)
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -437,8 +488,6 @@ Example output:
 ![](images/walkthrough_ethereum_mainnet.png)
 
 
-
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -471,6 +520,9 @@ Feel free to fork the project and use it for development. Please add an acknowle
 Please note: Github issues & pull requests will not be read unless you contact me about them in Tela.
 
 [![Tela][tela-shield]][tela-url]
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -509,6 +561,9 @@ Then [please contact me on Tela](https://www.tela.app/magic/stjohn_piano/a852c8)
 If you would like to add me as a professional contact, you can [send me a connection request on LinkedIn](https://www.linkedin.com/in/stjohnpiano):
 
 [![LinkedIn][linkedin-shield]][linkedin-url]
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
