@@ -51,9 +51,9 @@
         <li><a href="#notes">Notes</a></li>
         <li><a href="#fee-limit-protections">Fee Limit Protections</a></li>
         <li><a href="#initial-tests">Initial Tests</a></li>
-        <li><a href="#walkthrough-local">Walkthrough - Local Network</a></li>
-        <li><a href="#walkthrough-testnet">Walkthrough - Sepolia Testnet</a></li>
-        <li><a href="#walkthrough-mainnet">Walkthrough - Ethereum Mainnet</a></li>
+        <li><a href="#walkthrough-local-network">Walkthrough - Local Network</a></li>
+        <li><a href="#walkthrough-sepolia-testnet">Walkthrough - Sepolia Testnet</a></li>
+        <li><a href="#walkthrough-ethereum-mainnet">Walkthrough - Ethereum Mainnet</a></li>
       </ul>
     </li>
     <li><a href="#roadmap">Roadmap</a></li>
