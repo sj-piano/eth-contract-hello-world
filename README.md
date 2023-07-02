@@ -210,18 +210,26 @@ Notes:
 
 Most scripts accept a `network` argument, which specifies whether the script should connect to the local development blockchain (`local`), the Sepolia testnet (`testnet`), or the Ethereum mainnet (`mainnet`).
 
-Most scripts have `--help` functionality. E.g. you can run `node scripts/hello-world-update-message.js --help`
+Most scripts have `--help` functionality. E.g. you can run:  
+`node scripts/hello-world-update-message.js --help`
 
 Most scripts can log at different levels of output. You can use `--log-level info` or `--debug` arguments.
 
-Run `task show-example-script-commands` to see a list of examples that demonstrate how to use the various scripts.
+See a list of examples that demonstrate how to use the various scripts:  
+`task show-example-script-commands`
 
 
 
 
 ### Initial tests
 
-Run `task --list` (or `task -l`) to see available commands.
+See available commands:  
+
+```sh
+task --list
+
+task -l
+```
 
 Run some initial tasks to check that everything is set up correctly.
 
@@ -259,32 +267,41 @@ Hardhat runs the tests on a temporary local blockchain.
 
 We set up a more persistent local blockchain, and deploy the HelloWorld contract to it.
 
-Open another terminal and run: `task start-local-node`
+Open another terminal and run:  
+`task start-local-node`
 
 Leave the node running in this additional terminal. Log output will be displayed (the initial set of pre-loaded keypairs will be shown). Press Ctrl-C to stop the local node. Switch back to the original terminal and continue.
 
-Run `node scripts/hello-world-estimate-fees.js` to see fee estimations for the different contract operations.
+See fee estimations for the different contract operations:  
+`node scripts/hello-world-estimate-fees.js`
 
-Run `node scripts/get-balance.js --address-file input-data/local-hardhat-address.txt` to find the current balance of the address that will deploy the contract.
+Find the current balance of the address that will deploy the contract:  
+`node scripts/get-balance.js --address-file input-data/local-hardhat-address.txt`
 
-Deploy the HelloWorld contract: `task deploy-local`
+Deploy the HelloWorld contract:  
+`task deploy-local`
 
-Note: If you would like to see log output during deployment, use the underlying script command: `node scripts/hello-world-deploy.js --log-level info`
+Note: If you would like to see log output during deployment, use the underlying script command:  
+`node scripts/hello-world-deploy.js --log-level info`
 
 This will output an address. Copy this address into the `.env` file as `LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS`.
 
-Run `node scripts/check-contract-exists` to confirm deployment.
+Confirm deployment:  
+`node scripts/check-contract-exists`
 
-Run `node scripts/hello-world-get-message.js` to print the message stored in the contract.
+Print the message stored in the contract:  
+`node scripts/hello-world-get-message.js`
 
-Copy the example input file:
+Create a new input file:  
 `cp input-data/example-update-message.json input-data/update-message-local-network.json`
 
-Open it and specify a new message e.g. `Hello Mars !`.
+Open it and specify a new message e.g. `Hello Mars ! (local)`.
 
-Run `node scripts/hello-world-update-message.js --input-file-json input-data/update-message-local-network.json` to update the message stored in the contract.
+Update the message stored in the contract:  
+`node scripts/hello-world-update-message.js --input-file-json input-data/update-message-local-network.json`
 
-Run `node scripts/hello-world-get-message.js` again to print the new message stored in the contract.
+Print the new message stored in the contract:  
+`node scripts/hello-world-get-message.js`
 
 Example output:
 
@@ -300,34 +317,48 @@ You'll need some SepoliaETH for using the Sepolia Testnet. In your Metamask wall
 
 We will use the `info` logging level throughout this walkthrough.
 
-Run `node scripts/create-private-key.js > input-data/testnet-sepolia-private-key.txt` to create a new private key and store it in the `input-data` directory.
+Create a new private key and store it in the `input-data` directory:  
+`node scripts/create-private-key.js > input-data/testnet-sepolia-private-key.txt`
 
-Run `cat input-data/testnet-sepolia-private-key.txt` to display the private key. Store it in the `.env` file as `TESTNET_SEPOLIA_PRIVATE_KEY`.
+Display the private key:  
+`cat input-data/testnet-sepolia-private-key.txt`
 
-Run `cat input-data/testnet-sepolia-private-key.txt | node scripts/derive-address.js > input-data/testnet-sepolia-address.txt` to derive an Ethereum address from the private key and store it in the `input-data` directory.
+Store it in the `.env` file as `TESTNET_SEPOLIA_PRIVATE_KEY`.
 
-Run `cat input-data/testnet-sepolia-address.txt` to display the address. Store it in the `.env` file as `TESTNET_SEPOLIA_ADDRESS`.
+Derive an Ethereum address from the private key and store it in the `input-data` directory:  
+`cat input-data/testnet-sepolia-private-key.txt | node scripts/derive-address.js > input-data/testnet-sepolia-address.txt`
 
-Run `node scripts/get-balance.js --network=testnet --log-level info --address-file input-data/testnet-sepolia-address.txt` to see the balance of the address. Currently it should be `0`.
+Display the address:  
+`cat input-data/testnet-sepolia-address.txt`
+
+Store it in the `.env` file as `TESTNET_SEPOLIA_ADDRESS`.
+
+See the balance of the address (currently it should be `0`):  
+`node scripts/get-balance.js --network=testnet --log-level info --address-file input-data/testnet-sepolia-address.txt`
 
 In Metamask, transfer a reasonable amount of SepoliaETH to your new address that is stored in `testnet-sepolia-address.txt`.
 
-Run `node scripts/hello-world-deploy.js --network=testnet --log-level info` to deploy the contract to the Sepolia testnet.
+Deploy the contract to the Sepolia testnet:  
+`node scripts/hello-world-deploy.js --network=testnet --log-level info`
 
 This will output an address. Copy this address into the `.env` file as `TESTNET_SEPOLIA_DEPLOYED_CONTRACT_ADDRESS`.
 
-Run `node scripts/check-contract-exists --network=testnet --log-level info` to confirm deployment.
+Confirm deployment:  
+`node scripts/check-contract-exists --network=testnet --log-level info`
 
-Run `node scripts/hello-world-get-message.js --network=testnet --log-level info` to print the message stored in the contract.
+Print the message stored in the contract:  
+`node scripts/hello-world-get-message.js --network=testnet --log-level info`
 
-Copy the example input file:
+Create a new input file:
 `cp input-data/example-update-message.json input-data/update-message-sepolia-testnet.json`
 
-Open it and specify a new message e.g. `Hello Mars !`.
+Open it and specify a new message e.g. `Hello Mars ! (testnet)`.
 
-Run `node scripts/hello-world-update-message.js --network=testnet --log-level info --input-file-json input-data/update-message-sepolia-testnet.json` to update the message stored in the contract.
+Update the message stored in the contract:  
+`node scripts/hello-world-update-message.js --network=testnet --log-level info --input-file-json input-data/update-message-sepolia-testnet.json`
 
-Run `node scripts/hello-world-get-message.js --network=testnet --log-level info` again to print the new message stored in the contract.
+Print the new message stored in the contract:  
+`node scripts/hello-world-get-message.js --network=testnet --log-level info`
 
 Example output:
 
@@ -365,24 +396,30 @@ Store it in the `.env` file as `ETHEREUM_MAINNET_PRIVATE_KEY`.
 
 Store it in the `input-data` directory in a new file called `ethereum-mainnet-private-key.txt`.
 
-Run `node scripts/get-balance.js --network=mainnet --log-level debug --address-file input-data/ethereum-mainnet-address.txt` to see the balance of the address. It should be a non-zero value.
+See the balance of the address (currently it should be a non-zero value):  
+`node scripts/get-balance.js --network=mainnet --log-level debug --address-file input-data/ethereum-mainnet-address.txt`
 
-Run `node scripts/hello-world-deploy.js --network=mainnet --log-level debug` to deploy the contract to the Sepolia testnet.
+Deploy the contract to the Sepolia testnet:  
+`node scripts/hello-world-deploy.js --network=mainnet --log-level debug`
 
 This will output an address. Copy this address into the `.env` file as `ETHEREUM_MAINNET_DEPLOYED_CONTRACT_ADDRESS`.
 
-Run `node scripts/check-contract-exists --network=mainnet --log-level debug` to confirm deployment.
+Confirm deployment:  
+`node scripts/check-contract-exists --network=mainnet --log-level debug`
 
-Run `node scripts/hello-world-get-message.js --network=mainnet --log-level debug` to print the message stored in the contract.
+Print the message stored in the contract:
+`node scripts/hello-world-get-message.js --network=mainnet --log-level debug`
 
-Copy the example input file:
-`cp input-data/example-update-message.json input-data/ethereum-mainnet-update-message.json`
+Create a new input file:
+`cp input-data/example-update-message.json input-data/update-message-ethereum-mainnet.json`
 
-Open it and specify a new message e.g. `Hello Mars !`.
+Open it and specify a new message e.g. `Hello Mars ! (mainnet)`.
 
-Run `node scripts/hello-world-update-message.js --network=mainnet --log-level debug --input-file-json input-data/ethereum-mainnet-update-message.json` to update the message stored in the contract.
+Update the message stored in the contract:  
+`node scripts/hello-world-update-message.js --network=mainnet --log-level debug --input-file-json input-data/update-message-ethereum-mainnet.json`
 
-Run `node scripts/hello-world-get-message.js --network=mainnet --log-level debug` again to print the new message stored in the contract.
+Print the new message stored in the contract:  
+`node scripts/hello-world-get-message.js --network=mainnet --log-level debug`
 
 Example output:
 
