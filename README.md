@@ -51,9 +51,9 @@
         <li><a href="#notes">Notes</a></li>
         <li><a href="#fee-limit-protections">Fee Limit Protections</a></li>
         <li><a href="#initial-tests">Initial Tests</a></li>
-        <li><a href="#walkthrough-local-network">Walkthrough - Local Network</a></li>
-        <li><a href="#walkthrough-sepolia-testnet">Walkthrough - Sepolia Testnet</a></li>
-        <li><a href="#anchortext">Walkthrough - Ethereum Mainnet</a></li>
+        <li><a href="#walkthrough-local">Walkthrough - Local Network</a></li>
+        <li><a href="#walkthrough-testnet">Walkthrough - Sepolia Testnet</a></li>
+        <li><a href="#walkthrough-mainnet">Walkthrough - Ethereum Mainnet</a></li>
       </ul>
     </li>
     <li><a href="#roadmap">Roadmap</a></li>
@@ -310,7 +310,7 @@ node scripts/get-network-fees.js --network=mainnet
 
 
 
-### Walkthrough - Local Network
+### <a id="walkthrough-local" />Walkthrough - Local Network
 
 
 Hardhat runs the tests on a temporary local blockchain.
@@ -363,7 +363,7 @@ Example output:
 
 
 
-### Walkthrough - Sepolia Testnet
+### <a id="walkthrough-testnet" />Walkthrough - Sepolia Testnet
 
 
 You'll need some SepoliaETH for using the Sepolia Testnet. In your Metamask wallet, create a dedicated "Test" account. Switch to "Sepolia test network". Copy the address. Go to a Sepolia testnet faucet (e.g. this [PoW faucet](https://sepolia-faucet.pk910.de)) and get some SepoliaETH. Set the destination address to be your Metamask test address.
@@ -426,7 +426,7 @@ Example output:
 
 
 
-### <a id="anchortext" />Walkthrough Ethereum Mainnet
+### <a id="walkthrough-mainnet" />Walkthrough - Ethereum Mainnet
 
 
 If you wish to retrieve your SepoliaETH from the address created in the Sepolia testnet walkthrough (e.g. you want to transfer it back to your Metamask test account), you'll need to use a tool that can make the transfer (create, sign, broadcast, and track the transaction). Such a tool is not provided in this project.
