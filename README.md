@@ -189,8 +189,6 @@ Notes:
 
 * When you run a local hardhat node, it will have some built-in private keys and addresses that hold some test Ethereum. In `.env.example`, the `LOCAL_HARDHAT_PRIVATE_KEY` and `LOCAL_HARDHAT_ADDRESS` values hold the first of these keypairs.
 
-You'll need some SepoliaETH for using the Sepolia Testnet. In your Metamask wallet, create a dedicated "Test" account. Switch to "Sepolia test network". Copy the address. Go to a Sepolia testnet faucet (e.g. this [PoW faucet](https://sepolia-faucet.pk910.de)) and get some SepoliaETH. Set the destination address to be your Metamask test address.
-
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -209,6 +207,8 @@ Most scripts accept a `network` argument, which specifies whether the script sho
 Most scripts have `--help` functionality. E.g. you can run `node scripts/hello-world-update-message.js --help`
 
 Most scripts can log at different levels of output. You can use `--log-level info` or `--debug` arguments.
+
+Run `task show-example-script-commands` to see a list of examples that demonstrate how to use the various scripts.
 
 
 ### Initial tests
@@ -259,11 +259,9 @@ Run `node scripts/get-balance.js --address-file input-data/local-hardhat-address
 
 Deploy the HelloWorld contract: `task deploy-local`
 
-This will output an address. Copy this address into the `.env` file as `LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS`.
-
-Run `task show-example-script-commands` to see a list of examples that demonstrate how to use the various scripts.
-
 Note: If you would like to see log output during deployment, use the underlying script command: `node scripts/hello-world-deploy.js --log-level info`
+
+This will output an address. Copy this address into the `.env` file as `LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS`.
 
 Run `node scripts/check-contract-exists` to confirm deployment.
 
@@ -272,12 +270,41 @@ Run `node scripts/hello-world-get-message.js` to print the message stored in the
 Copy the example input file:
 `cp input-data/example-input-data-update-message.json input-data/input-data-update-message.json`
 
-Open it and specify a new message.
+Open it and specify a new message e.g. `Hello Mars !`.
 
 Run `node scripts/hello-world-update-message.js --input-file-json input-data/example-input-data-update-message.json` to update the message stored in the contract.
 
+Run `node scripts/hello-world-get-message.js` again to print the new message stored in the contract.
+
+Screenshot:
+
+![](images/hello_world_walkthrough_local_network_output.png)
+
 
 ### Walkthrough - Sepolia testnet
+
+
+You'll need some SepoliaETH for using the Sepolia Testnet. In your Metamask wallet, create a dedicated "Test" account. Switch to "Sepolia test network". Copy the address. Go to a Sepolia testnet faucet (e.g. this [PoW faucet](https://sepolia-faucet.pk910.de)) and get some SepoliaETH. Set the destination address to be your Metamask test address.
+
+We will use the `info` logging level throughout this walkthrough.
+
+Run `node scripts/create-private-key.js > input-data/testnet_sepolia_private-key.txt` to create a new private key and store it in the `input-data` directory.
+
+Run `cat input-data/testnet_sepolia_private-key.txt` to display the private key. Store it in the `.env` file as `TESTNET_SEPOLIA_PRIVATE_KEY`.
+
+Run `cat input-data/testnet_sepolia_private-key.txt | node scripts/derive-address.js > input-data/testnet_sepolia_address.txt` to derive an Ethereum address from the private key and store it in the `input-data` directory.
+
+Run `cat input-data/testnet_sepolia_address.txt` to display the address. Store it in the `.env` file as `TESTNET_SEPOLIA_ADDRESS`.
+
+Run `node scripts/get-balance.js --address-file input-data/testnet_sepolia_address.txt --log-level info` to see the balance of the address. Currently it should be `0`.
+
+In Metamask, transfer a reasonable amount of sepoliaETH to your new address that is stored in `testnet_sepolia_address.txt`.
+
+Run `node scripts/hello-world-deploy.js --network=testnet --log-level info` to deploy the contract to the Sepolia testnet.
+
+Run `node scripts/check-contract-exists --network=testnet --log-level info` to confirm deployment.
+
+Run `node scripts/hello-world-get-message.js` to print the message stored in the contract.
 
 
 
