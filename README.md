@@ -385,7 +385,7 @@ Store it in the `.env` file as `SEPOLIA_TESTNET_ADDRESS`.
 
 In Metamask, transfer a reasonable amount of SepoliaETH to this new address.
 
-See the balance of the address:  
+See the balance of the address that will deploy the contract:  
 `node scripts/get-balance.js --network=testnet --log-level info --address-file input-data/sepolia-testnet-address.txt`
 
 See fee estimations for the different contract operations, including deployment:  
@@ -452,7 +452,7 @@ Store it in the `.env` file as `ETHEREUM_MAINNET_PRIVATE_KEY`.
 
 Store it in the `input-data` directory in a new file called `ethereum-mainnet-private-key.txt`.
 
-See the balance of the address:  
+See the balance of the address that will deploy the contract:  
 `node scripts/get-balance.js --network=mainnet --log-level info --address-file input-data/ethereum-mainnet-address.txt`
 
 See fee estimations for the different contract operations, including deployment:  
