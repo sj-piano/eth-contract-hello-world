@@ -195,7 +195,13 @@ Notes:
 
 
 
+
+
+
+
 ## Usage
+
+
 
 
 ### Notes
@@ -209,6 +215,8 @@ Most scripts have `--help` functionality. E.g. you can run `node scripts/hello-w
 Most scripts can log at different levels of output. You can use `--log-level info` or `--debug` arguments.
 
 Run `task show-example-script-commands` to see a list of examples that demonstrate how to use the various scripts.
+
+
 
 
 ### Initial tests
@@ -242,6 +250,8 @@ node scripts/get-network-fees.js --network=mainnet
 ```
 
 
+
+
 ### Walkthrough - Local network
 
 
@@ -268,17 +278,19 @@ Run `node scripts/check-contract-exists` to confirm deployment.
 Run `node scripts/hello-world-get-message.js` to print the message stored in the contract.
 
 Copy the example input file:
-`cp input-data/example-input-data-update-message.json input-data/input-data-update-message.json`
+`cp input-data/example-update-message.json input-data/update-message-local-network.json`
 
 Open it and specify a new message e.g. `Hello Mars !`.
 
-Run `node scripts/hello-world-update-message.js --input-file-json input-data/example-input-data-update-message.json` to update the message stored in the contract.
+Run `node scripts/hello-world-update-message.js --input-file-json input-data/update-message-local-network.json` to update the message stored in the contract.
 
 Run `node scripts/hello-world-get-message.js` again to print the new message stored in the contract.
 
-Screenshot:
+Example output:
 
-![](images/hello_world_walkthrough_local_network_output.png)
+![](images/hello_world_walkthrough_local_network.png)
+
+
 
 
 ### Walkthrough - Sepolia testnet
@@ -288,23 +300,38 @@ You'll need some SepoliaETH for using the Sepolia Testnet. In your Metamask wall
 
 We will use the `info` logging level throughout this walkthrough.
 
-Run `node scripts/create-private-key.js > input-data/testnet_sepolia_private-key.txt` to create a new private key and store it in the `input-data` directory.
+Run `node scripts/create-private-key.js > input-data/testnet-sepolia-private-key.txt` to create a new private key and store it in the `input-data` directory.
 
-Run `cat input-data/testnet_sepolia_private-key.txt` to display the private key. Store it in the `.env` file as `TESTNET_SEPOLIA_PRIVATE_KEY`.
+Run `cat input-data/testnet-sepolia-private-key.txt` to display the private key. Store it in the `.env` file as `TESTNET_SEPOLIA_PRIVATE_KEY`.
 
-Run `cat input-data/testnet_sepolia_private-key.txt | node scripts/derive-address.js > input-data/testnet_sepolia_address.txt` to derive an Ethereum address from the private key and store it in the `input-data` directory.
+Run `cat input-data/testnet-sepolia-private-key.txt | node scripts/derive-address.js > input-data/testnet-sepolia-address.txt` to derive an Ethereum address from the private key and store it in the `input-data` directory.
 
-Run `cat input-data/testnet_sepolia_address.txt` to display the address. Store it in the `.env` file as `TESTNET_SEPOLIA_ADDRESS`.
+Run `cat input-data/testnet-sepolia-address.txt` to display the address. Store it in the `.env` file as `TESTNET_SEPOLIA_ADDRESS`.
 
-Run `node scripts/get-balance.js --address-file input-data/testnet_sepolia_address.txt --log-level info` to see the balance of the address. Currently it should be `0`.
+Run `node scripts/get-balance.js --network=testnet --log-level info --address-file input-data/testnet-sepolia-address.txt` to see the balance of the address. Currently it should be `0`.
 
-In Metamask, transfer a reasonable amount of sepoliaETH to your new address that is stored in `testnet_sepolia_address.txt`.
+In Metamask, transfer a reasonable amount of SepoliaETH to your new address that is stored in `testnet-sepolia-address.txt`.
 
 Run `node scripts/hello-world-deploy.js --network=testnet --log-level info` to deploy the contract to the Sepolia testnet.
 
+This will output an address. Copy this address into the `.env` file as `TESTNET_SEPOLIA_DEPLOYED_CONTRACT_ADDRESS`.
+
 Run `node scripts/check-contract-exists --network=testnet --log-level info` to confirm deployment.
 
-Run `node scripts/hello-world-get-message.js` to print the message stored in the contract.
+Run `node scripts/hello-world-get-message.js --network=testnet --log-level info` to print the message stored in the contract.
+
+Copy the example input file:
+`cp input-data/example-update-message.json input-data/update-message-sepolia-testnet.json`
+
+Open it and specify a new message e.g. `Hello Mars !`.
+
+Run `node scripts/hello-world-update-message.js --network=testnet --log-level info --input-file-json input-data/update-message-sepolia-testnet.json` to update the message stored in the contract.
+
+Run `node scripts/hello-world-get-message.js --network=testnet --log-level info` again to print the new message stored in the contract.
+
+Example output:
+
+![](images/hello_world_walkthrough_sepolia_testnet.png)
 
 
 
@@ -312,9 +339,63 @@ Run `node scripts/hello-world-get-message.js` to print the message stored in the
 ### Walkthrough - Ethereum mainnet
 
 
+If you wish to retrieve your SepoliaETH from the address created in the Sepolia testnet walkthrough (e.g. you want to transfer it back to your Metamask test account), you'll need to use a tool that can make the transfer (create, sign, broadcast, and track the transaction). Such a tool is not provided in this project.
+
+Note that SepoliaETH is not worth anything, and it is reasonably straightforward to obtain more from a faucet.
+
+However, actual Ethereum (ETH), used on the Ethereum mainnet, does have monetary value. Therefore, in this section, we recommend creating a new Metamask account (explicitly for test operations) and exporting its private key for use in this walkthrough. This means that afterwards there will be no need to make a retrieval transaction.
+
+Note: If you know what you're doing, and you already have a capable transaction tool, you can create a new keypair, transfer some ETH to it, perform this walkthrough on the mainnet, and transfer any remaining ETH back to your original address.
+
+So, let's begin.
+
+We will use the `debug` logging level throughout this walkthrough.
+
+In your Metamask wallet, create a dedicated "Test" account. Switch to "Ethereum Mainnet". We assume that you already have some Ethereum in Metamask or in another wallet tool. Transfer some ETH to this address. Copy the address.
+
+Store it in the `.env` file as `ETHEREUM_MAINNET_ADDRESS`.
+
+Store it in the `input-data` directory in a new file called `ethereum-mainnet-address.txt`.
+
+Now, export the corresponding private key from Metamask, using the following guide:
+
+Metamask: [How to export an account's private key](https://support.metamask.io/hc/en-us/articles/360015289632-How-to-export-an-account-s-private-key)
+
+Store it in the `.env` file as `ETHEREUM_MAINNET_PRIVATE_KEY`.
+
+Store it in the `input-data` directory in a new file called `ethereum-mainnet-private-key.txt`.
+
+Run `node scripts/get-balance.js --network=mainnet --log-level debug --address-file input-data/ethereum-mainnet-address.txt` to see the balance of the address. It should be a non-zero value.
+
+Run `node scripts/hello-world-deploy.js --network=mainnet --log-level debug` to deploy the contract to the Sepolia testnet.
+
+This will output an address. Copy this address into the `.env` file as `ETHEREUM_MAINNET_DEPLOYED_CONTRACT_ADDRESS`.
+
+Run `node scripts/check-contract-exists --network=mainnet --log-level debug` to confirm deployment.
+
+Run `node scripts/hello-world-get-message.js --network=mainnet --log-level debug` to print the message stored in the contract.
+
+Copy the example input file:
+`cp input-data/example-update-message.json input-data/ethereum-mainnet-update-message.json`
+
+Open it and specify a new message e.g. `Hello Mars !`.
+
+Run `node scripts/hello-world-update-message.js --network=mainnet --log-level debug --input-file-json input-data/ethereum-mainnet-update-message.json` to update the message stored in the contract.
+
+Run `node scripts/hello-world-get-message.js --network=mainnet --log-level debug` again to print the new message stored in the contract.
+
+Example output:
+
+![](images/hello_world_walkthrough_ethereum_mainnet.png)
+
+
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+
 
 
 
@@ -386,6 +467,7 @@ If you would like to add me as a professional contact, you can [send me a connec
 
 ## Acknowledgments
 
+
 * Choose an Open Source License: [choosealicense.com](https://choosealicense.com)
 
 * Badges: [shields.io](https://shields.io)
@@ -395,6 +477,8 @@ If you would like to add me as a professional contact, you can [send me a connec
 * README template by Othneil Drew: [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 
 * Sepolia testnet PoW faucet: https://sepolia-faucet.pk910.de
+
+* Metamask: [How to export an account's private key](https://support.metamask.io/hc/en-us/articles/360015289632-How-to-export-an-account-s-private-key)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
