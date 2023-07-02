@@ -1,4 +1,5 @@
 // Imports
+const Big = require("big.js");
 const { program } = require("commander");
 const { ethers } = require("ethers");
 const fs = require("fs");
@@ -117,6 +118,9 @@ async function main() {
 
   let balanceWei = await provider.getBalance(address);
   let balanceEth = ethers.formatEther(balanceWei);
-  log(`Balance (ETH):`);
-  console.log(balanceEth);
+  let ethToUsd = await ethereum.getEthereumPriceInUsd({ logger, config });
+  let balanceUsd = (Big(balanceEth) * Big(ethToUsd)).toFixed(config.USD_DP);
+
+  let msg = `${balanceEth} ETH (${balanceUsd} USD)`;
+  console.log(msg);
 }
