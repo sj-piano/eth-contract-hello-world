@@ -19,7 +19,7 @@ const {
   MAX_FEE_PER_TRANSACTION_USD,
   MAX_FEE_PER_GAS_GWEI,
   MAX_PRIORITY_FEE_PER_GAS_GWEI,
-  INFURA_API_KEY,
+  INFURA_API_KEY_NAME,
   LOCAL_HARDHAT_PRIVATE_KEY,
   LOCAL_HARDHAT_ADDRESS,
   SEPOLIA_TESTNET_PRIVATE_KEY,
@@ -107,7 +107,7 @@ if (networkLabel == "local") {
   signer = new ethers.Wallet(LOCAL_HARDHAT_PRIVATE_KEY, provider);
 } else if (networkLabel == "testnet") {
   msg = `Connecting to Sepolia testnet...`;
-  provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
+  provider = new ethers.InfuraProvider(network, INFURA_API_KEY_NAME);
   signer = new ethers.Wallet(SEPOLIA_TESTNET_PRIVATE_KEY, provider);
 } else if (networkLabel == "mainnet") {
   throw new Error("Not implemented yet");

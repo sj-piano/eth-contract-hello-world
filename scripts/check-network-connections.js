@@ -10,7 +10,7 @@ const { createLogger } = require("#root/lib/logging.js");
 
 // Load environment variables
 require("dotenv").config();
-const { INFURA_API_KEY } = process.env;
+const { INFURA_API_KEY_NAME } = process.env;
 
 // Logging
 const { logger, log, deb } = createLogger();
@@ -87,7 +87,7 @@ async function main() {
   network = config.mapNetworkLabelToNetwork[networkLabel];
   msg = `Connecting to ${networkLabel} network at ${network}...`;
   log(msg);
-  provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
+  provider = new ethers.InfuraProvider(network, INFURA_API_KEY_NAME);
   try {
     let blockNumber = await provider.getBlockNumber();
     log(`Current block number: ${blockNumber}`);
@@ -105,7 +105,7 @@ async function main() {
   network = config.mapNetworkLabelToNetwork[networkLabel];
   msg = `Connecting to ${networkLabel} network at ${network}...`;
   log(msg);
-  provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
+  provider = new ethers.InfuraProvider(network, INFURA_API_KEY_NAME);
   try {
     let blockNumber = await provider.getBlockNumber();
     log(`Current block number: ${blockNumber}`);

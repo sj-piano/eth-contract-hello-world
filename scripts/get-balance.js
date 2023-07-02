@@ -12,7 +12,7 @@ const { createLogger } = require("#root/lib/logging.js");
 
 // Load environment variables
 require("dotenv").config();
-const { INFURA_API_KEY } = process.env;
+const { INFURA_API_KEY_NAME } = process.env;
 
 // Logging
 const { logger, log, deb } = createLogger();
@@ -93,10 +93,10 @@ if (networkLabel == "local") {
   provider = new ethers.JsonRpcProvider(network);
 } else if (networkLabel == "testnet") {
   msg = `Connecting to Sepolia testnet...`;
-  provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
+  provider = new ethers.InfuraProvider(network, INFURA_API_KEY_NAME);
 } else if (networkLabel == "mainnet") {
   msg = `Connecting to Ethereum mainnet...`;
-  provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
+  provider = new ethers.InfuraProvider(network, INFURA_API_KEY_NAME);
 }
 log(msg);
 

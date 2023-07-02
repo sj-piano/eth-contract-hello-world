@@ -15,7 +15,7 @@ const {
   MAX_FEE_PER_TRANSACTION_USD,
   MAX_FEE_PER_GAS_GWEI,
   MAX_PRIORITY_FEE_PER_GAS_GWEI,
-  INFURA_API_KEY,
+  INFURA_API_KEY_NAME,
   LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS,
   SEPOLIA_TESTNET_DEPLOYED_CONTRACT_ADDRESS,
   ETHEREUM_MAINNET_DEPLOYED_CONTRACT_ADDRESS,
@@ -92,11 +92,11 @@ if (networkLabel == "local") {
   DEPLOYED_CONTRACT_ADDRESS = LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS;
 } else if (networkLabel == "testnet") {
   msg = `Connecting to Sepolia testnet...`;
-  provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
+  provider = new ethers.InfuraProvider(network, INFURA_API_KEY_NAME);
   DEPLOYED_CONTRACT_ADDRESS = SEPOLIA_TESTNET_DEPLOYED_CONTRACT_ADDRESS;
 } else if (networkLabel == "mainnet") {
   msg = `Connecting to Ethereum mainnet...`;
-  provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
+  provider = new ethers.InfuraProvider(network, INFURA_API_KEY_NAME);
   DEPLOYED_CONTRACT_ADDRESS = ETHEREUM_MAINNET_DEPLOYED_CONTRACT_ADDRESS;
 }
 log(msg);
