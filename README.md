@@ -388,7 +388,7 @@ Note: If you know what you're doing, and you already have a capable transaction 
 
 So, let's begin.
 
-We will use the `debug` logging level throughout this walkthrough.
+We will use the `info` logging level throughout this walkthrough.
 
 In your Metamask wallet, create a dedicated "Test" account. Switch to "Ethereum Mainnet". We assume that you already have some Ethereum in Metamask or in another wallet tool. Transfer some ETH to this address. Copy the address.
 
@@ -405,21 +405,21 @@ Store it in the `.env` file as `ETHEREUM_MAINNET_PRIVATE_KEY`.
 Store it in the `input-data` directory in a new file called `ethereum-mainnet-private-key.txt`.
 
 See the balance of the address:  
-`node scripts/get-balance.js --network=mainnet --log-level debug --address-file input-data/ethereum-mainnet-address.txt`
+`node scripts/get-balance.js --network=mainnet --log-level info --address-file input-data/ethereum-mainnet-address.txt`
 
 See fee estimations for the different contract operations, including deployment:  
-`node scripts/hello-world-estimate-fees.js --network=mainnet --log-level debug`
+`node scripts/hello-world-estimate-fees.js --network=mainnet --log-level info`
 
 Deploy the contract to the Ethereum mainnet:  
-`node scripts/hello-world-deploy.js --network=mainnet --log-level debug`
+`node scripts/hello-world-deploy.js --network=mainnet --log-level info`
 
 This will output an address. Copy this address into the `.env` file as `ETHEREUM_MAINNET_DEPLOYED_CONTRACT_ADDRESS`.
 
 Confirm deployment:  
-`node scripts/check-contract-exists --network=mainnet --log-level debug`
+`node scripts/check-contract-exists --network=mainnet --log-level info`
 
 Print the message stored in the contract:
-`node scripts/hello-world-get-message.js --network=mainnet --log-level debug`
+`node scripts/hello-world-get-message.js --network=mainnet --log-level info`
 
 Create a new input file:
 `cp input-data/example-update-message.json input-data/update-message-ethereum-mainnet.json`
@@ -427,10 +427,10 @@ Create a new input file:
 Open it and specify a new message e.g. `Hello Mars ! (mainnet)`.
 
 Update the message stored in the contract:  
-`node scripts/hello-world-update-message.js --network=mainnet --log-level debug --input-file-json input-data/update-message-ethereum-mainnet.json`
+`node scripts/hello-world-update-message.js --network=mainnet --log-level info --input-file-json input-data/update-message-ethereum-mainnet.json`
 
 Print the new message stored in the contract:  
-`node scripts/hello-world-get-message.js --network=mainnet --log-level debug`
+`node scripts/hello-world-get-message.js --network=mainnet --log-level info`
 
 Example output:
 
