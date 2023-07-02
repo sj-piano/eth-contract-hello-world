@@ -53,7 +53,7 @@
         <li><a href="#initial-tests">Initial Tests</a></li>
         <li><a href="#walkthrough-local-network">Walkthrough - Local Network</a></li>
         <li><a href="#walkthrough-sepolia-testnet">Walkthrough - Sepolia Testnet</a></li>
-        <li><a href="#walkthrough-ethereum-mainnet">Walkthrough - Ethereum Mainnet</a></li>
+        <li><a href="#anchortext">Walkthrough - Ethereum Mainnet</a></li>
       </ul>
     </li>
     <li><a href="#roadmap">Roadmap</a></li>
@@ -426,7 +426,7 @@ Example output:
 
 
 
-### Walkthrough - Ethereum Mainnet
+### <a id="anchortext" />Walkthrough Ethereum Mainnet
 
 
 If you wish to retrieve your SepoliaETH from the address created in the Sepolia testnet walkthrough (e.g. you want to transfer it back to your Metamask test account), you'll need to use a tool that can make the transfer (create, sign, broadcast, and track the transaction). Such a tool is not provided in this project.
