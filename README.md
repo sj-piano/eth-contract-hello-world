@@ -392,7 +392,7 @@ See the balance of the address:
 `node scripts/get-balance.js --network=testnet --log-level info --address-file input-data/sepolia-testnet-address.txt`
 
 See fee estimations for the different contract operations, including deployment:  
-`node scripts/hello-world-estimate-fees.js --network=testnet --log-level info`
+`node scripts/hello-world-estimate-fees.js --network=testnet`
 
 Deploy the contract to the Sepolia testnet:  
 `node scripts/hello-world-deploy.js --network=testnet --log-level info`
@@ -459,7 +459,7 @@ See the balance of the address:
 `node scripts/get-balance.js --network=mainnet --log-level info --address-file input-data/ethereum-mainnet-address.txt`
 
 See fee estimations for the different contract operations, including deployment:  
-`node scripts/hello-world-estimate-fees.js --network=mainnet --log-level info`
+`node scripts/hello-world-estimate-fees.js --network=mainnet`
 
 Deploy the contract to the Ethereum mainnet:  
 `node scripts/hello-world-deploy.js --network=mainnet --log-level info`
@@ -575,6 +575,8 @@ A list of helpful resources:
 * Choose an Open Source License: [choosealicense.com](https://choosealicense.com)
 
 * Badges: [shields.io](https://shields.io)
+
+* [Hardhat configuration](https://hardhat.org/hardhat-runner/docs/config)
 
 * How Hardhat runs a local Ethereum blockchain for testing and development: [Hardhat Network](https://hardhat.org/hardhat-network/docs/overview)
 
