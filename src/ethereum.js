@@ -69,8 +69,8 @@ function validateAddressesSync({ addresses }) {
   if (!_.keys(addresses).length) {
     throw new Error(`Addresses "${addresses}" must not be empty.`);
   }
-  for (const [name, privateKey] of _.entries(addresses)) {
-    validateAddressSync({ privateKey, name });
+  for (const [name, address] of _.entries(addresses)) {
+    validateAddressSync({ address, name });
   }
   return addresses;
 }
