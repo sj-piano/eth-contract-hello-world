@@ -570,6 +570,7 @@ If you would like to add me as a professional contact, you can [send me a connec
 
 ## Acknowledgments
 
+A list of helpful resources:
 
 * Choose an Open Source License: [choosealicense.com](https://choosealicense.com)
 
