@@ -338,10 +338,10 @@ Display the address:
 
 Store it in the `.env` file as `SEPOLIA_TESTNET_ADDRESS`.
 
-See the balance of the address (currently it should be `0`):  
-`node scripts/get-balance.js --network=testnet --log-level info --address-file input-data/sepolia-testnet-address.txt`
+In Metamask, transfer a reasonable amount of SepoliaETH to this new address.
 
-In Metamask, transfer a reasonable amount of SepoliaETH to your new address that is stored in `sepolia-testnet-address.txt`.
+See the balance of the address:  
+`node scripts/get-balance.js --network=testnet --log-level info --address-file input-data/sepolia-testnet-address.txt`
 
 Deploy the contract to the Sepolia testnet:  
 `node scripts/hello-world-deploy.js --network=testnet --log-level info`
@@ -401,10 +401,10 @@ Store it in the `.env` file as `ETHEREUM_MAINNET_PRIVATE_KEY`.
 
 Store it in the `input-data` directory in a new file called `ethereum-mainnet-private-key.txt`.
 
-See the balance of the address (currently it should be a non-zero value):  
+See the balance of the address:  
 `node scripts/get-balance.js --network=mainnet --log-level debug --address-file input-data/ethereum-mainnet-address.txt`
 
-Deploy the contract to the Sepolia testnet:  
+Deploy the contract to the Ethereum mainnet:  
 `node scripts/hello-world-deploy.js --network=mainnet --log-level debug`
 
 This will output an address. Copy this address into the `.env` file as `ETHEREUM_MAINNET_DEPLOYED_CONTRACT_ADDRESS`.
