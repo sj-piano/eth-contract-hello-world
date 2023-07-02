@@ -22,8 +22,8 @@ const {
   INFURA_API_KEY,
   LOCAL_HARDHAT_PRIVATE_KEY,
   LOCAL_HARDHAT_ADDRESS,
-  TESTNET_SEPOLIA_PRIVATE_KEY,
-  TESTNET_SEPOLIA_ADDRESS,
+  SEPOLIA_TESTNET_PRIVATE_KEY,
+  SEPOLIA_TESTNET_ADDRESS,
   ETHEREUM_MAINNET_PRIVATE_KEY,
   ETHEREUM_MAINNET_ADDRESS,
 } = process.env;
@@ -50,7 +50,7 @@ let { debug, logLevel, network: networkLabel } = options;
 ethereum.validatePrivateKeysSync({
   privateKeys: {
     LOCAL_HARDHAT_PRIVATE_KEY,
-    TESTNET_SEPOLIA_PRIVATE_KEY,
+    SEPOLIA_TESTNET_PRIVATE_KEY,
     ETHEREUM_MAINNET_PRIVATE_KEY,
   },
 });
@@ -58,7 +58,7 @@ ethereum.validatePrivateKeysSync({
 ethereum.validateAddressesSync({
   addresses: {
     LOCAL_HARDHAT_ADDRESS,
-    TESTNET_SEPOLIA_ADDRESS,
+    SEPOLIA_TESTNET_ADDRESS,
     ETHEREUM_MAINNET_ADDRESS,
   },
 });
@@ -108,7 +108,7 @@ if (networkLabel == "local") {
 } else if (networkLabel == "testnet") {
   msg = `Connecting to Sepolia testnet...`;
   provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
-  signer = new ethers.Wallet(TESTNET_SEPOLIA_PRIVATE_KEY, provider);
+  signer = new ethers.Wallet(SEPOLIA_TESTNET_PRIVATE_KEY, provider);
 } else if (networkLabel == "mainnet") {
   throw new Error("Not implemented yet");
 }

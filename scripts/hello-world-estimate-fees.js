@@ -17,7 +17,7 @@ const {
   MAX_PRIORITY_FEE_PER_GAS_GWEI,
   INFURA_API_KEY,
   LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS,
-  TESTNET_SEPOLIA_DEPLOYED_CONTRACT_ADDRESS,
+  SEPOLIA_TESTNET_DEPLOYED_CONTRACT_ADDRESS,
   ETHEREUM_MAINNET_DEPLOYED_CONTRACT_ADDRESS,
 } = process.env;
 
@@ -43,7 +43,7 @@ let { debug, logLevel, network: networkLabel } = options;
 ethereum.validateAddressesSync({
   addresses: {
     LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS,
-    TESTNET_SEPOLIA_DEPLOYED_CONTRACT_ADDRESS,
+    SEPOLIA_TESTNET_DEPLOYED_CONTRACT_ADDRESS,
     ETHEREUM_MAINNET_DEPLOYED_CONTRACT_ADDRESS,
   },
 });
@@ -93,7 +93,7 @@ if (networkLabel == "local") {
 } else if (networkLabel == "testnet") {
   msg = `Connecting to Sepolia testnet...`;
   provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
-  DEPLOYED_CONTRACT_ADDRESS = TESTNET_SEPOLIA_DEPLOYED_CONTRACT_ADDRESS;
+  DEPLOYED_CONTRACT_ADDRESS = SEPOLIA_TESTNET_DEPLOYED_CONTRACT_ADDRESS;
 } else if (networkLabel == "mainnet") {
   msg = `Connecting to Ethereum mainnet...`;
   provider = new ethers.InfuraProvider(network, INFURA_API_KEY);

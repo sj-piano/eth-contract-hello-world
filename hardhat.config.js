@@ -3,9 +3,9 @@ require("@nomicfoundation/hardhat-toolbox");
 
 const {
   ETHERSCAN_API_KEY,
-  TESTNET_SEPOLIA_INFURA_API_URL,
+  SEPOLIA_TESTNET_INFURA_API_URL,
   LOCAL_HARDHAT_PRIVATE_KEY,
-  TESTNET_SEPOLIA_PRIVATE_KEY,
+  SEPOLIA_TESTNET_PRIVATE_KEY,
 } = process.env;
 
 module.exports = {
@@ -18,8 +18,8 @@ module.exports = {
       accounts: [LOCAL_HARDHAT_PRIVATE_KEY],
     },
     sepolia: {
-      url: TESTNET_SEPOLIA_INFURA_API_URL,
-      accounts: [TESTNET_SEPOLIA_PRIVATE_KEY],
+      url: SEPOLIA_TESTNET_INFURA_API_URL,
+      accounts: [SEPOLIA_TESTNET_PRIVATE_KEY],
     },
   },
   etherscan: {
