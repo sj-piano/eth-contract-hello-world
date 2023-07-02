@@ -26,6 +26,7 @@ program
     "specify the Ethereum network to connect to",
     "local"
   )
+  .option("--address <address>", "Ethereum address.")
   .option(
     "--address-file <addressFile>",
     "Path to file containing Ethereum address."
@@ -33,7 +34,7 @@ program
 program.parse();
 const options = program.opts();
 if (options.debug) console.log(options);
-let { debug, logLevel, network: networkLabel, addressFile } = options;
+let { debug, logLevel, network: networkLabel, address, addressFile } = options;
 
 // Process and validate arguments
 
@@ -62,13 +63,22 @@ if (networkLabelResult.error) {
 }
 const network = config.mapNetworkLabelToNetwork[networkLabel];
 
-let address;
-if (fs.existsSync(addressFile)) {
+if ((address && addressFile) || (!address && !addressFile)) {
+  console.error("Please provide either '--address' or '--address-file', but not both.");
+  program.help(); // Display help and exit
+}
+if (addressFile && !fs.existsSync(addressFile)) {
+  var msg = `Address file not found: ${addressFile}`;
+  console.error(msg);
+  process.exit(1);
+}
+
+if (addressFile && fs.existsSync(addressFile)) {
   address = fs.readFileSync(addressFile).toString().trim();
   deb(`Address found in ${addressFile}: ${address}`);
 }
 if (!ethers.isAddress(address)) {
-  var msg = `Invalid Ethereum address "${address}"`;
+  var msg = `Invalid Ethereum address: ${address}`;
   console.error(msg);
   process.exit(1);
 }
