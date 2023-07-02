@@ -63,11 +63,13 @@ let provider;
 
 var msg;
 if (networkLabel == "local") {
-  msg = `Connecting to ${networkLabel} network at ${network}...`;
+  msg = `Connecting to local network at ${network}...`;
   provider = new ethers.JsonRpcProvider(network);
-} else if (networkLabel == "testnet" || networkLabel == "mainnet") {
-  x = networkLabel == "testnet" ? network + " " : "";
-  msg = `Connecting to ${x}${networkLabel} network...`;
+} else if (networkLabel == "testnet") {
+  msg = `Connecting to Sepolia testnet...`;
+  provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
+} else if (networkLabel == "mainnet") {
+  msg = `Connecting to Ethereum mainnet...`;
   provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
 }
 log(msg);
