@@ -367,7 +367,7 @@ Print the new message stored in the contract:
 
 Example output:
 
-![](images/hello_world_walkthrough_sepolia_testnet.png)
+![](images/walkthrough_sepolia_testnet.png)
 
 
 
@@ -428,7 +428,7 @@ Print the new message stored in the contract:
 
 Example output:
 
-![](images/hello_world_walkthrough_ethereum_mainnet.png)
+![](images/walkthrough_ethereum_mainnet.png)
 
 
 
