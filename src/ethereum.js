@@ -3,6 +3,7 @@ const axios = require("axios");
 const Big = require("big.js");
 const crypto = require("crypto");
 const ethers = require("ethers");
+const _ = require("lodash");
 
 // Local imports
 const { validateConfig } = require("#root/config.js");
@@ -17,11 +18,29 @@ function createPrivateKeySync() {
   return privateKey;
 }
 
-function validatePrivateKeySync({ privateKey }) {
+function validatePrivateKeySync({ privateKey, name }) {
   if (!ethers.isHexString(privateKey, 32)) {
-    throw new Error(`Private key "${privateKey}" is invalid.`);
+    let nameSection = (!_.isUndefined(name)) ? `${name} ` : '';
+    let msg = `Private key ${nameSection}("${privateKey}") is invalid.`;
+    throw new Error(msg);
   }
   return privateKey;
+}
+
+function validatePrivateKeysSync({ privateKeys }) {
+  if (_.isArray(privateKeys)) {
+    throw new Error(`Private keys "${privateKeys}" must be an object, not an array.`);
+  }
+  if (!_.isObject(privateKeys)) {
+    throw new Error(`Private keys "${privateKeys}" must be an object.`);
+  }
+  if (!_.keys(privateKeys).length) {
+    throw new Error(`Private keys "${privateKeys}" must not be empty.`);
+  }
+  for (const [name, privateKey] of _.entries(privateKeys)) {
+    validatePrivateKeySync({ privateKey, name });
+  }
+  return privateKeys;
 }
 
 function deriveAddressSync({ privateKey }) {
@@ -31,11 +50,29 @@ function deriveAddressSync({ privateKey }) {
   return address;
 }
 
-function validateAddressSync({ address }) {
+function validateAddressSync({ address, name }) {
   if (!ethers.isAddress(address)) {
-    throw new Error(`Address "${address}" is invalid.`);
+    let nameSection = (!_.isUndefined(name)) ? `${name} ` : '';
+    let msg = `Address ${nameSection}("${address}") is invalid.`;
+    throw new Error(msg);
   }
   return address;
+}
+
+function validateAddressesSync({ addresses }) {
+  if (_.isArray(addresses)) {
+    throw new Error(`Addresses "${addresses}" must be an object, not an array.`);
+  }
+  if (!_.isObject(addresses)) {
+    throw new Error(`Addresses "${addresses}" must be an object.`);
+  }
+  if (!_.keys(addresses).length) {
+    throw new Error(`Addresses "${addresses}" must not be empty.`);
+  }
+  for (const [name, privateKey] of _.entries(addresses)) {
+    validateAddressSync({ privateKey, name });
+  }
+  return addresses;
 }
 
 async function contractFoundAt({ logger, provider, address }) {
@@ -287,8 +324,10 @@ async function estimateFees({ config, logger, provider, txRequest }) {
 module.exports = {
   createPrivateKeySync,
   validatePrivateKeySync,
+  validatePrivateKeysSync,
   deriveAddressSync,
   validateAddressSync,
+  validateAddressesSync,
   contractFoundAt,
   getGasPrices,
   getEthereumPriceInUsd,
