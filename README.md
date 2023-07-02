@@ -318,30 +318,30 @@ You'll need some SepoliaETH for using the Sepolia Testnet. In your Metamask wall
 We will use the `info` logging level throughout this walkthrough.
 
 Create a new private key and store it in the `input-data` directory:  
-`node scripts/create-private-key.js > input-data/testnet-sepolia-private-key.txt`
+`node scripts/create-private-key.js > input-data/sepolia-testnet-private-key.txt`
 
 Display the private key:  
-`cat input-data/testnet-sepolia-private-key.txt`
+`cat input-data/sepolia-testnet-private-key.txt`
 
-Store it in the `.env` file as `TESTNET_SEPOLIA_PRIVATE_KEY`.
+Store it in the `.env` file as `SEPOLIA_TESTNET_PRIVATE_KEY`.
 
 Derive an Ethereum address from the private key and store it in the `input-data` directory:  
-`cat input-data/testnet-sepolia-private-key.txt | node scripts/derive-address.js > input-data/testnet-sepolia-address.txt`
+`cat input-data/sepolia-testnet-private-key.txt | node scripts/derive-address.js > input-data/sepolia-testnet-address.txt`
 
 Display the address:  
-`cat input-data/testnet-sepolia-address.txt`
+`cat input-data/sepolia-testnet-address.txt`
 
-Store it in the `.env` file as `TESTNET_SEPOLIA_ADDRESS`.
+Store it in the `.env` file as `SEPOLIA_TESTNET_ADDRESS`.
 
 See the balance of the address (currently it should be `0`):  
-`node scripts/get-balance.js --network=testnet --log-level info --address-file input-data/testnet-sepolia-address.txt`
+`node scripts/get-balance.js --network=testnet --log-level info --address-file input-data/sepolia-testnet-address.txt`
 
-In Metamask, transfer a reasonable amount of SepoliaETH to your new address that is stored in `testnet-sepolia-address.txt`.
+In Metamask, transfer a reasonable amount of SepoliaETH to your new address that is stored in `sepolia-testnet-address.txt`.
 
 Deploy the contract to the Sepolia testnet:  
 `node scripts/hello-world-deploy.js --network=testnet --log-level info`
 
-This will output an address. Copy this address into the `.env` file as `TESTNET_SEPOLIA_DEPLOYED_CONTRACT_ADDRESS`.
+This will output an address. Copy this address into the `.env` file as `SEPOLIA_TESTNET_DEPLOYED_CONTRACT_ADDRESS`.
 
 Confirm deployment:  
 `node scripts/check-contract-exists --network=testnet --log-level info`
