@@ -30,7 +30,7 @@ node scripts/check-contract-exists.js --network testnet --address-file input-dat
 
 # Create a new Ethereum keypair
 
-node scripts/create-private-key.js > input-data/private-key.txt
+node scripts/create-private-key.js > input-data/example-private-key.txt
 
 cat input-data/example-private-key.txt
 
