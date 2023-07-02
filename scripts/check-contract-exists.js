@@ -24,6 +24,7 @@ const {
   INFURA_API_KEY,
   LOCAL_HARDHAT_DEPLOYED_CONTRACT_ADDRESS,
   TESTNET_SEPOLIA_DEPLOYED_CONTRACT_ADDRESS,
+  ETHEREUM_MAINNET_DEPLOYED_CONTRACT_ADDRESS,
 } = process.env;
 
 // Logging
@@ -102,7 +103,7 @@ if (networkLabel == "local") {
 } else if (networkLabel == "mainnet") {
   msg = `Connecting to Ethereum mainnet...`;
   provider = new ethers.InfuraProvider(network, INFURA_API_KEY);
-  DEPLOYED_CONTRACT_ADDRESS = MAINNET_DEPLOYED_CONTRACT_ADDRESS;
+  DEPLOYED_CONTRACT_ADDRESS = ETHEREUM_MAINNET_DEPLOYED_CONTRACT_ADDRESS;
 }
 log(msg);
 // Supplied contract file takes precedence over shell environment variable.
