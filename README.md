@@ -162,7 +162,7 @@ Tested with these versions:
 
 Notes:
 * Use `nvm` to install `npm` and NodeJS.
-* The Etherscan API key is used if you want to upload your contract to Etherscan when using [Hardhat verify](https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify).
+* The Etherscan API key is used if you want to upload your contract to Etherscan when using [Hardhat verify](https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify). Hardhat verify is included in Hardhat toolbox (a dependency of this project). The command to use is: `npx hardhat verify --network sepolia DEPLOYED_CONTRACT_ADDRESS "Constructor argument 1"`. This will upload the contract to the testnet explorer at https://sepolia.etherscan.io. To upload to the mainnet explorer at https://etherscan.io, use `--network mainnet`.
 
 
 ### Installation
@@ -183,7 +183,9 @@ Copy the file `.env.example` to `.env` and fill it in with the relevant values.
 
 **IMPORTANT: Pay particular attention to the settings in the top section: `FINANCIAL CONTROLS`**
 
-- Make sure that you are happy with these settings. If nothing else, be careful to at least double-check the `MAX_FEE_PER_TRANSACTION_USD` setting. This will govern how much you could potentially spend when connecting to the Ethereum mainnet.
+Make sure that you are happy with these settings. If nothing else, be careful to at least double-check the `MAX_FEE_PER_TRANSACTION_USD` setting. This will govern how much you could potentially spend when you send a transaction to the Ethereum mainnet.
+
+*Also important*: You need to supply the Infura API key *name*, not the secret.
 
 Notes:
 
@@ -238,6 +240,9 @@ task hello
 
 task check-network-connections
 ```
+
+If `task check-network-connections` produces errors, you can run the underlying script with the `--debug` flag:  
+`node scripts/check-network-connections.js --debug`
 
 Compile the contract and run the tests.
 
@@ -305,7 +310,7 @@ Print the new message stored in the contract:
 
 Example output:
 
-![](images/hello_world_walkthrough_local_network.png)
+![](images/walkthrough_local_network.png)
 
 
 
