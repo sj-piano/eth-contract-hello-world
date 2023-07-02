@@ -29,7 +29,7 @@
 
 
 <!-- TABLE OF CONTENTS -->
-<details>
+<details open>
   <summary>Table of Contents</summary>
   <ol>
     <li>
@@ -50,8 +50,8 @@
       <ul>
         <li><a href="#notes">Notes</a></li>
         <li><a href="#fee-limit-protections">Fee Limit Protections</a></li>
-        <li><a href="#initial-tests">Initial tests</a></li>
-        <li><a href="#walkthrough-local">Walkthrough - Local network</a></li>
+        <li><a href="#initial-tests">Initial Tests</a></li>
+        <li><a href="#walkthrough-local">Walkthrough - Local Network</a></li>
         <li><a href="#walkthrough-testnet">Walkthrough - Sepolia Testnet</a></li>
         <li><a href="#walkthrough-mainnet">Walkthrough - Ethereum Mainnet</a></li>
       </ul>
@@ -265,7 +265,7 @@ stjohn@judgement:~/work/eth-contract-hello-world-javascript$ node scripts/hello-
 
 
 
-### Initial tests
+### Initial Tests
 
 See available commands:  
 
@@ -310,7 +310,7 @@ node scripts/get-network-fees.js --network=mainnet
 
 
 
-### Walkthrough - Local network
+### Walkthrough - Local Network
 
 
 Hardhat runs the tests on a temporary local blockchain.
