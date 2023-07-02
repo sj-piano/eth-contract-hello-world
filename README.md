@@ -135,7 +135,7 @@ Private keys are managed in a `.env` file.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Follow these steps to get a local development instance up and running.
+Follow these steps to get a local instance up and running.
 
 
 ### Prerequisites
