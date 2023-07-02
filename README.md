@@ -322,7 +322,7 @@ Open another terminal and run:
 
 Leave the node running in this additional terminal. Log output will be displayed (the initial set of pre-loaded keypairs will be shown). Press Ctrl-C to stop the local node. Switch back to the original terminal and continue.
 
-Find the current balance of the address that will deploy the contract:  
+See the balance of the address that will deploy the contract:  
 `node scripts/get-balance.js --address-file input-data/local-hardhat-address.txt`
 
 See fee estimations for the different contract operations, including deployment:  
