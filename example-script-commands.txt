@@ -40,3 +40,5 @@ cat input-data/example-address.txt
 
 node scripts/get-balance.js --address-file input-data/example-address.txt
 
+node scripts/get-balance.js --address 0x3bEC26B3cC2a1B0b123e9044E4D0085EfE9bF526
+
