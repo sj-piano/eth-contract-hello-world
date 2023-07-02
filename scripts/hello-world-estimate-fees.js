@@ -175,7 +175,7 @@ async function main() {
   });
   console.log(`\nContract method call: 'update' - estimated fee:`);
   log(estimatedFees2);
-  if (!estimatedFees.feeLimitChecks.anyLimitExceeded) {
+  if (!estimatedFees2.feeLimitChecks.anyLimitExceeded) {
     console.log(`- feeEth: ${estimatedFees2.feeEth}`);
     console.log(`- feeUsd: ${estimatedFees2.feeUsd}`);
   } else {
