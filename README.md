@@ -236,7 +236,7 @@ The two "action" scripts, `hello-world-deploy.js` and `hello-world-update-messag
 
 You can of course change the limits in the `.env` file if you wish, allowing a script to spend more money in order to broadcast the transaction.
 
-Some example output:
+Example output:
 
 ```bash
 stjohn@judgement:~/work/eth-contract-hello-world-javascript$ node scripts/hello-world-estimate-fees.js
@@ -363,7 +363,7 @@ Example output:
 
 
 
-### Walkthrough - Sepolia testnet
+### Walkthrough - Sepolia Testnet
 
 
 You'll need some SepoliaETH for using the Sepolia Testnet. In your Metamask wallet, create a dedicated "Test" account. Switch to "Sepolia test network". Copy the address. Go to a Sepolia testnet faucet (e.g. this [PoW faucet](https://sepolia-faucet.pk910.de)) and get some SepoliaETH. Set the destination address to be your Metamask test address.
@@ -426,7 +426,7 @@ Example output:
 
 
 
-### Walkthrough - Ethereum mainnet
+### Walkthrough - Ethereum Mainnet
 
 
 If you wish to retrieve your SepoliaETH from the address created in the Sepolia testnet walkthrough (e.g. you want to transfer it back to your Metamask test account), you'll need to use a tool that can make the transfer (create, sign, broadcast, and track the transaction). Such a tool is not provided in this project.
