@@ -20,7 +20,7 @@ function createPrivateKeySync() {
 
 function validatePrivateKeySync({ privateKey, name }) {
   if (!ethers.isHexString(privateKey, 32)) {
-    let nameSection = (!_.isUndefined(name)) ? `${name} ` : '';
+    let nameSection = !_.isUndefined(name) ? `${name} ` : "";
     let msg = `Private key ${nameSection}("${privateKey}") is invalid.`;
     throw new Error(msg);
   }
@@ -29,7 +29,9 @@ function validatePrivateKeySync({ privateKey, name }) {
 
 function validatePrivateKeysSync({ privateKeys }) {
   if (_.isArray(privateKeys)) {
-    throw new Error(`Private keys "${privateKeys}" must be an object, not an array.`);
+    throw new Error(
+      `Private keys "${privateKeys}" must be an object, not an array.`
+    );
   }
   if (!_.isObject(privateKeys)) {
     throw new Error(`Private keys "${privateKeys}" must be an object.`);
@@ -52,7 +54,7 @@ function deriveAddressSync({ privateKey }) {
 
 function validateAddressSync({ address, name }) {
   if (!ethers.isAddress(address)) {
-    let nameSection = (!_.isUndefined(name)) ? `${name} ` : '';
+    let nameSection = !_.isUndefined(name) ? `${name} ` : "";
     let msg = `Address ${nameSection}("${address}") is invalid.`;
     throw new Error(msg);
   }
@@ -61,7 +63,9 @@ function validateAddressSync({ address, name }) {
 
 function validateAddressesSync({ addresses }) {
   if (_.isArray(addresses)) {
-    throw new Error(`Addresses "${addresses}" must be an object, not an array.`);
+    throw new Error(
+      `Addresses "${addresses}" must be an object, not an array.`
+    );
   }
   if (!_.isObject(addresses)) {
     throw new Error(`Addresses "${addresses}" must be an object.`);

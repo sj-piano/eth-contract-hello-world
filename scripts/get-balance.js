@@ -65,7 +65,9 @@ if (networkLabelResult.error) {
 const network = config.mapNetworkLabelToNetwork[networkLabel];
 
 if ((address && addressFile) || (!address && !addressFile)) {
-  console.error("Please provide either '--address' or '--address-file', but not both.");
+  console.error(
+    "Please provide either '--address' or '--address-file', but not both."
+  );
   program.help(); // Display help and exit
 }
 if (addressFile && !fs.existsSync(addressFile)) {
