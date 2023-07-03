@@ -283,7 +283,9 @@ task hello
 task check-network-connections
 ```
 
-If `task check-network-connections` produces errors, you can run the underlying script with the `--debug` flag:  
+Note: You should see this error `Could not connect to local network`, because we haven't started a Hardhat local network yet.
+
+If `task check-network-connections` produces errors for connecting to testnet or mainnet, you can run the underlying script with the `--debug` flag:  
 `node scripts/check-network-connections.js --debug`
 
 Compile the contract and run the tests.
@@ -479,10 +481,6 @@ Update the message stored in the contract:
 
 Print the new message stored in the contract:  
 `node scripts/hello-world-get-message.js --network=mainnet --log-level info`
-
-Example output:
-
-![](images/walkthrough_ethereum_mainnet.png)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
