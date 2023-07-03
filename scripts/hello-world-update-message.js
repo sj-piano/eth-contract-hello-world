@@ -144,7 +144,10 @@ if (networkLabel == "local") {
   signer = new ethers.Wallet(SEPOLIA_TESTNET_PRIVATE_KEY, provider);
   DEPLOYED_CONTRACT_ADDRESS = SEPOLIA_TESTNET_DEPLOYED_CONTRACT_ADDRESS;
 } else if (networkLabel == "mainnet") {
-  throw new Error("Not implemented yet");
+  msg = `Connecting to Ethereum mainnet...`;
+  provider = new ethers.InfuraProvider(network, INFURA_API_KEY_NAME);
+  signer = new ethers.Wallet(ETHEREUM_MAINNET_PRIVATE_KEY, provider);
+  DEPLOYED_CONTRACT_ADDRESS = ETHEREUM_MAINNET_DEPLOYED_CONTRACT_ADDRESS;
 }
 log(msg);
 if (!ethers.isAddress(DEPLOYED_CONTRACT_ADDRESS)) {

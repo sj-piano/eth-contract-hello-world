@@ -110,7 +110,9 @@ if (networkLabel == "local") {
   provider = new ethers.InfuraProvider(network, INFURA_API_KEY_NAME);
   signer = new ethers.Wallet(SEPOLIA_TESTNET_PRIVATE_KEY, provider);
 } else if (networkLabel == "mainnet") {
-  throw new Error("Not implemented yet");
+  msg = `Connecting to Ethereum mainnet...`;
+  provider = new ethers.InfuraProvider(network, INFURA_API_KEY_NAME);
+  signer = new ethers.Wallet(ETHEREUM_MAINNET_PRIVATE_KEY, provider);
 }
 log(msg);
 let contractFactoryHelloWorld = new ethers.ContractFactory(
