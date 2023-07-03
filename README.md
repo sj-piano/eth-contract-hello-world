@@ -468,10 +468,10 @@ This will output an address. Copy this address into the `.env` file as `ETHEREUM
 Confirm deployment:  
 `node scripts/check-contract-exists --network=mainnet --log-level info`
 
-Print the message stored in the contract:
+Print the message stored in the contract:  
 `node scripts/hello-world-get-message.js --network=mainnet --log-level info`
 
-Create a new input file:
+Create a new input file:  
 `cp input-data/example-update-message.json input-data/update-message-ethereum-mainnet.json`
 
 Open it and specify a new message e.g. `Hello Mars ! (mainnet)`.
@@ -481,6 +481,12 @@ Update the message stored in the contract:
 
 Print the new message stored in the contract:  
 `node scripts/hello-world-get-message.js --network=mainnet --log-level info`
+
+Example output:
+
+![](images/walkthrough_ethereum_mainnet.png)
+
+Note: After seeing the estimated fees, I set `MAX_FEE_PER_TRANSACTION_USD` in `.env` to be `"20.00"`.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
