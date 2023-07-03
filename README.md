@@ -1,6 +1,8 @@
 <a name="readme-top"></a>
 
 
+
+
 <!-- PROJECT SHIELDS -->
 <!--
 *** We use markdown "reference style" links for readability.
@@ -35,6 +37,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
+        <li><a href="#project-status">Project Status</a></li>
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
@@ -54,6 +57,7 @@
         <li><a href="#walkthrough-local">Walkthrough - Local Network</a></li>
         <li><a href="#walkthrough-testnet">Walkthrough - Sepolia Testnet</a></li>
         <li><a href="#walkthrough-mainnet">Walkthrough - Ethereum Mainnet</a></li>
+        <li><a href="#contract-publication">Contract Publication</a></li>
       </ul>
     </li>
     <li><a href="#roadmap">Roadmap</a></li>
@@ -104,8 +108,27 @@ If you would like to add me as a professional contact, you can [send me a connec
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+
+### Project Status
+
+
+The contract has been deployed to the Ethereum Mainnet at this address:  
+`0x50590A974646d333A93F89a37aBd2d2708671eAA`
+
+The contract is published here:  
+[etherscan.io/address/0x50590A974646d333A93F89a37aBd2d2708671eAA#code](https://etherscan.io/address/0x50590A974646d333A93F89a37aBd2d2708671eAA#code)
+
+You can read the contract's stored data at:  
+[etherscan.io/address/0x50590A974646d333A93F89a37aBd2d2708671eAA#readContract](https://etherscan.io/address/0x50590A974646d333A93F89a37aBd2d2708671eAA#readContract)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
 
 
 ### Built With
@@ -131,6 +154,7 @@ If you would like to add me as a professional contact, you can [send me a connec
 Private keys are managed in a `.env` file.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 
 
@@ -164,7 +188,7 @@ Tested with these versions:
 
 Notes:
 * Use `nvm` to install `npm` and NodeJS.
-* The Etherscan API key is used if you want to upload your contract to Etherscan when using [Hardhat verify](https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify). Hardhat verify is included in Hardhat toolbox (a dependency of this project). The command to use is: `npx hardhat verify --network sepolia DEPLOYED_CONTRACT_ADDRESS "Constructor argument 1"`. This will upload the contract to the testnet explorer at https://sepolia.etherscan.io. To upload to the mainnet explorer at https://etherscan.io, use `--network mainnet`.
+* The Etherscan API key is used if you want to upload your contract to Etherscan when using [Hardhat verify](https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify). Hardhat verify is included in Hardhat toolbox (a dependency of this project).
 
 
 ### Installation
@@ -494,6 +518,85 @@ Note: After seeing the estimated fees, I set `MAX_FEE_PER_TRANSACTION_USD` in `.
 
 
 
+### Contract Publication
+
+
+We use [Hardhat verify](https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify) to publish the smart contracts to Etherscan.
+
+The basic command is:  
+`npx hardhat verify --network sepolia DEPLOYED_CONTRACT_ADDRESS "Constructor argument 1"`
+
+This will upload the contract to the testnet explorer at [sepolia.etherscan.io](https://sepolia.etherscan.io). To upload to the mainnet explorer at [etherscan.io](https://etherscan.io), use `--network mainnet`.
+
+
+#### We publish the Sepolia Testnet instance of the contract
+
+```bash
+SEPOLIA_TESTNET_DEPLOYED_CONTRACT_ADDRESS="0x0FdEe0538a2092937c68A4954e3f5adDb7532fC1"
+npx hardhat verify --network sepolia $SEPOLIA_TESTNET_DEPLOYED_CONTRACT_ADDRESS "Hello World!"
+```
+
+Example output:
+
+```bash
+stjohn@judgement:~/work/eth-contract-hello-world-javascript$ SEPOLIA_TESTNET_DEPLOYED_CONTRACT_ADDRESS="0x0FdEe0538a2092937c68A4954e3f5adDb7532fC1"
+
+stjohn@judgement:~/work/eth-contract-hello-world-javascript$ npx hardhat verify --network sepolia $SEPOLIA_TESTNET_DEPLOYED_CONTRACT_ADDRESS "Hello World!"
+Successfully submitted source code for contract
+contracts/HelloWorld.sol:HelloWorld at 0x0FdEe0538a2092937c68A4954e3f5adDb7532fC1
+for verification on the block explorer. Waiting for verification result...
+
+Successfully verified contract HelloWorld on the block explorer.
+https://sepolia.etherscan.io/address/0x0FdEe0538a2092937c68A4954e3f5adDb7532fC1#code
+```
+
+Summary:
+
+The contract has been deployed to the Sepolia Testnet at this address:  
+`0x0FdEe0538a2092937c68A4954e3f5adDb7532fC1`
+
+The contract is published here:  
+[sepolia.etherscan.io/address/0x0FdEe0538a2092937c68A4954e3f5adDb7532fC1#code](https://sepolia.etherscan.io/address/0x0FdEe0538a2092937c68A4954e3f5adDb7532fC1#code)
+
+You can read the contract's stored data at:  
+[sepolia.etherscan.io/address/0x0FdEe0538a2092937c68A4954e3f5adDb7532fC1#readContract](https://sepolia.etherscan.io/address/0x0FdEe0538a2092937c68A4954e3f5adDb7532fC1#readContract)
+
+
+#### We publish the Ethereum Mainnet instance of the contract
+
+```bash
+ETHEREUM_MAIN_DEPLOYED_CONTRACT_ADDRESS="0x50590A974646d333A93F89a37aBd2d2708671eAA"
+npx hardhat verify --network mainnet $ETHEREUM_MAIN_DEPLOYED_CONTRACT_ADDRESS "Hello World!"
+```
+
+Example output:
+
+```bash
+stjohn@judgement:~/work/eth-contract-hello-world-javascript$ ETHEREUM_MAIN_DEPLOYED_CONTRACT_ADDRESS="0x50590A974646d333A93F89a37aBd2d2708671eAA"
+
+stjohn@judgement:~/work/eth-contract-hello-world-javascript$ npx hardhat verify --network mainnet $ETHEREUM_MAIN_DEPLOYED_CONTRACT_ADDRESS "Hello World!"
+Successfully submitted source code for contract
+contracts/HelloWorld.sol:HelloWorld at 0x50590A974646d333A93F89a37aBd2d2708671eAA
+for verification on the block explorer. Waiting for verification result...
+
+Successfully verified contract HelloWorld on the block explorer.
+https://etherscan.io/address/0x50590A974646d333A93F89a37aBd2d2708671eAA#code
+```
+
+Summary:
+
+The contract has been deployed to the Ethereum Mainnet at this address:  
+`0x50590A974646d333A93F89a37aBd2d2708671eAA`
+
+The contract is published here:  
+[etherscan.io/address/0x50590A974646d333A93F89a37aBd2d2708671eAA#code](https://etherscan.io/address/0x50590A974646d333A93F89a37aBd2d2708671eAA#code)
+
+You can read the contract's stored data at:  
+[etherscan.io/address/0x50590A974646d333A93F89a37aBd2d2708671eAA#readContract](https://etherscan.io/address/0x50590A974646d333A93F89a37aBd2d2708671eAA#readContract)
+
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -586,6 +689,12 @@ A list of helpful resources:
 * Sepolia testnet PoW faucet: https://sepolia-faucet.pk910.de
 
 * Metamask: [How to export an account's private key](https://support.metamask.io/hc/en-us/articles/360015289632-How-to-export-an-account-s-private-key)
+
+* Publish and verify smart contracts: [Hardhat verify](https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify)
+
+* Sepolia Testnet block explorer: [sepolia.etherscan.io](https://sepolia.etherscan.io)
+
+* Ethereum Mainnet block explorer: [etherscan.io](https://etherscan.io)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
